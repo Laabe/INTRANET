@@ -8,9 +8,7 @@
             placeholder="{{ __('Enter user first name') }}">
 
         @error('first_name')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -21,9 +19,7 @@
             placeholder="{{ __('Enter user last name') }}">
 
         @error('last_name')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -41,9 +37,7 @@
         </select>
 
         @error('gender_id')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -61,9 +55,7 @@
         </div>
 
         @error('date_of_birth')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -80,9 +72,7 @@
         </select>
 
         @error('marital_status_id')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -93,9 +83,7 @@
             placeholder="{{ __('Enter number of  kids') }}">
 
         @error('number_of_kids')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -113,9 +101,7 @@
         </select>
 
         @error('language_id')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -133,9 +119,7 @@
         </select>
 
         @error('language_level_id')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -153,10 +137,8 @@
             @endforeach
         </select>
 
-        @error('identity_document')
-            <strong>
+        @error('identity_document_id')
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -174,23 +156,19 @@
         </div>
 
         @error('integration_date')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
         <label for="identity_document_number" class="form-label">{{ __('Document Number') }}</label>
         <input type="text" name="identity_document_number"
-            value="{{ old('document_number') ?? $user->identity_document_number }}" id="identity_document_number"
-            class="form-control @error('document_number') is-invalid @enderror"
+            value="{{ old('identity_document_number') ?? $user->identity_document_number }}" id="identity_document_number"
+            class="form-control @error('identity_document_number') is-invalid @enderror"
             placeholder="{{ __('Enter Document Number') }}">
 
-        @error('document_number')
-            <strong>
+        @error('identity_document_number')
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -213,9 +191,7 @@
         <input type="file" name="image" id="image" class="dropify @error('image') is-invalid @enderror">
 
         @error('image')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -231,9 +207,7 @@
             class="form-control @error('phone') is-invalid @enderror" placeholder="{{ __('Enter phone number') }}">
 
         @error('phone')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -243,9 +217,7 @@
             class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Enter email address') }}">
 
         @error('email')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -255,9 +227,7 @@
             class="form-control @error('address') is-invalid @enderror" placeholder="{{ __('Write Here...') }}">{{ old('address') ?? $user->address }}</textarea>
 
         @error('address')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 </div>
@@ -279,9 +249,7 @@
         </select>
 
         @error('sourcing_type_id')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 
@@ -299,9 +267,7 @@
         </select>
 
         @error('recrutment_platforme_id')
-            <strong>
                 <span class="text-danger">{{ $message }}</span>
-            </strong>
         @enderror
     </div>
 

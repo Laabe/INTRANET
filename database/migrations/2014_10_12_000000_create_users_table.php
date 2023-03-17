@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->text('address');
-            $table->integer('number_of_kids')->default(0);
+            $table->integer('number_of_kids')->nullable()->default(0);
             $table->date('integration_date');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->default('$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
