@@ -55,7 +55,7 @@
     <script>
         @if (session('error'))
             swal({
-                title: "{{ __('Error!') }}",
+                title: "{{ __('auth.Error!') }}",
                 text: "{{ trans('auth.failed') }}",
                 type: "error",
             });

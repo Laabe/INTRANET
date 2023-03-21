@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +25,6 @@ class DatabaseSeeder extends Seeder
         $departments = $this->call(DepartmentSeeder::class);
         $sourcing = $this->call(SourcingTypeSeeder::class);
         $platforms = $this->call(RecrutmentPlatformeSeeder::class);
-        $users = $this->call(UserSeeder::class);
+        $user = $this->call(UserSeeder::class);
     }
 }

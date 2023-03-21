@@ -24,7 +24,7 @@
                             <tbody>
                                 @foreach ($profiles as $profile)
                                     <tr>
-                                        <td>{{ $profile->name_en }}</td>
+                                        <td>{{ $profile->{'name_' . app()->getLocale()} }}</td>
                                         <td>0</td>
                                         <td>
                                             <a href="{{ route('profiles.edit', $profile) }}"

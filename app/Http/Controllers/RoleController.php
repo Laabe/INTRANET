@@ -38,7 +38,10 @@ class RoleController extends Controller
         ]);
 
         $role = Role::create(['name' => $validatedData['name']]);
-        $role->syncPermissions($validatedData['permissions']);
+
+        if (array_key_exists('permissions', $validatedData)) {
+            $role->syncPermissions($validatedData['permissions']);
+        }
         return to_route('roles.index');
     }
 
