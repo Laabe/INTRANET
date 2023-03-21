@@ -31,7 +31,6 @@ class LeaveRequest extends Model
     public function previousWorkflowStageApproval()
     {
         return $this->hasOne(WorkflowStageApproval::class)
-            ->orderByDesc('id')
             ->skip(
                 WorkflowStageApproval::where('leave_request_id', $this->id)->where('status', 'pending')->count()
             );

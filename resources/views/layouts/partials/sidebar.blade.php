@@ -29,57 +29,70 @@
                 </li>
 
                 {{-- User Management --}}
-                <li
-                    class="slide {{ request()->routeIs('user-management.users', 'roles.*', 'permissions.*') ? ' is-expanded' : '' }}">
-                    <a class="side-menu__item {{ request()->routeIs('roles.*', 'permissions.*') ? ' is-expanded active' : '' }}"
-                        data-bs-toggle="slide" href="#">
-                        <i class="side-menu__icon icon icon-grid"></i>
-                        <span class="side-menu__label">{{ __('User Management') }}</span><i
-                            class="angle fa fa-angle-right"></i>
-                    </a>
-                    <ul class="slide-menu">
-                        <li class="side-menu-label1">
-                            <a href="javascript:void(0)">{{ __('>User Management') }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('user-management.users') }}"
-                                class="slide-item {{ Request::routeIs('user-management.users') ? 'active' : '' }}">{{ __('Users') }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('roles.index') }}"
-                                class="slide-item {{ Request::routeIs('roles.*') ? 'active' : '' }}">{{ __('Roles') }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('permissions.index') }}"
-                                class="slide-item {{ Request::routeIs('permissions.*') ? 'active' : '' }}">{{ __('Permissions') }}</a>
-                        </li>
-                    </ul>
-                </li>
+                @if (auth()->user()->can('User Management') ||
+                        auth()->user()->getRoleNames()->contains('Admin'))
+                    <li
+                        class="slide {{ request()->routeIs('user-management.users', 'roles.*', 'permissions.*') ? ' is-expanded' : '' }}">
+                        <a class="side-menu__item {{ request()->routeIs('roles.*', 'permissions.*') ? ' is-expanded active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="side-menu__icon icon icon-grid"></i>
+                            <span class="side-menu__label">{{ __('User Management') }}</span><i
+                                class="angle fa fa-angle-right"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            <li class="side-menu-label1">
+                                <a href="javascript:void(0)">{{ __('>User Management') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('user-management.users') }}"
+                                    class="slide-item {{ Request::routeIs('user-management.users') ? 'active' : '' }}">{{ __('Users') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('roles.index') }}"
+                                    class="slide-item {{ Request::routeIs('roles.*') ? 'active' : '' }}">{{ __('Roles') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('permissions.index') }}"
+                                    class="slide-item {{ Request::routeIs('permissions.*') ? 'active' : '' }}">{{ __('Permissions') }}</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
 
                 {{-- Employees --}}
-                <li class="slide">
-                    <a class="side-menu__item has-link {{ Request::routeIs('users.*') ? 'active' : '' }}"
-                        data-bs-toggle="slide" href="{{ route('users.index') }}">
-                        <i class="side-menu__icon icon icon-people"></i>
-                        <span class="side-menu__label">{{ __('Employees') }}</span>
-                    </a>
-                </li>
+                @if (auth()->user()->can('Employee Management') ||
+                        auth()->user()->getRoleNames()->contains('Admin', 'HR'))
+                    <li class="slide">
+                        <a class="side-menu__item has-link {{ Request::routeIs('users.*') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="{{ route('users.index') }}">
+                            <i class="side-menu__icon icon icon-people"></i>
+                            <span class="side-menu__label">{{ __('Employees') }}</span>
+                        </a>
+                    </li>
+                @endif
 
-                <li class="slide">
-                    <a class="side-menu__item has-link {{ Request::routeIs('teams.*') ? 'active' : '' }}"
-                        data-bs-toggle="slide" href="{{ route('teams.index') }}">
-                        <i class="side-menu__icon icon icon-organization"></i>
-                        <span class="side-menu__label">{{ __('Teams') }}</span>
-                    </a>
-                </li>
+                @if (auth()->user()->can('Team Management') ||
+                        auth()->user()->getRoleNames()->contains('Admin'))
+                    <li class="slide">
+                        <a class="side-menu__item has-link {{ Request::routeIs('teams.*') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="{{ route('teams.index') }}">
+                            <i class="side-menu__icon icon icon-organization"></i>
+                            <span class="side-menu__label">{{ __('Teams') }}</span>
+                        </a>
+                    </li>
+                @endif
 
-                <li class="slide">
-                    <a class="side-menu__item has-link {{ Request::routeIs('scenarios.*') ? 'active' : '' }}"
-                        data-bs-toggle="slide" href="{{ route('scenarios.index') }}">
-                        <i class="side-menu__icon icon icon-equalizer"></i>
-                        <span class="side-menu__label">{{ __('Scenarios') }}</span>
-                    </a>
-                </li>
+                {{-- Scenario Management --}}
+                @if (auth()->user()->can('Scenario Management') ||
+                        auth()->user()->getRoleNames()->contains('Admin'))
+                    <li class="slide">
+                        <a class="side-menu__item has-link {{ Request::routeIs('scenarios.*') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="{{ route('scenarios.index') }}">
+                            <i class="side-menu__icon icon icon-equalizer"></i>
+                            <span class="side-menu__label">{{ __('Scenarios') }}</span>
+                        </a>
+                    </li>
+                @endif
 
                 {{-- Leave requests --}}
                 <li class="slide {{ request()->routeIs('leave-requests.*') ? ' is-expanded' : '' }}">
@@ -95,56 +108,61 @@
                                 href="{{ route('leave-requests.my-leave-requests') }}">{{ __('My leave requests') }}
                             </a>
                         </li>
-                        <li>
-                            <a class="slide-item {{ Request::routeIs('leave-requests.index') ? 'active' : '' }}"
-                                href="{{ route('leave-requests.index') }}">{{ __('Leave requests') }}
-                            </a>
-                        </li>
+                        @if (auth()->user()->can('Leave Request Management'))
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('leave-requests.index') ? 'active' : '' }}"
+                                    href="{{ route('leave-requests.index') }}">{{ __('Leave requests') }}
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
 
                 {{-- Settings Management --}}
-                <li
-                    class="slide {{ request()->routeIs('leave-types.*', 'languages.*', 'profiles.*', 'departments.*', 'projects.*', 'recrutment-platformes.*') ? ' is-expanded' : '' }}">
-                    <a class="side-menu__item {{ request()->routeIs('languages.*') ? ' is-expanded active' : '' }}"
-                        data-bs-toggle="slide" href="#">
-                        <i class="side-menu__icon icon icon-settings"></i>
-                        <span class="side-menu__label">{{ __('Settings') }}</span><i
-                            class="angle fa fa-angle-right"></i>
-                    </a>
-                    <ul class="slide-menu">
-                        <li>
-                            <a class="slide-item {{ Request::routeIs('profiles.*') ? 'active' : '' }}"
-                                href="{{ route('profiles.index') }}">{{ __('Profiles') }}
-                            </a>
-                        </li>
-                        <li>
-                            <a class="slide-item {{ Request::routeIs('languages.*') ? 'active' : '' }}"
-                                href="{{ route('languages.index') }}">{{ __('Languages') }}
-                            </a>
-                        </li>
-                        <li>
-                            <a class="slide-item {{ Request::routeIs('departments.*') ? 'active' : '' }}"
-                                href="{{ route('departments.index') }}">{{ __('Departments') }}
-                            </a>
-                        </li>
-                        <li>
-                            <a class="slide-item {{ Request::routeIs('projects.*') ? 'active' : '' }}"
-                                href="{{ route('projects.index') }}">{{ __('Projects') }}
-                            </a>
-                        </li>
-                        <li>
-                            <a class="slide-item {{ Request::routeIs('recrutment-platformes.*') ? 'active' : '' }}"
-                                href="{{ route('recrutment-platformes.index') }}">{{ __('Recrutment platformes') }}
-                            </a>
-                        </li>
-                        <li>
-                            <a class="slide-item {{ Request::routeIs('leave-types.*') ? 'active' : '' }}"
-                                href="{{ route('leave-types.index') }}">{{ __('Leave types') }}
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @if (auth()->user()->can('Settings Management') ||
+                        auth()->user()->getRoleNames()->contains('Admin'))
+                    <li
+                        class="slide {{ request()->routeIs('leave-types.*', 'languages.*', 'profiles.*', 'departments.*', 'projects.*', 'recrutment-platformes.*') ? ' is-expanded' : '' }}">
+                        <a class="side-menu__item {{ request()->routeIs('languages.*') ? ' is-expanded active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="side-menu__icon icon icon-settings"></i>
+                            <span class="side-menu__label">{{ __('Settings') }}</span><i
+                                class="angle fa fa-angle-right"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('profiles.*') ? 'active' : '' }}"
+                                    href="{{ route('profiles.index') }}">{{ __('Profiles') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('languages.*') ? 'active' : '' }}"
+                                    href="{{ route('languages.index') }}">{{ __('Languages') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('departments.*') ? 'active' : '' }}"
+                                    href="{{ route('departments.index') }}">{{ __('Departments') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('projects.*') ? 'active' : '' }}"
+                                    href="{{ route('projects.index') }}">{{ __('Projects') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('recrutment-platformes.*') ? 'active' : '' }}"
+                                    href="{{ route('recrutment-platformes.index') }}">{{ __('Recrutment platformes') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('leave-types.*') ? 'active' : '' }}"
+                                    href="{{ route('leave-types.index') }}">{{ __('Leave types') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
                 {{-- End Sidebar --}}
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"

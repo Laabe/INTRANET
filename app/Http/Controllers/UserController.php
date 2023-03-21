@@ -58,7 +58,7 @@ class UserController extends Controller
             $request->image->move(public_path('employees_image'), $imageName);
             $image = ImageManagerStatic::make(public_path("employees_image/{$imageName}"))->fit(1200, 1200);
             $image->save();
-            dd($imageName);
+
             User::create(array_merge(
                 $request->validated(),
                 [

@@ -27,11 +27,10 @@ class LeaveRequestController extends Controller
     public function index()
     {
         // Get the authenticated user and their team ID(s)
-        $user = User::with('teams')->where('id', auth()->user()->id)->first();
+        $user = User::with('teams', 'profile')->where('id', auth()->user()->id)->first();
         $teamIds = $user->teams->pluck('id');
-
         // Return the pending leave requests that the given user has not yet approved
-        if ($user->profile->where('name_en', 'like', '%Human%')) {
+        if ($user->profile === 'Human Ressources') {
             $leaveRequests = LeaveRequest::where('status', 'pending')
                 ->whereHas('workflowStageapprovals.workflowStage', function ($query) use ($user) {
                     $query->where('approver_profile_id', $user->profile_id)
@@ -48,8 +47,7 @@ class LeaveRequestController extends Controller
                             $q->where('status', 'pending')
                                 ->whereColumn('leave_request_id', 'leave_requests.id');
                         });
-                })
-                ->whereHas('user', function ($q) use ($teamIds) {
+                })->whereHas('user', function ($q) use ($teamIds) {
                     $q->whereIn('team_id', $teamIds);
                 })
                 ->get();
