@@ -71,6 +71,7 @@
                     </li>
                 @endif
 
+                {{-- Team Management --}}
                 @if (auth()->user()->can('Team Management') ||
                         auth()->user()->getRoleNames()->contains('Admin'))
                     <li class="slide">
