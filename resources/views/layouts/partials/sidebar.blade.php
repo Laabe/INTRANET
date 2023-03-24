@@ -115,6 +115,11 @@
                                     href="{{ route('leave-requests.index') }}">{{ __('Leave requests') }}
                                 </a>
                             </li>
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('leave-requests.history') ? 'active' : '' }}"
+                                    href="{{ route('leave-requests.history') }}">{{ __('Leave requests History') }}
+                                </a>
+                            </li>
                         @endif
                     </ul>
                 </li>
