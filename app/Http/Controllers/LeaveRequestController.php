@@ -264,7 +264,8 @@ class LeaveRequestController extends Controller
 
     public function history()
     {
-        $leaveRequests = LeaveRequest::whereIn('status', ['Approved', 'Rejected'])
+        $leaveRequests = LeaveRequest::where('status', 'Approved')
+        ->orWhere('status', 'Rejected')
         ->whereHas('workflowStageApprovals', function ($query) {
             $query->where('treated_by', auth()->user()->id);
         })
