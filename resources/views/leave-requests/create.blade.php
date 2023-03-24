@@ -15,7 +15,7 @@
                     </div>
                     <div class="card-footer d-flex align-items-baseline btn-group mb-1">
                         <button class="btn btn-primary btn-block" type="submit">{{ __('Save') }}</button>
-                        <a href="{{ route('leave-requests.index') }}" class="btn btn-dark btn-block">{{ __('Cancel') }}</a>
+                        <a href="{{ route('leave-requests.my-leave-requests') }}" class="btn btn-dark btn-block">{{ __('Cancel') }}</a>
                     </div>
                 </form>
             </div>

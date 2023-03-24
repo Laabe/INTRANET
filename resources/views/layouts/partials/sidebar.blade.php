@@ -161,6 +161,11 @@
                                     href="{{ route('leave-types.index') }}">{{ __('Leave types') }}
                                 </a>
                             </li>
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('award-badges.*') ? 'active' : '' }}"
+                                    href="{{ route('award-badges.index') }}">{{ __('Award Badges') }}
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endif

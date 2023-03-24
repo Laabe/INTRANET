@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AwardBadgeController;
+use App\Http\Controllers\AwardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LanguageController;
@@ -96,4 +98,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('teams', TeamController::class);
     });
 
+    Route::resource('award-badges', AwardBadgeController::class);
+    Route::resource('awards', AwardController::class);
 });

@@ -254,3 +254,21 @@ Breadcrumbs::for('permissions.create', function ($trail) {
     $trail->parent('permissions.index');
     $trail->push('Create Permission', route('permissions.create'));
 });
+
+// Dashboard > award-badges
+Breadcrumbs::for('award-badges.index', function ($trail) {
+    $trail->parent('home');
+    $trail->push('Award badges', route('award-badges.index'));
+});
+
+// Dashboard > award-badges > Create award-badge
+Breadcrumbs::for('award-badges.create', function ($trail) {
+    $trail->parent('award-badges.index');
+    $trail->push('Create award badge', route('award-badges.create'));
+});
+
+// Dashboard > award-badges > edit award-badge
+Breadcrumbs::for('award-badges.edit', function ($trail) {
+    $trail->parent('award-badges.index');
+    $trail->push('Edit award badge', route('award-badges.edit', 'awardBadge'));
+});
