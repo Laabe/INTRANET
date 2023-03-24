@@ -25,7 +25,7 @@
                                 @foreach ($projects as $project)
                                     <tr>
                                         <td>{{ $project->name }}</td>
-                                        <td>{{ $project->projectManager->fullname() ?? 'N/A' }}
+                                        <td>{{ $project->projectManager ? $project->projectManager->fullname() : 'N/A' }}
                                         </td>
                                         <td>
                                             <a href="javascript:void(0)"
