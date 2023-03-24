@@ -20,7 +20,7 @@
                             @foreach ($managers as $manager)
                                 <option value="{{ $manager->id }}"
                                     {{ old('manager_id') == $manager->id || $project->manager_id == $manager->id ? 'selected' : '' }}>
-                                    {{ $manager->name }}</option>
+                                    {{ $manager->fullname() }}</option>
                             @endforeach
                         </select>
 
