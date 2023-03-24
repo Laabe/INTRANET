@@ -34,7 +34,7 @@ class Project extends Model
      */
     public function projectManager()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'manager_id');
     }
 
     /**

@@ -17,7 +17,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::with('projectManager')->get();
         $managerProfileId = Profile::where('name_en', 'like', '%OPS manager%')
             ->first()->id;
         $managers = User::where('profile_id', $managerProfileId)->get();
