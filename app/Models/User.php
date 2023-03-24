@@ -133,4 +133,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(LeaveRequest::class);
     }
+
+    /**
+     * Get all of the projects for the User
+     */
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
 }
