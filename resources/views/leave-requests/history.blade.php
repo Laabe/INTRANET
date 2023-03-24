@@ -21,7 +21,7 @@
                                     <th>{{ 'END DATE' }}</th>
                                     <th>{{ 'TEAM' }}</th>
                                     <th>{{ 'STATUS' }}</th>
-                                    <th>{{ 'ACTION' }}</th>
+                                    <th>{{ 'TREATED AT' }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -43,6 +43,7 @@
                                                     class="badge rounded-pill bg-danger">{{ $leaveRequest->status }}</span>
                                             @endif
                                         </td>
+                                        <td>{{ $leaveRequest->workflowStageApprovals->first()->treated_at }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

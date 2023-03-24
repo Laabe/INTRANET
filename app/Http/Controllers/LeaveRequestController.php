@@ -266,7 +266,10 @@ class LeaveRequestController extends Controller
     {
         $leaveRequests = LeaveRequest::whereHas('workflowStageApprovals', function ($query) {
             $query->where('treated_by', auth()->user()->id);
-        })->get();
+        })
+        ->where('status', 'like', 'Approved')
+        ->orWhere('status', 'like', 'Rejected')
+        ->get();
         return view('leave-requests.history', compact('leaveRequests'));
     }
 }
