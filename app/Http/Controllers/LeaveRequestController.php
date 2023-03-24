@@ -91,7 +91,45 @@ class LeaveRequestController extends Controller
         }
 
         // Create the leave Request
-        $leaveRequest = $this->createRequest($request, $authenticatedUser);
+        $validatedLeaveRequestData = $request->validated();
+        $leaveType = LeaveType::where('id', $validatedLeaveRequestData['leave_type_id'])->first();
+        $userPaidLeavesBalance = $authenticatedUser->paid_leaves_balance;
+        $userHolidaysBalance = $authenticatedUser->holidays_balance;
+        $userLeavesBalance =  $userPaidLeavesBalance + $userHolidaysBalance;
+
+        if ($leaveType->deductable && $userLeavesBalance < $validatedLeaveRequestData['number_of_days']) {
+            return back()->with('error', 'You do not have enough days in your balance');
+        } else {
+            // Subtract requested days of the leave request from the user balance if it is deductable
+            if ($leaveType->deductable) {
+                if ($validatedLeaveRequestData['number_of_days'] <= $userPaidLeavesBalance) {
+                    $userPaidLeavesBalance -= $validatedLeaveRequestData['number_of_days'];
+                    $authenticatedUser->update([
+                        'holidays_balance' => $userPaidLeavesBalance,
+                        'deducted_holidays_amount' => $validatedLeaveRequestData['number_of_days'],
+                        'deducted_paid_leaves_amount' => 0
+                    ]);
+                } else {
+                    $deductionAmount = $validatedLeaveRequestData['number_of_days'] - $userPaidLeavesBalance;
+                    $userPaidLeavesBalance = 0;
+                    $userPaidLeavesBalance -= $deductionAmount;
+                    $authenticatedUser->update([
+                        'holidays_balance' => $userPaidLeavesBalance,
+                        'paid_leaves_balance' => $userPaidLeavesBalance,
+                        'deducted_holidays_amount' => $userPaidLeavesBalance,
+                        'deducted_paid_leaves_amount' => $deductionAmount
+                    ]);
+                }
+            }
+            // Create the leave request
+            $leaveRequest = leaveRequest::create(array_merge(
+                $validatedLeaveRequestData,
+                [
+                    'user_id' => $authenticatedUser->id,
+                    'team_id' => $authenticatedUser->teams->first()->id
+                ]
+            ));
+        }
 
         // Create the leave request workflow stages
         $this->createLeaveRequestWorkflowStages($leaveRequest);
@@ -196,44 +234,6 @@ class LeaveRequestController extends Controller
                 ]);
             }
         }
-    }
-
-    private function createRequest($request, User $authenticatedUser)
-    {
-        $validatedLeaveRequestData = $request->validated();
-        $leaveType = LeaveType::where('id', $validatedLeaveRequestData['leave_type_id'])->first();
-        $userPaidLeavesBalance = $authenticatedUser->paid_leaves_balance;
-        $userHolidaysBalance = $authenticatedUser->holidays_balance;
-        $userLeavesBalance =  $userPaidLeavesBalance + $userHolidaysBalance;
-
-        // Subtract requested days of the leave request from the user balance if it is deductable
-        if ($leaveType && $leaveType->deductable) {
-            $requestedDays = min($validatedLeaveRequestData['number_of_days'], $userLeavesBalance);
-
-            if ($requestedDays > $userLeavesBalance) {
-                return back()->with('error', __('You do not have enough days in your balance'));
-            }
-
-            $userHolidaysBalance -= $requestedDays;
-            $userPaidLeavesBalance -= max(0, $requestedDays - $authenticatedUser->holidays_balance);
-
-            $authenticatedUser->update([
-                'holidays_balance' => $userHolidaysBalance,
-                'paid_leaves_balance' => $userPaidLeavesBalance,
-                'deducted_holidays_amount' => $requestedDays - $authenticatedUser->holidays_balance,
-                'deducted_paid_leaves_amount' => max(0, $requestedDays - $authenticatedUser->holidays_balance),
-            ]);
-        }
-        // Create the leave request
-        $leaveRequest = leaveRequest::create(array_merge(
-            $validatedLeaveRequestData,
-            [
-                'user_id' => $authenticatedUser->id,
-                'team_id' => $authenticatedUser->teams->first()->id
-            ]
-        ));
-
-        return $leaveRequest;
     }
 
     private function getNextApprover(LeaveRequest $leaveRequest, WorkflowStage $workflowStage)
