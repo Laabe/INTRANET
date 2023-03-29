@@ -133,11 +133,12 @@ class LeaveRequestController extends Controller
         }
 
         // Create the leave request workflow stages
-        $this->createLeaveRequestWorkflowStages($leaveRequest);
+        $nextWorkflowStageApproval = $this->createLeaveRequestWorkflowStages($leaveRequest);
 
-        $nextApprover = $this->getNextApprover($leaveRequest, $leaveRequest->workflowStageApprovals->where('status', 'pending')->first()->WorkflowStage);
+        // dd($nextWorkflowStageApproval->workflowStage);
+        $nextApprover = $this->getNextApprover($leaveRequest, $nextWorkflowStageApproval->workflowStage);
 
-        Mail::to($nextApprover->email)->send(new LeaveRequestMail($leaveRequest));
+        // Mail::to($nextApprover->email)->send(new LeaveRequestMail($leaveRequest));
 
         return to_route('leave-requests.my-leave-requests')->with('success', __('Your leave request was submitted successfully'));
     }
@@ -234,13 +235,15 @@ class LeaveRequestController extends Controller
                 if (in_array($workflowStage->id, $leaveRequest->workflowStageApprovals->pluck('workflow_stage_id')->toArray())) {
                     continue;
                 }
-                WorkflowStageApproval::create([
+                $nextWorkflowStageApproval = WorkflowStageApproval::create([
                     'workflow_stage_id' => $workflowStage->id,
                     'leave_request_id' => $leaveRequest->id,
                 ]);
                 break;
             }
         }
+
+        return $nextWorkflowStageApproval;
     }
 
     private function getNextApprover(LeaveRequest $leaveRequest, WorkflowStage $workflowStage)

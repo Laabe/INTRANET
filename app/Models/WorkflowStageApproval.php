@@ -19,6 +19,12 @@ class WorkflowStageApproval extends Model
         return $this->belongsTo(WorkflowStage::class);
     }
 
-    
+    /**
+     * Get the leaveRequest that owns the WorkflowStageApproval
+     */
+    public function leaveRequest()
+    {
+        return $this->belongsTo(LeaveRequest::class);
+    }
     
 }
