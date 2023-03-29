@@ -38,6 +38,9 @@
                                             @if ($leaveRequest->status == 'Approved')
                                                 <span
                                                     class="badge rounded-pill bg-success">{{ $leaveRequest->status }}</span>
+                                            @elseif ($leaveRequest->status == 'pending')
+                                                <span
+                                                    class="badge rounded-pill bg-warning">{{ $leaveRequest->status }}</span>
                                             @else
                                                 <span
                                                     class="badge rounded-pill bg-danger">{{ $leaveRequest->status }}</span>

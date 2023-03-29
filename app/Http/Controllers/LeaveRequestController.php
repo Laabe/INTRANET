@@ -43,11 +43,12 @@ class LeaveRequestController extends Controller
             $leaveRequests = LeaveRequest::where('status', 'pending')
                 ->whereHas('workflowStageapprovals.workflowStage', function ($query) use ($user) {
                     $query->where('approver_profile_id', $user->profile_id)
-                        ->whereHas('workflowStageApproval', function ($q) {
-                            $q->where('status', 'pending')
-                                ->whereColumn('leave_request_id', 'leave_requests.id');
-                        });
-                })->whereHas('user', function ($q) use ($teamIds) {
+                    ->whereHas('workflowStageApproval', function ($q) {
+                        $q->where('status', 'pending')
+                            ->whereColumn('leave_request_id', 'leave_requests.id');
+                    });
+                })
+                ->whereHas('user', function ($q) use ($teamIds) {
                     $q->whereIn('team_id', $teamIds);
                 })
                 ->get();
@@ -87,7 +88,7 @@ class LeaveRequestController extends Controller
 
         if (strtotime($date2) < strtotime($date1)) {
             // Second date is before the first date
-            return to_route('leave-requests.create')->with('error', __('The end date should be later than the start date'));
+            return back()->with('error', __('The end date should be later than the start date'));
         }
 
         // Create the leave Request
@@ -166,6 +167,8 @@ class LeaveRequestController extends Controller
                             ]);
                         }
 
+                        $this->createLeaveRequestWorkflowStages($leaveRequest);
+
                         $unapprovedApprovalsCount = WorkflowStageApproval::where('leave_request_id', $workflowStageApproval->leave_request_id)->whereNull('treated_at')->count();
 
                         if ($unapprovedApprovalsCount === 0) {
@@ -228,10 +231,14 @@ class LeaveRequestController extends Controller
         // Create the workflow Stage approvals
         foreach ($leaveRequest->user->profile->scenarios as $scenario) {
             foreach ($scenario->workflowStages as $workflowStage) {
+                if (in_array($workflowStage->id, $leaveRequest->workflowStageApprovals->pluck('workflow_stage_id')->toArray())) {
+                    continue;
+                }
                 WorkflowStageApproval::create([
                     'workflow_stage_id' => $workflowStage->id,
                     'leave_request_id' => $leaveRequest->id,
                 ]);
+                break;
             }
         }
     }
@@ -266,10 +273,7 @@ class LeaveRequestController extends Controller
     {
         $leaveRequests = LeaveRequest::whereHas('workflowStageApprovals', function ($query) {
             $query->where('treated_by', auth()->user()->id);
-        })
-        ->where('status', 'like', 'Approved')
-        ->orWhere('status', 'like', 'Rejected')
-        ->get();
+        })->get();
         return view('leave-requests.history', compact('leaveRequests'));
     }
 }

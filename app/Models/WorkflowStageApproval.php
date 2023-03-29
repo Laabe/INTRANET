@@ -18,4 +18,7 @@ class WorkflowStageApproval extends Model
     {
         return $this->belongsTo(WorkflowStage::class);
     }
+
+    
+    
 }
