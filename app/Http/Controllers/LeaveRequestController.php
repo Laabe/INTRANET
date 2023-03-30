@@ -174,6 +174,7 @@ class LeaveRequestController extends Controller
                         
                         if ($unapprovedApprovalsCount === 0) {
                             $leaveRequest->update(['status' => 'Approved']);
+                            Mail::to($leaveRequest->user->email)->send(new LeaveRequestMail($leaveRequest));
                         } else {
                             $nextWorkflowApproval = WorkflowStageApproval::with('workflowStage')
                                 ->where('leave_request_id', $workflowStageApproval->leave_request_id)->whereNull('treated_at')->first();
