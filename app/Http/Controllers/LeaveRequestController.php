@@ -235,6 +235,7 @@ class LeaveRequestController extends Controller
         // Eager load user profile and scenario stages
         $leaveRequest->load('user.profile.scenarios.workflowStages');
 
+        $nextWorkflowApproval = null;
         // Create the workflow Stage approvals
         foreach ($leaveRequest->user->profile->scenarios as $scenario) {
             foreach ($scenario->workflowStages as $workflowStage) {
