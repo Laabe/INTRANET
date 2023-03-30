@@ -171,7 +171,7 @@ class LeaveRequestController extends Controller
                         $this->createLeaveRequestWorkflowStages($leaveRequest);
 
                         $unapprovedApprovalsCount = WorkflowStageApproval::where('leave_request_id', $workflowStageApproval->leave_request_id)->whereNull('treated_at')->count();
-
+                        
                         if ($unapprovedApprovalsCount === 0) {
                             $leaveRequest->update(['status' => 'Approved']);
                         } else {
@@ -179,8 +179,13 @@ class LeaveRequestController extends Controller
                                 ->where('leave_request_id', $workflowStageApproval->leave_request_id)->whereNull('treated_at')->first();
 
                             if ($nextWorkflowApproval) {
-                                $nextApprover = $this->getNextApprover($leaveRequest, $nextWorkflowApproval->workflowStage);
-                                Mail::to($nextApprover->email)->send(new LeaveRequestMail($leaveRequest));
+                                $nextApprovers = $this->getNextApprover($leaveRequest, $nextWorkflowApproval->workflowStage)->toArray();
+                                $emails = array_filter(array_map(function ($nextApprover) {
+                                    if (is_array($nextApprover) && isset($nextApprover['email'])) {
+                                        return $nextApprover['email'];
+                                    }
+                                }, $nextApprovers));
+                                Mail::to($emails)->send(new LeaveRequestMail($leaveRequest));
                             }
                         }
                     }
@@ -260,15 +265,19 @@ class LeaveRequestController extends Controller
         //     $nextApprover = $concernedTeam->users->where('profile_id', $workflowStage->approver_profile_id)->first();
         // }
 
-        if ($leaveRequest->team) {
-            // Get the team of the user who request the leave
-            $concernedTeam = $leaveRequest->team;
-            $nextApprover = $concernedTeam->users->where('profile_id', $workflowStage->approver_profile_id)->first();
-        } else {
+        if ($workflowStage->approvedBy->name_en == 'Human Resources Officer') {
             $users = User::where('profile_id', $workflowStage->approver_profile_id)->get();
-            $nextApprover = $users->pluck('email');
+            $nextApprover = $users;
+        } else {
+            if ($leaveRequest->team) {
+                // Get the team of the user who request the leave
+                $concernedTeam = $leaveRequest->team;
+                $nextApprover = $concernedTeam->users->where('profile_id', $workflowStage->approver_profile_id)->first();
+            } else {
+                $users = User::where('profile_id', $workflowStage->approver_profile_id)->get();
+                $nextApprover = $users;
+            }
         }
-
         return $nextApprover;
     }
 
