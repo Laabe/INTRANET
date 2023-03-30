@@ -30,7 +30,7 @@ class LeaveRequestController extends Controller
         $user = User::with('teams', 'profile')->where('id', auth()->user()->id)->first();
         $teamIds = $user->teams->pluck('id');
         // Return the pending leave requests that the given user has not yet approved
-        if ($user->profile === 'Human Ressources') {
+        if ($user->profile->name_en === 'Human Resources Officer	' || $user->profile->name_en == 'Human Resources Manager') {
             $leaveRequests = LeaveRequest::where('status', 'pending')
                 ->whereHas('workflowStageapprovals.workflowStage', function ($query) use ($user) {
                     $query->where('approver_profile_id', $user->profile_id)
