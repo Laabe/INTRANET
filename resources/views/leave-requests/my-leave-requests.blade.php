@@ -49,6 +49,8 @@
                                                     <button class="btn btn-danger">{{ __('Cancel') }}</button>
                                                 </form>
                                             @endif
+                                            <a class="btn btn-info" data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}" data-bs-toggle="modal" href="javascript:void(0)">Details</a>
+                                            @include('leave-requests.details')
                                         </td>
                                     </tr>
                                 @endforeach

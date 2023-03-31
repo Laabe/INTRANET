@@ -22,6 +22,7 @@
                                     <th>{{ 'TEAM' }}</th>
                                     <th>{{ 'STATUS' }}</th>
                                     <th>{{ 'TREATED AT' }}</th>
+                                    <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,7 +48,11 @@
                                             @endif
                                         </td>
                                         <td>{{ $leaveRequest->workflowStageApprovals->first()->treated_at }}</td>
+                                        <td>
+                                            <a class="btn btn-primary" data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}" data-bs-toggle="modal" href="javascript:void(0)">Details</a>
+                                        </td>
                                     </tr>
+                                    @include('leave-requests.details')
                                 @endforeach
                             </tbody>
                         </table>

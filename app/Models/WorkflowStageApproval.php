@@ -27,4 +27,11 @@ class WorkflowStageApproval extends Model
         return $this->belongsTo(LeaveRequest::class);
     }
     
+    /**
+     * Get the user that owns the WorkflowStageApproval
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'treated_by');
+    }
 }

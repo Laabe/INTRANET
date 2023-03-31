@@ -141,4 +141,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class);
     }
+
+    /**
+     * Get all of the workflowStageApprovals for the User
+     */
+    public function workflowStageApprovals()
+    {
+        return $this->hasMany(WorkflowStageApproval::class);
+    }
 }
