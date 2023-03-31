@@ -42,7 +42,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($leaveRequest->status == 'pending')
+                                            @if ($leaveRequest->status == 'pending' || ($leaveRequest->status == 'Approved' && $leaveRequest->start_date <= now()))
                                                 <form action="{{ route('leave-requests.destroy', $leaveRequest) }}"
                                                     method="post" class="d-inline-block">
                                                     @csrf @method('delete')
