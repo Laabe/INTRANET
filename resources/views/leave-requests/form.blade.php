@@ -68,11 +68,11 @@
 
 <div class="row">
     <div class="col-12 mb-3">
-        <label for="comment" class="form-label">{{ __('Comment') }}</label>
-        <textarea name="comment" id="comment" cols="30" rows="5" class="form-control"
+        <label for="leave_request_motive" class="form-label">{{ __('Comment') }}</label>
+        <textarea name="leave_request_motive" id="leave_request_motive" cols="30" rows="5" class="form-control"
             placeholder="{{ __('Write Here...') }}"></textarea>
 
-        @error('comment')
+        @error('leave_request_motive')
             <span class="text-danger fw-bold">{{ $message }}</span>
         @enderror
     </div>

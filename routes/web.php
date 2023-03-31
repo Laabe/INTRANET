@@ -38,7 +38,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::middleware('auth')->group(function () {
 
     Route::get('leave-requests/my-leave-requests', [LeaveRequestController::class, 'myLeaveRequests'])->name('leave-requests.my-leave-requests');
-    Route::resource('leave-requests', LeaveRequestController::class)->only('create', 'store');
+    Route::resource('leave-requests', LeaveRequestController::class)->only('create', 'store', 'destroy');
 
     Route::middleware(['role_or_permission:HR|Admin'])->group(function () {
         // Users Routes
@@ -90,7 +90,7 @@ Route::middleware('auth')->group(function () {
         Route::get('leave-requests/history', [LeaveRequestController::class, 'history'])->name('leave-requests.history');
         Route::put('leave-requests/{id}/approve', [LeaveRequestController::class, 'approveLeaveRequest'])->name('leave-requests.approve');
         Route::put('leave-requests/{id}/reject', [LeaveRequestController::class, 'rejectLeaveRequest'])->name('leave-requests.reject');
-        Route::resource('leave-requests', LeaveRequestController::class)->except('create', 'store', 'myLeaveRequests');
+        Route::resource('leave-requests', LeaveRequestController::class)->except('create', 'store', 'destroy', 'myLeaveRequests');
     });
 
     Route::middleware(['role_or_permission:Team Management|Admin'])->group(function () {

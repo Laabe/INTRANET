@@ -7,15 +7,10 @@ use App\Http\Requests\StoreLeaveRequestRequest;
 use App\Http\Requests\UpdateLeaveRequestRequest;
 use App\Mail\LeaveRequestMail;
 use App\Models\LeaveType;
-use App\Models\Profile;
 use App\Models\Scenario;
-use App\Models\Team;
 use App\Models\User;
 use App\Models\WorkflowStage;
 use App\Models\WorkflowStageApproval;
-use App\Models\WorkflowStageApprovals;
-use App\Models\WorkflowStages;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class LeaveRequestController extends Controller
@@ -43,10 +38,10 @@ class LeaveRequestController extends Controller
             $leaveRequests = LeaveRequest::where('status', 'pending')
                 ->whereHas('workflowStageapprovals.workflowStage', function ($query) use ($user) {
                     $query->where('approver_profile_id', $user->profile_id)
-                    ->whereHas('workflowStageApproval', function ($q) {
-                        $q->where('status', 'pending')
-                            ->whereColumn('leave_request_id', 'leave_requests.id');
-                    });
+                        ->whereHas('workflowStageApproval', function ($q) {
+                            $q->where('status', 'pending')
+                                ->whereColumn('leave_request_id', 'leave_requests.id');
+                        });
                 })
                 ->whereHas('user', function ($q) use ($teamIds) {
                     $q->whereIn('team_id', $teamIds);
@@ -100,37 +95,43 @@ class LeaveRequestController extends Controller
 
         if ($leaveType->deductable && $userLeavesBalance < $validatedLeaveRequestData['number_of_days']) {
             return back()->with('error', 'You do not have enough days in your balance');
-        } else {
-            // Subtract requested days of the leave request from the user balance if it is deductable
-            if ($leaveType->deductable) {
-                if ($validatedLeaveRequestData['number_of_days'] <= $userPaidLeavesBalance) {
-                    $userPaidLeavesBalance -= $validatedLeaveRequestData['number_of_days'];
-                    $authenticatedUser->update([
-                        'holidays_balance' => $userPaidLeavesBalance,
-                        'deducted_holidays_amount' => $validatedLeaveRequestData['number_of_days'],
-                        'deducted_paid_leaves_amount' => 0
-                    ]);
-                } else {
-                    $deductionAmount = $validatedLeaveRequestData['number_of_days'] - $userPaidLeavesBalance;
-                    $userPaidLeavesBalance = 0;
-                    $userPaidLeavesBalance -= $deductionAmount;
-                    $authenticatedUser->update([
-                        'holidays_balance' => $userPaidLeavesBalance,
-                        'paid_leaves_balance' => $userPaidLeavesBalance,
-                        'deducted_holidays_amount' => $userPaidLeavesBalance,
-                        'deducted_paid_leaves_amount' => $deductionAmount
-                    ]);
-                }
-            }
-            // Create the leave request
-            $leaveRequest = leaveRequest::create(array_merge(
-                $validatedLeaveRequestData,
-                [
-                    'user_id' => $authenticatedUser->id,
-                    'team_id' => $authenticatedUser->teams->first()->id
-                ]
-            ));
         }
+
+        // Create the leave request
+        $leaveRequest = leaveRequest::create(array_merge(
+            $validatedLeaveRequestData,
+            [
+                'user_id' => $authenticatedUser->id,
+                'team_id' => $authenticatedUser->teams->first()->id
+            ]
+        ));
+
+        // Subtract requested days of the leave request from the user balance if it is deductable
+        if ($leaveType->deductable) {
+            if ($validatedLeaveRequestData['number_of_days'] <= $userHolidaysBalance) {
+                $userHolidaysBalance -= $validatedLeaveRequestData['number_of_days'];
+                $authenticatedUser->update([
+                    'holidays_balance' => $userHolidaysBalance
+                ]);
+                $leaveRequest->update([
+                    'deducted_holidays_amount' => $validatedLeaveRequestData['number_of_days'],
+                    'deducted_paid_leaves_amount' => 0
+                ]);
+            } else {
+                $deductionAmount = $validatedLeaveRequestData['number_of_days'] - $userHolidaysBalance;
+                $userHolidaysBalance = 0;
+                $userPaidLeavesBalance -= $deductionAmount;
+                $authenticatedUser->update([
+                    'holidays_balance' => $userHolidaysBalance,
+                    'paid_leaves_balance' => $userPaidLeavesBalance,
+                ]);
+                $leaveRequest->update([
+                    'deducted_holidays_amount' => $validatedLeaveRequestData['number_of_days'] - $deductionAmount,
+                    'deducted_paid_leaves_amount' => $deductionAmount
+                ]);
+            }
+        }
+
 
         // Create the leave request workflow stages
         $nextWorkflowStageApproval = $this->createLeaveRequestWorkflowStages($leaveRequest);
@@ -138,7 +139,7 @@ class LeaveRequestController extends Controller
         // dd($nextWorkflowStageApproval->workflowStage);
         $nextApprover = $this->getNextApprover($leaveRequest, $nextWorkflowStageApproval->workflowStage);
 
-        // Mail::to($nextApprover->email)->send(new LeaveRequestMail($leaveRequest));
+        Mail::to($nextApprover->email)->send(new LeaveRequestMail($leaveRequest));
 
         return to_route('leave-requests.my-leave-requests')->with('success', __('Your leave request was submitted successfully'));
     }
@@ -171,7 +172,7 @@ class LeaveRequestController extends Controller
                         $this->createLeaveRequestWorkflowStages($leaveRequest);
 
                         $unapprovedApprovalsCount = WorkflowStageApproval::where('leave_request_id', $workflowStageApproval->leave_request_id)->whereNull('treated_at')->count();
-                        
+
                         if ($unapprovedApprovalsCount === 0) {
                             $leaveRequest->update(['status' => 'Approved']);
                             Mail::to($leaveRequest->user->email)->send(new LeaveRequestMail($leaveRequest));
@@ -200,7 +201,6 @@ class LeaveRequestController extends Controller
     public function rejectLeaveRequest($leaveRequestId)
     {
         $leaveRequest = LeaveRequest::with('workflowStageApprovals')->where('id', $leaveRequestId)->first();
-        $user = User::where('id', auth()->user()->id)->first();
         $currentWorkflow = $leaveRequest->workflowStageApprovals->where('status', 'pending')->first();
 
         $currentWorkflow->update([
@@ -212,9 +212,9 @@ class LeaveRequestController extends Controller
         $leaveRequest->update(['status' => 'Rejected']);
 
         if ($leaveRequest->leaveType->deductable) {
-            $user->update([
-                'paid_leaves_bank' => $user->paid_leaves_bank + $leaveRequest->deducted_paid_leaves_amount,
-                'holidays_bank' => $user->holidays_bank + $leaveRequest->deducted_holidays_amount,
+            $leaveRequest->user->update([
+                'paid_leaves_balance' => $leaveRequest->user->paid_leaves_balance + $leaveRequest->deducted_paid_leaves_amount,
+                'holidays_balance' => $leaveRequest->user->holidays_balance + $leaveRequest->deducted_holidays_amount,
             ]);
         }
 
@@ -289,5 +289,28 @@ class LeaveRequestController extends Controller
             $query->where('treated_by', auth()->user()->id);
         })->get();
         return view('leave-requests.history', compact('leaveRequests'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(LeaveRequest $leaveRequest)
+    {
+        if ($leaveRequest->start_date <= now()) {
+            return back()->with('error', __('The leave request cannot be canceled as the start date is today'));
+        }
+
+        if ($leaveRequest->leaveType->deductable) {
+            $leaveRequest->user->update([
+                'paid_leaves_balance' => $leaveRequest->user->paid_leaves_balance + $leaveRequest->deducted_paid_leaves_amount,
+                'holidays_balance' => $leaveRequest->user->holidays_balance + $leaveRequest->deducted_holidays_amount,
+            ]);
+        }
+
+        $leaveRequest->update([
+            'status' => 'Canceled',
+        ]);
+
+        return to_route('leave-requests.my-leave-requests')->with('success', __('Leave Request Canceled'));
     }
 }

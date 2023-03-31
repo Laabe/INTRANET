@@ -82,5 +82,14 @@
                 icon: "success"
             })
         @endif
+
+        @if (session('error'))
+            swal({
+                title: "OOPS!!!",
+                text: "{{ session('error') }}",
+                type: "error",
+                icon: "error"
+            })
+        @endif
     </script>
 @endsection
