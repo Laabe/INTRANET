@@ -51,8 +51,8 @@
                                         <td>
                                             <a class="btn btn-primary" data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}" data-bs-toggle="modal" href="javascript:void(0)">Details</a>
                                         </td>
+                                        @include('leave-requests.details')
                                     </tr>
-                                    @include('leave-requests.details')
                                 @endforeach
                             </tbody>
                         </table>
