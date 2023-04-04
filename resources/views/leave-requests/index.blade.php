@@ -59,7 +59,7 @@
                                                     <button class="btn btn-danger">{{ __('Reject') }}</button>
                                                 </form>
                                             @endif
-                                            <a class="btn btn-primary"
+                                            <a class="btn btn-info"
                                                 data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}"
                                                 data-bs-toggle="modal" href="javascript:void(0)">Details</a>
                                             @include('leave-requests.details')

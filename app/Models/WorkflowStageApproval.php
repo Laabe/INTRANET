@@ -10,6 +10,7 @@ class WorkflowStageApproval extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $with = ['user'];
 
     /**
      * Get the workflowStage that owns the WorkflowStageApprovals

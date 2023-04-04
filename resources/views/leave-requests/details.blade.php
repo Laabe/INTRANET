@@ -47,7 +47,7 @@
                         </dl>
                         <dl class="card-text col-xl-6 col-lg-6 col-md-12 col-sm-12">
                             <dt>{{ __('Creation Date: ') }}</dt>
-                            <dd>{{ $leaveRequest->created_at }}</dd>
+                            <dd>{{ date('d/m/Y H:i:s', strtotime($leaveRequest->created_at)) }}</dd>
                         </dl>
                         <dl class="card-text col-12">
                             <dt>{{ __('Employee comment: ') }}</dt>
@@ -65,6 +65,7 @@
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Treated by') }}</th>
                                 <th>{{ __('Treated at') }}</th>
+                                <th>{{ __('SLA') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,8 +73,9 @@
                                 <tr>
                                     <td>{{ $workflowStageApproval->workflowStage->approvedBy->name_en }}</td>
                                     <td>{{ $workflowStageApproval->status }}</td>
-                                    <td>{{ $workflowStageApproval->user ? $workflowStageApproval->user->fullname() : 'NULL'}}</td>
-                                    <td>{{ $workflowStageApproval->treated_at }}</td>
+                                    <td>{{ $workflowStageApproval->user ? $workflowStageApproval->user->fullname() : 'NULL' }}
+                                    </td>
+                                    <td>{{ date('d/m/Y H:i:s', strtotime($workflowStageApproval->treated_at)) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

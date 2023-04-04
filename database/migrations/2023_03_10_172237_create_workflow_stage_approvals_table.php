@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('leave_request_id');
             $table->enum('status', ['pending', 'Approved', 'Rejected']);
             $table->foreignId('treated_by')->nullable();
-            $table->date('treated_at')->nullable();
+            $table->datetime('treated_at')->nullable();
+            $table->datetime('sla')->nullable();
             $table->timestamps();
         });
     }

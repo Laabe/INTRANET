@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\LeaveRequest;
+use App\Models\WorkflowStageApproval;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -40,7 +41,7 @@ class LeaveRequestMail extends Mailable
         return new Content(
             view: 'mail.new-leave-request-mail',
             with: [
-                'requestUser' => $this->leaveRequest->user_id,
+                'leaveRequest' => $this->leaveRequest->load('user', 'workflowStageApprovals.user', 'leaveType'),
             ]
         );
     }

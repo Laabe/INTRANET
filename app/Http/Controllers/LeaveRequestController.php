@@ -102,7 +102,8 @@ class LeaveRequestController extends Controller
             $validatedLeaveRequestData,
             [
                 'user_id' => $authenticatedUser->id,
-                'team_id' => $authenticatedUser->teams->first()->id
+                'team_id' => $authenticatedUser->teams->first()->id,
+                'status' => 'pending',
             ]
         ));
 
@@ -135,8 +136,7 @@ class LeaveRequestController extends Controller
 
         // Create the leave request workflow stages
         $nextWorkflowStageApproval = $this->createLeaveRequestWorkflowStages($leaveRequest);
-
-        // dd($nextWorkflowStageApproval->workflowStage);
+        
         $nextApprover = $this->getNextApprover($leaveRequest, $nextWorkflowStageApproval->workflowStage);
 
         Mail::to($nextApprover->email)->send(new LeaveRequestMail($leaveRequest));
@@ -187,7 +187,7 @@ class LeaveRequestController extends Controller
                                         return $nextApprover['email'];
                                     }
                                 }, $nextApprovers));
-                                Mail::to($emails)->send(new LeaveRequestMail($leaveRequest));
+                                Mail::to($emails[0])->cc($emails)->send(new LeaveRequestMail($leaveRequest));
                             }
                         }
                     }
@@ -217,6 +217,8 @@ class LeaveRequestController extends Controller
                 'holidays_balance' => $leaveRequest->user->holidays_balance + $leaveRequest->deducted_holidays_amount,
             ]);
         }
+
+        Mail::to($leaveRequest->user->email)->send(new LeaveRequestMail($leaveRequest)); 
 
         return to_route('leave-requests.index')->with('success', __('Leave request rejected successfully'));
     }

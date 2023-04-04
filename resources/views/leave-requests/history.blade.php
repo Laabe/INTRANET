@@ -47,9 +47,10 @@
                                                     class="badge rounded-pill bg-danger">{{ $leaveRequest->status }}</span>
                                             @endif
                                         </td>
-                                        <td>{{ $leaveRequest->workflowStageApprovals->first()->treated_at }}</td>
+                                        <td>{{ date('d/m/Y H:i:s', strtotime($leaveRequest->workflowStageApprovals->where('treated_by', auth()->user()->id)->first()->treated_at)) }}
+                                        </td>
                                         <td>
-                                            <a class="btn btn-primary"
+                                            <a class="btn btn-info"
                                                 data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}"
                                                 data-bs-toggle="modal" href="javascript:void(0)">Details</a>
                                             @include('leave-requests.details')
