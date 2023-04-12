@@ -22,7 +22,6 @@
                                     <th>{{ 'END DATE' }}</th>
                                     <th>{{ 'TEAM' }}</th>
                                     <th>{{ 'STATUS' }}</th>
-                                    <th>{{ 'TREATED AT' }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -48,8 +47,8 @@
                                                     class="badge rounded-pill bg-danger">{{ $leaveRequest->status }}</span>
                                             @endif
                                         </td>
-                                        <td>{{ date('d/m/Y H:i:s', strtotime($leaveRequest->workflowStageApprovals->where('treated_by', auth()->user()->id)->first()->updated_at)) }}
-                                        </td>
+                                        {{-- <td>{{ '' ?? date('d/m/Y H:i:s', strtotime($leaveRequest->workflowStageApprovals->where('treated_by', auth()->user()->id)->first()->updated_at)) }}
+                                        </td> --}}
                                         <td>
                                             <a class="btn btn-info"
                                                 data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}"

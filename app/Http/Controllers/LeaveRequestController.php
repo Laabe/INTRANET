@@ -293,9 +293,10 @@ class LeaveRequestController extends Controller
     {
         $leaveTypes = LeaveType::all();
         $users = User::all('first_name', 'last_name', 'id');
-        $leaveRequests = LeaveRequest::whereHas('workflowStageApprovals', function ($query) {
-            $query->where('treated_by', auth()->user()->id);
-        })->get();
+        $leaveRequests = LeaveRequest::all();
+        // whereHas('workflowStageApprovals', function ($query) {
+        //     $query->where('treated_by', auth()->user()->id);
+        // })->get();
         return view('leave-requests.history', compact('leaveRequests', 'leaveTypes', 'users'));
     }
 
@@ -307,21 +308,14 @@ class LeaveRequestController extends Controller
         $user = $request->user;
 
         // Get data from the database for the selected date range
-        $query = LeaveRequest::with('user.profile', 'leaveType', 'team.project', 'workflowStageApprovals.workflowStage');
-
-        if ($leaveType) {
-            $query = $query->where('leave_type_id', $leaveType);
-        }
-
-        if ($user) {
-            $query = $query->where('user_id', $user);
-        }
-
-        if ($fromDate && $toDate) {
-            $query = $query->whereBetween('created_at', [$fromDate, $toDate]);
-        }
-
-        $data = $query->get();
+        $data = LeaveRequest::with(['user.profile', 'leaveType', 'team.project', 'workflowStageApprovals.workflowStage.approvedBy'])
+            ->when($leaveType, function ($query, $leaveType) {
+                return $query->where('leave_type_id', $leaveType);
+            })->when($user, function ($query, $user) {
+                return $query->where('user_id', $user);
+            })->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
+                return $query->whereBetween('created_at', [$fromDate, $toDate]);
+            })->get();
 
         // Create a new Excel workbook and sheet
         $spreadsheet = new Spreadsheet();
@@ -362,7 +356,7 @@ class LeaveRequestController extends Controller
 
             $first_stage_approver = 'pending';
             if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 1) {
-                $first_stage_approver = $item->workflowStageApprovals->first()->user->fullname();
+                $first_stage_approver = $item->workflowStageApprovals->first()->user ? $item->workflowStageApprovals->first()->user->fullname() : '';
                 $first_stage = $item->workflowStageApprovals->first()->workflowStage->approvedBy->name_en;
                 $first_stage_status = $item->workflowStageApprovals->first()->status;
                 $first_stage_sla = $item->workflowStageApprovals->first()->updated_at;
@@ -370,7 +364,7 @@ class LeaveRequestController extends Controller
 
             $second_stage_approver = 'pending';
             if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 2) {
-                $second_stage_approver = $item->workflowStageApprovals->skip(1)->first()->user->fullname();
+                $second_stage_approver = $item->workflowStageApprovals->skip(1)->first()->user ? $item->workflowStageApprovals->skip(1)->first()->user->fullname() : '';
                 $second_stage = $item->workflowStageApprovals->skip(1)->first()->workflowStage->approvedBy->name_en;
                 $second_stage_status = $item->workflowStageApprovals->skip(1)->first()->status;
                 $second_stage_sla = $item->workflowStageApprovals->skip(1)->first()->updated_at;
@@ -378,7 +372,7 @@ class LeaveRequestController extends Controller
 
             $third_stage_approver = 'pending';
             if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 3) {
-                $third_stage_approver = $item->workflowStageApprovals->skip(2)->first()->user->fullname();
+                $third_stage_approver = $item->workflowStageApprovals->skip(1)->first()->user ? $item->workflowStageApprovals->skip(2)->first()->user->fullname() : '';
                 $third_stage = $item->workflowStageApprovals->skip(2)->first()->workflowStage->approvedBy->name_en;
                 $third_stage_status = $item->workflowStageApprovals->skip(2)->first()->status;
                 $third_stage_sla = $item->workflowStageApprovals->skip(2)->first()->updated_at;
@@ -386,7 +380,7 @@ class LeaveRequestController extends Controller
 
             $last_stage_approver = 'pending';
             if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 4) {
-                $last_stage_approver = $item->workflowStageApprovals->skip(3)->first()->user->fullname();
+                $last_stage_approver = $item->workflowStageApprovals->skip(1)->first()->user ? $item->workflowStageApprovals->skip(3)->first()->user->fullname() : '';
                 $last_stage = $item->workflowStageApprovals->skip(3)->first()->workflowStage->approvedBy->name_en;
                 $last_stage_status = $item->workflowStageApprovals->skip(3)->first()->status;
                 $last_stage_sla = $item->workflowStageApprovals->skip(3)->first()->updated_at;
@@ -426,7 +420,7 @@ class LeaveRequestController extends Controller
         // Format column width
         foreach ($sheet->getColumnIterator() as $column) {
             $sheet->getColumnDimension($column->getColumnIndex())->setAutoSize(true);
-         }
+        }
 
         // Set the filename and file format for the export file
         $filename = 'export_data_' . date('Ymd') . '.xlsx';

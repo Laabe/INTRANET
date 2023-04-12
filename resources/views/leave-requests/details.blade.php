@@ -58,29 +58,36 @@
 
                 <div class="mt-3">
                     <h4 class="mb-3 text-primary">{{ __('Leave Request Status') }}</h4>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>{{ __('Validator profile') }}</th>
-                                <th>{{ __('Status') }}</th>
-                                <th>{{ __('Treated by') }}</th>
-                                <th>{{ __('Treated at') }}</th>
-                                <th>{{ __('SLA') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($leaveRequest->workflowStageApprovals as $workflowStageApproval)
+                    @if ($leaveRequest->status == 'Canceled')
+                        {{ __('Leave request canceled by the user: ') }}
+                        <strong>{{ $leaveRequest->user->fullname() }}</strong>
+                    @else
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>{{ $workflowStageApproval->workflowStage->approvedBy->name_en }}</td>
-                                    <td>{{ $workflowStageApproval->status }}</td>
-                                    <td>{{ $workflowStageApproval->user ? $workflowStageApproval->user->fullname() : 'NULL' }}
-                                    </td>
-                                    <td>{{ date('d/m/Y H:i:s', strtotime($workflowStageApproval->updated_at)) }}</td>
-                                    <td>{{ $workflowStageApproval->created_at->diff($workflowStageApproval->updated_at)->format('%H:%I:%S') }}</td>
+                                    <th>{{ __('Validator profile') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Treated by') }}</th>
+                                    <th>{{ __('Treated at') }}</th>
+                                    <th>{{ __('SLA') }}</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($leaveRequest->workflowStageApprovals as $workflowStageApproval)
+                                    <tr>
+                                        <td>{{ $workflowStageApproval->workflowStage->approvedBy->name_en }}</td>
+                                        <td>{{ $workflowStageApproval->status }}</td>
+                                        <td>{{ $workflowStageApproval->user ? $workflowStageApproval->user->fullname() : '' }}
+                                        </td>
+                                        <td>{{ $workflowStageApproval->treated_at ? date('d/m/Y H:i:s', strtotime($workflowStageApproval->updated_at)) : '' }}
+                                        </td>
+                                        <td>{{ $workflowStageApproval->treated_at ? $workflowStageApproval->created_at->diff($workflowStageApproval->updated_at)->format('%H:%I:%S') : '' }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
             </div>
             <div class="modal-footer">
