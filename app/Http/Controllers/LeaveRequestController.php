@@ -322,70 +322,45 @@ class LeaveRequestController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // Add header row
-        $sheet->setCellValue('A1', 'Employee')
-            ->setCellValue('B1', 'Employee_id')
-            ->setCellValue('C1', 'Employee_profile')
-            ->setCellValue('D1', 'Team')
-            ->setCellValue('E1', 'Leave_type')
-            ->setCellValue('F1', 'Start_date')
-            ->setCellValue('G1', 'End_date')
-            ->setCellValue('H1', 'Number_of_days')
-            ->setCellValue('I1', 'Request_status')
-            ->setCellValue('J1', 'first_stage')
-            ->setCellValue('K1', 'first_stage_approver')
-            ->setCellValue('L1', 'first_stage_status')
-            ->setCellValue('M1', 'first_stage_sla')
-            ->setCellValue('N1', 'second_stage')
-            ->setCellValue('O1', 'second_stage_approver')
-            ->setCellValue('P1', 'second_stage_status')
-            ->setCellValue('Q1', 'second_stage_sla')
-            ->setCellValue('R1', 'third_stage')
-            ->setCellValue('S1', 'third_stage_approver')
-            ->setCellValue('T1', 'third_stage_status')
-            ->setCellValue('U1', 'third_stage_sla')
-            ->setCellValue('V1', 'fourth_stage')
-            ->setCellValue('W1', 'fourth_stage_approver')
-            ->setCellValue('X1', 'fourth_stage_status')
-            ->setCellValue('Y1', 'fourth_stage_sla')
-            ->setCellValue('Z1', 'Created_at')
-            ->setCellValue('AA1', 'Treated_at');
-
+        $cellValues = [
+            'A1' => 'Employee',
+            'B1' => 'Employee_id',
+            'C1' => 'Employee_profile',
+            'D1' => 'Team',
+            'E1' => 'Leave_type',
+            'F1' => 'Start_date',
+            'G1' => 'End_date',
+            'H1' => 'Number_of_days',
+            'I1' => 'Request_status',
+            'J1' => 'first_stage',
+            'K1' => 'first_stage_approver',
+            'L1' => 'first_stage_status',
+            'M1' => 'first_stage_sla',
+            'N1' => 'second_stage',
+            'O1' => 'second_stage_approver',
+            'P1' => 'second_stage_status',
+            'Q1' => 'second_stage_sla',
+            'R1' => 'third_stage',
+            'S1' => 'third_stage_approver',
+            'T1' => 'third_stage_status',
+            'U1' => 'third_stage_sla',
+            'V1' => 'fourth_stage',
+            'W1' => 'fourth_stage_approver',
+            'X1' => 'fourth_stage_status',
+            'Y1' => 'fourth_stage_sla',
+            'Z1' => 'Created_at',
+            'AA1' => 'Treated_at'
+        ];
+        
+        foreach ($cellValues as $cell => $value) {
+            $sheet->setCellValue($cell, $value);
+        }
+        
         // Add data rows
         $row = 2;
         foreach ($data as $item) {
 
-            $first_stage_approver = 'pending';
-            if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 1) {
-                $first_stage_approver = $item->workflowStageApprovals->first()->user ? $item->workflowStageApprovals->first()->user->fullname() : '';
-                $first_stage = $item->workflowStageApprovals->first()->workflowStage->approvedBy->name_en;
-                $first_stage_status = $item->workflowStageApprovals->first()->status;
-                $first_stage_sla = $item->workflowStageApprovals->first()->updated_at;
-            }
-
-            $second_stage_approver = 'pending';
-            if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 2) {
-                $second_stage_approver = $item->workflowStageApprovals->skip(1)->first()->user ? $item->workflowStageApprovals->skip(1)->first()->user->fullname() : '';
-                $second_stage = $item->workflowStageApprovals->skip(1)->first()->workflowStage->approvedBy->name_en;
-                $second_stage_status = $item->workflowStageApprovals->skip(1)->first()->status;
-                $second_stage_sla = $item->workflowStageApprovals->skip(1)->first()->updated_at;
-            }
-
-            $third_stage_approver = 'pending';
-            if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 3) {
-                $third_stage_approver = $item->workflowStageApprovals->skip(1)->first()->user ? $item->workflowStageApprovals->skip(2)->first()->user->fullname() : '';
-                $third_stage = $item->workflowStageApprovals->skip(2)->first()->workflowStage->approvedBy->name_en;
-                $third_stage_status = $item->workflowStageApprovals->skip(2)->first()->status;
-                $third_stage_sla = $item->workflowStageApprovals->skip(2)->first()->updated_at;
-            }
-
-            $last_stage_approver = 'pending';
-            if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 4) {
-                $last_stage_approver = $item->workflowStageApprovals->skip(1)->first()->user ? $item->workflowStageApprovals->skip(3)->first()->user->fullname() : '';
-                $last_stage = $item->workflowStageApprovals->skip(3)->first()->workflowStage->approvedBy->name_en;
-                $last_stage_status = $item->workflowStageApprovals->skip(3)->first()->status;
-                $last_stage_sla = $item->workflowStageApprovals->skip(3)->first()->updated_at;
-            }
-
+            $excelData = $this->getWorkflowApprovalDataExcel($item);
             // dd($item->team->project->name);
             $sheet->setCellValue('A' . $row, $item->user->fullname())
                 ->setCellValue('B' . $row, $item->user_id)
@@ -396,22 +371,22 @@ class LeaveRequestController extends Controller
                 ->setCellValue('G' . $row, $item->end_date)
                 ->setCellValue('H' . $row, $item->number_of_days)
                 ->setCellValue('I' . $row, $item->status)
-                ->setCellValue('J' . $row, $first_stage)
-                ->setCellValue('K' . $row, $first_stage_approver)
-                ->setCellValue('L' . $row, $first_stage_status)
-                ->setCellValue('M' . $row, $first_stage_sla)
-                ->setCellValue('N' . $row, $second_stage)
-                ->setCellValue('O' . $row, $second_stage_approver)
-                ->setCellValue('P' . $row, $second_stage_status)
-                ->setCellValue('Q' . $row, $second_stage_sla)
-                ->setCellValue('R' . $row, $third_stage)
-                ->setCellValue('S' . $row, $third_stage_approver)
-                ->setCellValue('T' . $row, $third_stage_status)
-                ->setCellValue('U' . $row, $third_stage_sla)
-                ->setCellValue('V' . $row, $last_stage)
-                ->setCellValue('W' . $row, $last_stage_approver)
-                ->setCellValue('X' . $row, $last_stage_status)
-                ->setCellValue('Y' . $row, $last_stage_sla)
+                ->setCellValue('J' . $row, $excelData['stage_0'])
+                ->setCellValue('K' . $row, $excelData['approver_0'])
+                ->setCellValue('L' . $row, $excelData['status_0'])
+                ->setCellValue('M' . $row, $excelData['sla_0'])
+                ->setCellValue('N' . $row, $excelData['stage_1'])
+                ->setCellValue('O' . $row, $excelData['approver_1'])
+                ->setCellValue('P' . $row, $excelData['status_1'])
+                ->setCellValue('Q' . $row, $excelData['sla_1'])
+                ->setCellValue('R' . $row, $excelData['stage_2'])
+                ->setCellValue('S' . $row, $excelData['approver_2'])
+                ->setCellValue('T' . $row, $excelData['status_2'])
+                ->setCellValue('U' . $row, $excelData['sla_2'])
+                ->setCellValue('V' . $row, $excelData['stage_3'])
+                ->setCellValue('W' . $row, $excelData['approver_3'])
+                ->setCellValue('X' . $row, $excelData['status_3'])
+                ->setCellValue('Y' . $row, $excelData['sla_3'])
                 ->setCellValue('Z' . $row, $item->created_at)
                 ->setCellValue('AA' . $row, $item->updated_at);
             $row++;
@@ -431,6 +406,31 @@ class LeaveRequestController extends Controller
 
         // Return a download response for the exported file
         return response()->download(public_path('excel_exports/' . $filename))->deleteFileAfterSend(true);
+    }
+
+    private function getWorkflowApprovalDataExcel($item) {
+        $data = [];
+        $approvals = $item->workflowStageApprovals;
+        $statuses = ['Rejected', 'Approved', 'pending', 'Canceled'];
+        for ($i = 0; $i < 4; $i++) {
+            $approval = $approvals->skip($i)->first();
+            if ($approval && in_array($item->status, $statuses)) {
+                $approver = $approval->user ? $approval->user->fullname() : '';
+                $stage = $approval->workflowStage->approvedBy->name_en;
+                $status = $item->status == 'Canceled' ? 'Canceled' : $approval->status;
+                $sla = $approval->treated_at ? $approval->updated_at : '';
+            } else {
+                $approver = '';
+                $stage = '';
+                $status = '';
+                $sla = '';
+            }
+            $data["stage_$i"] = $stage;
+            $data["approver_$i"] = $approver;
+            $data["status_$i"] = $status;
+            $data["sla_$i"] = $sla;
+        }
+        return $data;
     }
 
     /**
