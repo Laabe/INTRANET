@@ -183,15 +183,16 @@ class LeaveRequestController extends Controller
                         } else {
                             $nextWorkflowApproval = WorkflowStageApproval::with('workflowStage')
                                 ->where('leave_request_id', $workflowStageApproval->leave_request_id)->whereNull('treated_at')->first();
-
+ 
                             if ($nextWorkflowApproval) {
                                 $nextApprovers = $this->getNextApprover($leaveRequest, $nextWorkflowApproval->workflowStage)->toArray();
-                                $emails = array_filter(array_map(function ($nextApprover) {
-                                    if (is_array($nextApprover) && isset($nextApprover['email'])) {
-                                        return $nextApprover['email'];
-                                    }
-                                }, $nextApprovers));
-                                Mail::to($emails[0])->cc($emails)->send(new LeaveRequestMail($leaveRequest));
+                                $emails = array_column(array_filter($nextApprovers, function ($nextApprover) {
+                                    return is_array($nextApprover) && isset($nextApprover['email']);
+                                }), 'email');
+
+                                $to = $emails[0];
+                                $cc = array_slice($emails, 1);
+                                Mail::to($to)->cc($cc)->send(new LeaveRequestMail($leaveRequest));
                             }
                         }
                     }
@@ -280,7 +281,7 @@ class LeaveRequestController extends Controller
             if ($leaveRequest->team) {
                 // Get the team of the user who request the leave
                 $concernedTeam = $leaveRequest->team;
-                $nextApprover = $concernedTeam->users->where('profile_id', $workflowStage->approver_profile_id)->first();
+                $nextApprover = $concernedTeam->users->where('profile_id', $workflowStage->approver_profile_id);
             } else {
                 $users = User::where('profile_id', $workflowStage->approver_profile_id)->get();
                 $nextApprover = $users;
@@ -351,11 +352,11 @@ class LeaveRequestController extends Controller
             'Z1' => 'Created_at',
             'AA1' => 'Treated_at'
         ];
-        
+
         foreach ($cellValues as $cell => $value) {
             $sheet->setCellValue($cell, $value);
         }
-        
+
         // Add data rows
         $row = 2;
         foreach ($data as $item) {
@@ -408,7 +409,8 @@ class LeaveRequestController extends Controller
         return response()->download(public_path('excel_exports/' . $filename))->deleteFileAfterSend(true);
     }
 
-    private function getWorkflowApprovalDataExcel($item) {
+    private function getWorkflowApprovalDataExcel($item)
+    {
         $data = [];
         $approvals = $item->workflowStageApprovals;
         $statuses = ['Rejected', 'Approved', 'pending', 'Canceled'];
