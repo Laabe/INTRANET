@@ -11,7 +11,11 @@ use App\Models\Scenario;
 use App\Models\User;
 use App\Models\WorkflowStage;
 use App\Models\WorkflowStageApproval;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class LeaveRequestController extends Controller
 {
@@ -136,7 +140,7 @@ class LeaveRequestController extends Controller
 
         // Create the leave request workflow stages
         $nextWorkflowStageApproval = $this->createLeaveRequestWorkflowStages($leaveRequest);
-        
+
         $nextApprover = $this->getNextApprover($leaveRequest, $nextWorkflowStageApproval->workflowStage);
 
         Mail::to($nextApprover->email)->send(new LeaveRequestMail($leaveRequest));
@@ -218,7 +222,7 @@ class LeaveRequestController extends Controller
             ]);
         }
 
-        Mail::to($leaveRequest->user->email)->send(new LeaveRequestMail($leaveRequest)); 
+        Mail::to($leaveRequest->user->email)->send(new LeaveRequestMail($leaveRequest));
 
         return to_route('leave-requests.index')->with('success', __('Leave request rejected successfully'));
     }
@@ -287,10 +291,152 @@ class LeaveRequestController extends Controller
 
     public function history()
     {
+        $leaveTypes = LeaveType::all();
+        $users = User::all('first_name', 'last_name', 'id');
         $leaveRequests = LeaveRequest::whereHas('workflowStageApprovals', function ($query) {
             $query->where('treated_by', auth()->user()->id);
         })->get();
-        return view('leave-requests.history', compact('leaveRequests'));
+        return view('leave-requests.history', compact('leaveRequests', 'leaveTypes', 'users'));
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $fromDate = $request->from_date;
+        $toDate = $request->to_date;
+        $leaveType = $request->leave_type;
+        $user = $request->user;
+
+        // Get data from the database for the selected date range
+        $query = LeaveRequest::with('user.profile', 'leaveType', 'team.project', 'workflowStageApprovals.workflowStage');
+
+        if ($leaveType) {
+            $query = $query->where('leave_type_id', $leaveType);
+        }
+
+        if ($user) {
+            $query = $query->where('user_id', $user);
+        }
+
+        if ($fromDate && $toDate) {
+            $query = $query->whereBetween('created_at', [$fromDate, $toDate]);
+        }
+
+        $data = $query->get();
+
+        // Create a new Excel workbook and sheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Add header row
+        $sheet->setCellValue('A1', 'Employee')
+            ->setCellValue('B1', 'Employee_id')
+            ->setCellValue('C1', 'Employee_profile')
+            ->setCellValue('D1', 'Team')
+            ->setCellValue('E1', 'Leave_type')
+            ->setCellValue('F1', 'Start_date')
+            ->setCellValue('G1', 'End_date')
+            ->setCellValue('H1', 'Number_of_days')
+            ->setCellValue('I1', 'Request_status')
+            ->setCellValue('J1', 'first_stage')
+            ->setCellValue('K1', 'first_stage_approver')
+            ->setCellValue('L1', 'first_stage_status')
+            ->setCellValue('M1', 'first_stage_sla')
+            ->setCellValue('N1', 'second_stage')
+            ->setCellValue('O1', 'second_stage_approver')
+            ->setCellValue('P1', 'second_stage_status')
+            ->setCellValue('Q1', 'second_stage_sla')
+            ->setCellValue('R1', 'third_stage')
+            ->setCellValue('S1', 'third_stage_approver')
+            ->setCellValue('T1', 'third_stage_status')
+            ->setCellValue('U1', 'third_stage_sla')
+            ->setCellValue('V1', 'fourth_stage')
+            ->setCellValue('W1', 'fourth_stage_approver')
+            ->setCellValue('X1', 'fourth_stage_status')
+            ->setCellValue('Y1', 'fourth_stage_sla')
+            ->setCellValue('Z1', 'Created_at')
+            ->setCellValue('AA1', 'Treated_at');
+
+        // Add data rows
+        $row = 2;
+        foreach ($data as $item) {
+
+            $first_stage_approver = 'pending';
+            if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 1) {
+                $first_stage_approver = $item->workflowStageApprovals->first()->user->fullname();
+                $first_stage = $item->workflowStageApprovals->first()->workflowStage->approvedBy->name_en;
+                $first_stage_status = $item->workflowStageApprovals->first()->status;
+                $first_stage_sla = $item->workflowStageApprovals->first()->updated_at;
+            }
+
+            $second_stage_approver = 'pending';
+            if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 2) {
+                $second_stage_approver = $item->workflowStageApprovals->skip(1)->first()->user->fullname();
+                $second_stage = $item->workflowStageApprovals->skip(1)->first()->workflowStage->approvedBy->name_en;
+                $second_stage_status = $item->workflowStageApprovals->skip(1)->first()->status;
+                $second_stage_sla = $item->workflowStageApprovals->skip(1)->first()->updated_at;
+            }
+
+            $third_stage_approver = 'pending';
+            if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 3) {
+                $third_stage_approver = $item->workflowStageApprovals->skip(2)->first()->user->fullname();
+                $third_stage = $item->workflowStageApprovals->skip(2)->first()->workflowStage->approvedBy->name_en;
+                $third_stage_status = $item->workflowStageApprovals->skip(2)->first()->status;
+                $third_stage_sla = $item->workflowStageApprovals->skip(2)->first()->updated_at;
+            }
+
+            $last_stage_approver = 'pending';
+            if ($item->status != 'pending' && $item->workflowStageApprovals->count() >= 4) {
+                $last_stage_approver = $item->workflowStageApprovals->skip(3)->first()->user->fullname();
+                $last_stage = $item->workflowStageApprovals->skip(3)->first()->workflowStage->approvedBy->name_en;
+                $last_stage_status = $item->workflowStageApprovals->skip(3)->first()->status;
+                $last_stage_sla = $item->workflowStageApprovals->skip(3)->first()->updated_at;
+            }
+
+            // dd($item->team->project->name);
+            $sheet->setCellValue('A' . $row, $item->user->fullname())
+                ->setCellValue('B' . $row, $item->user_id)
+                ->setCellValue('C' . $row, $item->user->profile->name_en)
+                ->setCellValue('D' . $row, $item->team->name . ' (' . $item->team->project->name . ')')
+                ->setCellValue('E' . $row, $item->leaveType->name_en)
+                ->setCellValue('F' . $row, $item->start_date)
+                ->setCellValue('G' . $row, $item->end_date)
+                ->setCellValue('H' . $row, $item->number_of_days)
+                ->setCellValue('I' . $row, $item->status)
+                ->setCellValue('J' . $row, $first_stage)
+                ->setCellValue('K' . $row, $first_stage_approver)
+                ->setCellValue('L' . $row, $first_stage_status)
+                ->setCellValue('M' . $row, $first_stage_sla)
+                ->setCellValue('N' . $row, $second_stage)
+                ->setCellValue('O' . $row, $second_stage_approver)
+                ->setCellValue('P' . $row, $second_stage_status)
+                ->setCellValue('Q' . $row, $second_stage_sla)
+                ->setCellValue('R' . $row, $third_stage)
+                ->setCellValue('S' . $row, $third_stage_approver)
+                ->setCellValue('T' . $row, $third_stage_status)
+                ->setCellValue('U' . $row, $third_stage_sla)
+                ->setCellValue('V' . $row, $last_stage)
+                ->setCellValue('W' . $row, $last_stage_approver)
+                ->setCellValue('X' . $row, $last_stage_status)
+                ->setCellValue('Y' . $row, $last_stage_sla)
+                ->setCellValue('Z' . $row, $item->created_at)
+                ->setCellValue('AA' . $row, $item->updated_at);
+            $row++;
+        }
+
+        // Format column width
+        foreach ($sheet->getColumnIterator() as $column) {
+            $sheet->getColumnDimension($column->getColumnIndex())->setAutoSize(true);
+         }
+
+        // Set the filename and file format for the export file
+        $filename = 'export_data_' . date('Ymd') . '.xlsx';
+
+        // Save the file to a temporary directory on the server
+        $writer = new Xlsx($spreadsheet);
+        $writer->save(public_path('excel_exports/' . $filename));
+
+        // Return a download response for the exported file
+        return response()->download(public_path('excel_exports/' . $filename))->deleteFileAfterSend(true);
     }
 
     /**

@@ -53,4 +53,12 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    /**
+     * Get the project that owns the LeaveRequest
+     */
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

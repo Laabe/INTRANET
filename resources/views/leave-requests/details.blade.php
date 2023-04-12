@@ -75,7 +75,8 @@
                                     <td>{{ $workflowStageApproval->status }}</td>
                                     <td>{{ $workflowStageApproval->user ? $workflowStageApproval->user->fullname() : 'NULL' }}
                                     </td>
-                                    <td>{{ date('d/m/Y H:i:s', strtotime($workflowStageApproval->treated_at)) }}</td>
+                                    <td>{{ date('d/m/Y H:i:s', strtotime($workflowStageApproval->updated_at)) }}</td>
+                                    <td>{{ $workflowStageApproval->created_at->diff($workflowStageApproval->updated_at)->format('%H:%I:%S') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -87,6 +87,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware(['role_or_permission:Leave Request Management|Admin'])->group(function () {
+        Route::post('leave-requests/export', [LeaveRequestController::class, 'exportExcel'])->name('leave-requests.export');
         Route::get('leave-requests/history', [LeaveRequestController::class, 'history'])->name('leave-requests.history');
         Route::put('leave-requests/{id}/approve', [LeaveRequestController::class, 'approveLeaveRequest'])->name('leave-requests.approve');
         Route::put('leave-requests/{id}/reject', [LeaveRequestController::class, 'rejectLeaveRequest'])->name('leave-requests.reject');

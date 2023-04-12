@@ -7,6 +7,7 @@
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
                     <h3 class="card-title">{{ __('History of leave requests') }}</h3>
+                    <a class="btn btn-primary" data-bs-target="#export" data-bs-toggle="modal" href="javascript:void(0)">{{ __('Export') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -32,8 +33,8 @@
                                         <td>{{ $leaveRequest->user->fullname() }}</td>
                                         <td>{{ $leaveRequest->leaveType->name_en }}</td>
                                         <td>{{ $leaveRequest->number_of_days }}</td>
-                                        <td>{{ $leaveRequest->start_date }}</td>
-                                        <td>{{ $leaveRequest->end_date }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($leaveRequest->start_date)) }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($leaveRequest->end_date)) }}</td>
                                         <td>{{ $leaveRequest->team->name }}</td>
                                         <td class="text-center">
                                             @if ($leaveRequest->status == 'Approved')
@@ -47,7 +48,7 @@
                                                     class="badge rounded-pill bg-danger">{{ $leaveRequest->status }}</span>
                                             @endif
                                         </td>
-                                        <td>{{ date('d/m/Y H:i:s', strtotime($leaveRequest->workflowStageApprovals->where('treated_by', auth()->user()->id)->first()->treated_at)) }}
+                                        <td>{{ date('d/m/Y H:i:s', strtotime($leaveRequest->workflowStageApprovals->where('treated_by', auth()->user()->id)->first()->updated_at)) }}
                                         </td>
                                         <td>
                                             <a class="btn btn-info"
@@ -64,6 +65,7 @@
             </div>
         </div>
     </div>
+    @include('leave-requests.export-menu')
 @endsection
 
 @section('scripts')
