@@ -86,6 +86,11 @@ Route::middleware('auth')->group(function () {
         });
     });
 
+    Route::middleware(['role_or_permission:WFM'])->group(function () {
+        Route::get('leave-requests/consulte-requests', [LeaveRequestController::class, 'consulteRequests'])->name('leave-requests.consulte');
+        Route::put('leave-requests/consulte-requests/{id}', [LeaveRequestController::class, 'updatedConsultationStatus'])->name('leave-requests.update-consulte');
+    });
+
     Route::middleware(['role_or_permission:Leave Request Management|Admin'])->group(function () {
         Route::post('leave-requests/export', [LeaveRequestController::class, 'exportExcel'])->name('leave-requests.export');
         Route::get('leave-requests/history', [LeaveRequestController::class, 'history'])->name('leave-requests.history');

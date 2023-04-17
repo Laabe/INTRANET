@@ -32,11 +32,11 @@
                         <div class="table-responsive">
                             <table
                                 class="table table-bordered key-buttons border-bottom w-100 dataTable no-footer dtr-inline"
-                                id="basic-datatable">
+                                id="responsive-datatable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('NAME') }}</th>
                                         <th>{{ __('EMPLOYEE ID') }}</th>
+                                        <th>{{ __('NAME') }}</th>
                                         <th>{{ __('PROFILE') }}</th>
                                         <th>{{ __('PAID LEAVES BALANCE') }}</th>
                                         <th>{{ __('HOLIDAYS BALANCE') }}</th>
@@ -48,6 +48,7 @@
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr>
+                                            <td>{{ $user->id }}</td>
                                             <td>
                                                 <div class="d-flex align-items-end">
                                                     <span class="data-image avatar avatar-lg"
@@ -58,7 +59,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $user->id }}</td>
                                             <td>{{ $user->profile->name_en ?? 'N/A' }}</td>
                                             <td>{{ $user->paid_leaves_balance }}</td>
                                             <td>{{ $user->holidays_balance }}</td>

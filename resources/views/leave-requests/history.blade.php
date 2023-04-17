@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered text-nowrap border-bottom" id="basic-datatable">
+                        <table class="table table-bordered text-nowrap border-bottom w-100 dataTable no-footer dtr-inline" id="responsive-datatable">
                             <thead>
                                 <tr>
                                     <th>{{ 'ID' }}</th>
@@ -22,7 +22,7 @@
                                     <th>{{ 'END DATE' }}</th>
                                     <th>{{ 'TEAM' }}</th>
                                     <th>{{ 'STATUS' }}</th>
-                                    <th>{{ __('Action') }}</th>
+                                    <th>{{ __('ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

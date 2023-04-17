@@ -121,6 +121,13 @@
                                 </a>
                             </li>
                         @endif
+                        @role('WFM')
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('leave-requests.consulte') ? 'active' : '' }}"
+                                    href="{{ route('leave-requests.consulte') }}">{{ __('Leave requests WFM') }}
+                                </a>
+                            </li>
+                        @endrole
                     </ul>
                 </li>
 

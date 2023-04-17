@@ -457,4 +457,19 @@ class LeaveRequestController extends Controller
 
         return to_route('leave-requests.my-leave-requests')->with('success', __('Leave Request Canceled'));
     }
+
+    public function consulteRequests()
+    {
+        $leaveRequests = LeaveRequest::with('user.profile', 'team', 'leaveType')
+        ->whereIn('status', ['Rejected', 'Canceled'])->orderBy('id', 'DESC')->limit(100)->get();
+        return view('leave-requests.consulte', compact('leaveRequests'));
+    }
+
+    public function updatedConsultationStatus($id)
+    {
+        $leaveRequest = LeaveRequest::where('id', $id)->first();
+        $leaveRequest->update(['consulted' => true]);
+
+        return back()->with('success', __('The leave request is consulted successfully'));
+    }
 }

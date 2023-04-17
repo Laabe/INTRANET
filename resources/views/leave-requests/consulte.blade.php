@@ -6,29 +6,35 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('My leave requests') }}</h3>
-                    <a href="{{ route('leave-requests.create') }}" class="btn btn-primary">{{ __('Request a leave') }}</a>
+                    <h3 class="card-title">{{ __('List of leave requests') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered text-nowrap border-bottom w-100 dataTable no-footer dtr-inline" id="responsive-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('LEAVE TYPE') }}</th>
-                                    <th>{{ __('REQUESTED DAYS') }}</th>
-                                    <th>{{ __('START DATE') }}</th>
-                                    <th>{{ __('END DATE') }}</th>
-                                    <th>{{ __('STATUS') }}</th>
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ 'ID' }}</th>
+                                    <th>{{ 'EMPLOYEE' }}</th>
+                                    <th>{{ 'LEAVE TYPE' }}</th>
+                                    <th>{{ 'REQUESTED DAYS' }}</th>
+                                    <th>{{ 'START DATE' }}</th>
+                                    <th>{{ 'END DATE' }}</th>
+                                    <th>{{ 'TEAM' }}</th>
+                                    <th>{{ 'LEAVE REQUEST STATUS' }}</th>
+                                    <th>{{ 'WFM CONSULTATION STATUS' }}</th>
+                                    <th>{{ 'ACTION' }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($leaveRequests as $leaveRequest)
-                                    <tr>
+                                    <tr class="{{ $leaveRequest->consulted ? 'bg-success' : 'bg-warning'}}">
+                                        <td>{{ $leaveRequest->id }}</td>
+                                        <td>{{ $leaveRequest->user->fullname() }}</td>
                                         <td>{{ $leaveRequest->leaveType->name_en }}</td>
                                         <td>{{ $leaveRequest->number_of_days }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($leaveRequest->start_date)) }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($leaveRequest->end_date)) }}</td>
+                                        <td>{{ $leaveRequest->start_date }}</td>
+                                        <td>{{ $leaveRequest->end_date }}</td>
+                                        <td>{{ $leaveRequest->team->name }}</td>
                                         <td class="text-center">
                                             @if ($leaveRequest->status == 'pending')
                                                 <span
@@ -42,15 +48,21 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($leaveRequest->status == 'pending' || ($leaveRequest->status == 'Approved' && $leaveRequest->start_date <= now()))
-                                                <form action="{{ route('leave-requests.destroy', $leaveRequest) }}"
+                                            @if ($leaveRequest->consulted)
+                                                <span class="badge rounded-pill bg-success">{{ __('Consulted') }}</span>
+                                            @else
+                                                <span
+                                                    class="badge rounded-pill bg-warning">{{ __('Not consulted') }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if (!$leaveRequest->consulted)
+                                                <form action="{{ route('leave-requests.update-consulte', $leaveRequest->id) }}"
                                                     method="post" class="d-inline-block">
-                                                    @csrf @method('delete')
-                                                    <button class="btn btn-danger">{{ __('Cancel') }}</button>
+                                                    @csrf @method('put')
+                                                    <button class="btn btn-primary">{{ __('Consulte') }}</button>
                                                 </form>
                                             @endif
-                                            <a class="btn btn-info" data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}" data-bs-toggle="modal" href="javascript:void(0)">Details</a>
-                                            @include('leave-requests.details')
                                         </td>
                                     </tr>
                                 @endforeach
@@ -82,15 +94,6 @@
                 text: "{{ session('success') }}",
                 type: "success",
                 icon: "success"
-            })
-        @endif
-
-        @if (session('error'))
-            swal({
-                title: "OOPS!!!",
-                text: "{{ session('error') }}",
-                type: "error",
-                icon: "error"
             })
         @endif
     </script>

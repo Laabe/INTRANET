@@ -11,6 +11,7 @@
                 </div>
 
                 <div class="modal-body">
+                    
                     <div class="form-group">
                         <label for="users_id[]" class="form-label">{{ __('Select employees') }}</label>
                         <select name="users_id[]"
@@ -18,7 +19,7 @@
                             data-placeholder="{{ __('Select users') }}" name="users_id[]" id="users_id[]" multiple>
                             <option value="">{{ __('Select users') }}</option>
                             @foreach ($users as $user)
-                                @if ($user->id == $team->team_leader_id)
+                                @if ($user->id == $team->team_leader_id || in_array($user->id, $team->users->pluck('id')->toArray()))
                                     @continue
                                 @endif
                                 <option value="{{ $user->id }}">

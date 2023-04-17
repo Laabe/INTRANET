@@ -20,8 +20,6 @@
                                         <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm"><i
                                                 class="fa fa-edit"></i>
                                             {{ __('Edit') }}</a>
-                                        <a href="{{ route('users.destroy', $user) }}" class="btn btn-danger btn-sm"><i
-                                                class="fa fa-trash"></i>{{ __('Delete') }}</a>
                                     </div>
                                 </div>
                             </div>

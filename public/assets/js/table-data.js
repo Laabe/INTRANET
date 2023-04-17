@@ -7,6 +7,7 @@ $(function (e) {
             searchPlaceholder: "Search...",
             sSearch: "",
             sUrl: "",
+            order: [[0, "desc"]],
         },
         // processing: true,
         // serverSide: true,
@@ -37,6 +38,7 @@ $(function (e) {
             searchPlaceholder: "Search...",
             sSearch: "",
         },
+        order: [[0, "desc"]],
     });
 
     // File-Export Data Table
