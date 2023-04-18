@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role_or_permission:HR|Admin'])->group(function () {
         // Users Routes
+        Route::post('users/inject-holidays/store', [UserController::class, 'injectHolidays'])->name('users.inject-holidays-balance');
+        Route::get('users/inject-holidays', [UserController::class, 'holidaysInjectionPage'])->name('users.inject-holidays');
         Route::get('users/deleted', [userController::class, 'deleted'])->name('users.deleted');
         Route::post('users/{id}/restore', [userController::class, 'restore'])->name('users.restore');
         Route::delete('users/{id}/force-delete', [userController::class, 'forceDelete'])->name('users.force-delete');

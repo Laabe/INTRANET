@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Mail\HolidayInjectionMail;
 use App\Models\Department;
 use App\Models\Gender;
 use App\Models\IdentityDocument;
@@ -17,7 +18,9 @@ use App\Models\SourcingType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\ImageManagerStatic;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -234,5 +237,39 @@ class UserController extends Controller
         $user->assignRole($role);
 
         return back()->with('success', 'Role assigned successfully');
+    }
+
+    public function holidaysInjectionPage()
+    {
+        return view('users.inject-holidays');
+    }
+
+    public function injectHolidays(Request $request)
+    {
+        // Get the uploaded file
+        $file = $request->file('excel-file');
+        // Use PHPSpreadsheet to read the file and convert it into a PHP array
+        $spreadsheet = IOFactory::load($file);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $rows = $worksheet->toArray();
+
+        $users = [];
+        // Loop through the array and update the database
+        foreach ($rows as $row) {
+            try {
+                $user = User::where('id', $row[0])->first();
+                $user->update([
+                    'holidays_balance' => $user->holidays_balance + 1
+                ]);
+                array_push($users, $user->email);
+            } catch () {
+                continue;
+            }
+        }
+
+        Mail::to($users)->send(new HolidayInjectionMail());
+
+        // Redirect to a success page
+        return to_route('home')->with('success', __('The injection is successfull'));
     }
 }

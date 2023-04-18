@@ -152,6 +152,12 @@ Breadcrumbs::for('users.deleted', function ($trail) {
     $trail->push('Deleted employees', route('users.deleted'));
 });
 
+// Home > Users > Inject Balance
+Breadcrumbs::for('users.inject-holidays', function ($trail) {
+    $trail->parent('users.index');
+    $trail->push('Inject Holiday Balance', route('users.inject-holidays'));
+});
+
 // Home > Leave types
 Breadcrumbs::for('leave-types.index', function ($trail) {
     $trail->parent('home');

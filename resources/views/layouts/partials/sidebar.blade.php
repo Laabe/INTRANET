@@ -62,13 +62,27 @@
                 {{-- Employees --}}
                 @if (auth()->user()->can('Employee Management') ||
                         auth()->user()->getRoleNames()->contains('Admin', 'HR'))
-                    <li class="slide">
-                        <a class="side-menu__item has-link {{ Request::routeIs('users.*') ? 'active' : '' }}"
-                            data-bs-toggle="slide" href="{{ route('users.index') }}">
-                            <i class="side-menu__icon icon icon-people"></i>
-                            <span class="side-menu__label">{{ __('Employees') }}</span>
-                        </a>
-                    </li>
+                    <li
+                    class="slide {{ request()->routeIs('users.*') ? ' is-expanded' : '' }}">
+                    <a class="side-menu__item {{ request()->routeIs('users.*') ? ' is-expanded active' : '' }}"
+                        data-bs-toggle="slide" href="#">
+                        <i class="side-menu__icon icon icon-people"></i>
+                        <span class="side-menu__label">{{ __('Employee Management') }}</span><i
+                            class="angle fa fa-angle-right"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li class="side-menu-label1">
+                            <a href="javascript:void(0)">{{ __('>Employee Management') }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('users.index') }}"
+                                class="slide-item {{ Request::routeIs('users.index') ? 'active' : '' }}">{{ __('Employees') }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('users.inject-holidays') }}"
+                                class="slide-item {{ Request::routeIs('users.inject-holidays') ? 'active' : '' }}">{{ __('Holidays Injection') }}</a>
+                        </li>
+                    </ul
                 @endif
 
                 {{-- Team Management --}}
