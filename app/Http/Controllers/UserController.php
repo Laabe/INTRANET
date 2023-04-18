@@ -262,7 +262,7 @@ class UserController extends Controller
                     'holidays_balance' => $user->holidays_balance + 1
                 ]);
                 array_push($users, $user->email);
-            } catch () {
+            } catch (\Throwable $th) {
                 continue;
             }
         }
