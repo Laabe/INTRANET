@@ -37,6 +37,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('leave-requests/balance-tracker', [LeaveRequestController::class, 'balanceTracker'])->name('leave-requests.balance-tracker');
     Route::get('leave-requests/my-leave-requests', [LeaveRequestController::class, 'myLeaveRequests'])->name('leave-requests.my-leave-requests');
     Route::resource('leave-requests', LeaveRequestController::class)->only('create', 'store', 'destroy');
 

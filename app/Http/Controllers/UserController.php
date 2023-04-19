@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Mail\HolidayInjectionMail;
+use App\Models\BalanceRecord;
 use App\Models\Department;
 use App\Models\Gender;
 use App\Models\IdentityDocument;
@@ -261,9 +262,16 @@ class UserController extends Controller
                 $user->update([
                     'holidays_balance' => $user->holidays_balance + 1
                 ]);
+                BalanceRecord::create([
+                    'user_id' => auth()->user()->id,
+                    'comment' => 'Holiday injection',
+                    'paid_leaves_balance' => $user->paid_leaves_balance,
+                    'holidays_balance' => $user->holidays_balance,
+                    'added_holidays' => 1
+                ]);
                 array_push($users, $user->email);
             } catch (\Throwable $th) {
-                continue;
+                echo $th;
             }
         }
 

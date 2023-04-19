@@ -230,6 +230,11 @@ Breadcrumbs::for('leave-requests.create', function ($trail) {
     $trail->push(__('Submit leave-requests'), route('leave-requests.create'));
 });
 
+// Home > leave-requests > Create scenario
+Breadcrumbs::for('leave-requests.balance-tracker', function ($trail) {
+    $trail->parent('leave-requests.index');
+    $trail->push(__('Balance Tracker'), route('leave-requests.balance-tracker'));
+});
 
 // Dashboard > roles
 Breadcrumbs::for('roles.index', function ($trail) {

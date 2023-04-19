@@ -123,6 +123,11 @@
                                 href="{{ route('leave-requests.my-leave-requests') }}">{{ __('My leave requests') }}
                             </a>
                         </li>
+                        <li>
+                            <a class="slide-item {{ Request::routeIs('leave-requests.balance-tracker') ? 'active' : '' }}"
+                                href="{{ route('leave-requests.balance-tracker') }}">{{ __('Balance tracker') }}
+                            </a>
+                        </li>
                         @if (auth()->user()->can('Leave Request Management'))
                             <li>
                                 <a class="slide-item {{ Request::routeIs('leave-requests.index') ? 'active' : '' }}"

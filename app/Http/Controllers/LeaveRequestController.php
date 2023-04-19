@@ -6,12 +6,14 @@ use App\Models\LeaveRequest;
 use App\Http\Requests\StoreLeaveRequestRequest;
 use App\Http\Requests\UpdateLeaveRequestRequest;
 use App\Mail\LeaveRequestMail;
+use App\Models\BalanceRecord;
 use App\Models\LeaveType;
 use App\Models\Scenario;
 use App\Models\User;
 use App\Models\WorkflowStage;
 use App\Models\WorkflowStageApproval;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -135,6 +137,15 @@ class LeaveRequestController extends Controller
                     'deducted_paid_leaves_amount' => $deductionAmount
                 ]);
             }
+
+            BalanceRecord::create([
+                'user_id' => $authenticatedUser->id,
+                'comment' => 'Leave request consumtion',
+                'deducted_paid_leaves' => $leaveRequest->deducted_paid_leaves_amount,
+                'paid_leaves_balance' => $authenticatedUser->paid_leaves_balance,
+                'deducted_holidays' => $leaveRequest->deducted_holidays_amount,
+                'holidays_balance' => $authenticatedUser->holidays_balance,
+            ]);
         }
 
 
@@ -183,7 +194,7 @@ class LeaveRequestController extends Controller
                         } else {
                             $nextWorkflowApproval = WorkflowStageApproval::with('workflowStage')
                                 ->where('leave_request_id', $workflowStageApproval->leave_request_id)->whereNull('treated_at')->first();
- 
+
                             if ($nextWorkflowApproval) {
                                 $nextApprovers = $this->getNextApprover($leaveRequest, $nextWorkflowApproval->workflowStage)->toArray();
                                 $emails = array_column(array_filter($nextApprovers, function ($nextApprover) {
@@ -222,6 +233,15 @@ class LeaveRequestController extends Controller
                 'holidays_balance' => $leaveRequest->user->holidays_balance + $leaveRequest->deducted_holidays_amount,
             ]);
         }
+
+        BalanceRecord::create([
+            'user_id' => auth()->user()->id,
+            'comment' => 'Leave request rejection',
+            'added_paid_leaves' => $leaveRequest->deducted_paid_leaves_amount,
+            'paid_leaves_balance' => $leaveRequest->user->paid_leaves_balance,
+            'added_holidays' => $leaveRequest->deducted_holidays_amount,
+            'holidays_balance' => $leaveRequest->user->holidays_balance,
+        ]);
 
         Mail::to($leaveRequest->user->email)->send(new LeaveRequestMail($leaveRequest));
 
@@ -280,8 +300,12 @@ class LeaveRequestController extends Controller
         } else {
             if ($leaveRequest->team) {
                 // Get the team of the user who request the leave
-                $concernedTeam = $leaveRequest->team;
-                $nextApprover = $concernedTeam->users->where('profile_id', $workflowStage->approver_profile_id);
+                try {
+                    $concernedTeam = $leaveRequest->team;
+                    $nextApprover = $concernedTeam->users->where('profile_id', $workflowStage->approver_profile_id);
+                } catch (\Throwable $th) {
+                    echo $th;
+                }
             } else {
                 $users = User::where('profile_id', $workflowStage->approver_profile_id)->get();
                 $nextApprover = $users;
@@ -455,13 +479,22 @@ class LeaveRequestController extends Controller
             'status' => 'Canceled',
         ]);
 
+        BalanceRecord::create([
+            'user_id' => auth()->user()->id,
+            'comment' => 'Leave request cancelation',
+            'added_paid_leaves' => $leaveRequest->deducted_paid_leaves_amount,
+            'paid_leaves_balance' => $leaveRequest->user->paid_leaves_balance,
+            'added_holidays' => $leaveRequest->deducted_holidays_amount,
+            'holidays_balance' => $leaveRequest->user->holidays_balance,
+        ]);
+
         return to_route('leave-requests.my-leave-requests')->with('success', __('Leave Request Canceled'));
     }
 
     public function consulteRequests()
     {
         $leaveRequests = LeaveRequest::with('user.profile', 'team', 'leaveType')
-        ->whereIn('status', ['Rejected', 'Canceled'])->orderBy('id', 'DESC')->limit(100)->get();
+            ->whereIn('status', ['Rejected', 'Canceled'])->orderBy('id', 'DESC')->limit(100)->get();
         return view('leave-requests.consulte', compact('leaveRequests'));
     }
 
@@ -471,5 +504,11 @@ class LeaveRequestController extends Controller
         $leaveRequest->update(['consulted' => true]);
 
         return back()->with('success', __('The leave request is consulted successfully'));
+    }
+
+    public function balanceTracker()
+    {
+        $records = BalanceRecord::with('user')->get();
+        return view('leave-requests.balance-tracker', compact('records'));
     }
 }
