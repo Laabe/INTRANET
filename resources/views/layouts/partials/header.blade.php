@@ -66,7 +66,7 @@
                                 <a href="#" data-bs-toggle="dropdown"
                                     class="nav-link pe-2 leading-none d-flex animate">
                                     <span>
-                                        <img src="{{ auth()->user()->image() }}"
+                                        <img src="{{ asset(auth()->user()->image()) }}"
                                             alt="profile-user" class="avatar  profile-user brround cover-image">
                                     </span>
                                     <div class="text-center p-1 d-flex d-lg-none-max">

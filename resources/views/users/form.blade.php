@@ -2,29 +2,29 @@
 
 <div class="row mb-4">
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="first_name" class="form-label">{{ __('First name') }}</label>
+        <label for="first_name" class="form-label">{{ __('First name') }}(<span class="text-danger">*</span>)</label>
         <input type="text" class="form-control @error('first_name') is-invalid @enderror" id="first_name"
             name="first_name" value="{{ old('first_name') ?? $user->first_name }}"
             placeholder="{{ __('Enter user first name') }}">
 
         @error('first_name')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="last_name" class="form-label">{{ __('Last name') }}</label>
+        <label for="last_name" class="form-label">{{ __('Last name') }}(<span class="text-danger">*</span>)</label>
         <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name"
             name="last_name" value="{{ old('last_name') ?? $user->last_name }}"
             placeholder="{{ __('Enter user last name') }}">
 
         @error('last_name')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="gender_id" class="form-label">{{ __('Gender') }}</label>
+        <label for="gender_id" class="form-label">{{ __('Gender') }}(<span class="text-danger">*</span>)</label>
         <select name="gender_id" id="gender_id"
             class="form-control select2 form-select select2-hidden-accessible @error('gender_id') is-invalid @enderror"
             data-placeholder="Select a gender">
@@ -37,7 +37,7 @@
         </select>
 
         @error('gender_id')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
@@ -55,7 +55,7 @@
         </div>
 
         @error('date_of_birth')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
@@ -63,7 +63,8 @@
         <label for="marital_status_id" class="form-label">{{ __('Marital Status') }}</label>
         <select name="marital_status_id" id="marital_status_id"
             class="form-control select2 form-select select2-hidden-accessible @error('marital_status_id') is-invalid @enderror"
-            data-bs-placeholder="Choose one">
+            data-placeholder="{{ __('Choose one') }}">
+            <option value="">{{ __('Choose one') }}</option>
             @foreach ($maritalStatuses as $status)
                 <option value="{{ $status->id }}"
                     {{ old('marital_status_id') == $status->id || $user->marital_status_id == $status->id ? 'selected' : '' }}>
@@ -72,7 +73,7 @@
         </select>
 
         @error('marital_status_id')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
@@ -83,7 +84,7 @@
             placeholder="{{ __('Enter number of  kids') }}">
 
         @error('number_of_kids')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
@@ -101,7 +102,7 @@
         </select>
 
         @error('language_id')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
@@ -119,12 +120,13 @@
         </select>
 
         @error('language_level_id')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="identity_document" class="form-label">{{ __('Identity Document') }}</label>
+        <label for="identity_document" class="form-label">{{ __('Identity Document') }}(<span
+            class="text-danger">*</span>)</label>
         <select name="identity_document_id" id="identity_document_id"
             class="form-control select2 form-select select2-hidden-accessible @error('identity_document_id') is-invalid @enderror"
             data-placeholder="Select a document">
@@ -138,12 +140,13 @@
         </select>
 
         @error('identity_document_id')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="integration_date" class="form-label">{{ __('Integration Date') }}</label>
+        <label for="integration_date" class="form-label">{{ __('Integration Date') }}(<span
+            class="text-danger">*</span>)</label>
         <div class="input-group">
             <div id="datePickerStyle1" class="input-group date" data-date-format="yyyy-mm-dd">
                 <span class="input-group-addon input-group-text bg-primary-transparent">
@@ -156,24 +159,27 @@
         </div>
 
         @error('integration_date')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="identity_document_number" class="form-label">{{ __('Document Number') }}</label>
+        <label for="identity_document_number" class="form-label">{{ __('Document Number') }}(<span
+            class="text-danger">*</span>)</label>
         <input type="text" name="identity_document_number"
-            value="{{ old('identity_document_number') ?? $user->identity_document_number }}" id="identity_document_number"
+            value="{{ old('identity_document_number') ?? $user->identity_document_number }}"
+            id="identity_document_number"
             class="form-control @error('identity_document_number') is-invalid @enderror"
             placeholder="{{ __('Enter Document Number') }}">
 
         @error('identity_document_number')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="social_security_number" class="form-label">{{ __('Social Security Number') }}</label>
+        <label for="social_security_number" class="form-label">{{ __('Social Security Number') }}(<span
+            class="text-danger">*</span>)</label>
         <input type="text" name="social_security_number"
             value="{{ old('social_security_number') ?? $user->social_security_number }}" id="social_security_number"
             class="form-control @error('social_security_number') is-invalid @enderror"
@@ -191,7 +197,7 @@
         <input type="file" name="image" id="image" class="dropify @error('image') is-invalid @enderror">
 
         @error('image')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
@@ -207,17 +213,18 @@
             class="form-control @error('phone') is-invalid @enderror" placeholder="{{ __('Enter phone number') }}">
 
         @error('phone')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="email" class="form-label">{{ __('Email') }}</label>
+        <label for="email" class="form-label">{{ __('Email') }}(<span
+            class="text-danger">*</span>)</label>
         <input type="email" name="email" id="email" value="{{ old('email') ?? $user->email }}"
             class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Enter email address') }}">
 
         @error('email')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
@@ -227,7 +234,7 @@
             class="form-control @error('address') is-invalid @enderror" placeholder="{{ __('Write Here...') }}">{{ old('address') ?? $user->address }}</textarea>
 
         @error('address')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 </div>
@@ -249,7 +256,7 @@
         </select>
 
         @error('sourcing_type_id')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
@@ -267,7 +274,7 @@
         </select>
 
         @error('recrutment_platforme_id')
-                <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
 
