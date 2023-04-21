@@ -3,8 +3,8 @@
     <div class="app-sidebar open ps ps--active-y">
         <div class="side-header">
             <a class="header-brand1" href="{{ route('home') }}">
-                <img src="{{ asset('assets/logo/logo-dark.svg') }}" class="header-brand-img desktop-logo" alt="logo">
-                <img src="{{ asset('assets/logo/logo-dark.svg') }}" class="header-brand-img toggle-logo" alt="logo">
+                <img src="{{ asset('assets/logo/logo.svg') }}" class="header-brand-img desktop-logo" alt="logo">
+                <img src="{{ asset('assets/logo/logo.svg') }}" class="header-brand-img toggle-logo" alt="logo">
                 <img src="{{ asset('assets/logo/logo-dark.svg') }}" class="header-brand-img light-logo" alt="logo">
                 <img src="{{ asset('assets/logo/logo-dark.svg') }}" class="header-brand-img light-logo1" alt="logo">
             </a><!-- LOGO -->
