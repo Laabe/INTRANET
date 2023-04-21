@@ -288,4 +288,29 @@ class UserController extends Controller
         // Redirect to a success page
         return to_route('home')->with('success', __('The injection is successfull'));
     }
+
+    public function importEmployees()
+    {
+        return view('users.import-employees');
+    }
+
+    public function importEmployeesStore(Request $request)
+    {
+      // Get the uploaded file
+      $file = $request->file('excel-file');
+
+      // Use PHPSpreadsheet to read the file and convert it into a PHP array
+      $spreadsheet = IOFactory::load($file);
+      $worksheet = $spreadsheet->getActiveSheet();
+      $rows = $worksheet->toArray();
+      dd(array_shift($rows));
+
+      // Loop through the array and update the database
+      foreach ($rows as $row) {
+          User::create($row);
+      }
+
+      // Redirect to a success page
+      return to_route('home')->with('success', __('The import of employees was successfull'));  
+    }
 }

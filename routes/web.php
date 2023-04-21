@@ -43,6 +43,8 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role_or_permission:HR|Admin'])->group(function () {
         // Users Routes
+        Route::post('users/import/store', [UserController::class, 'importEmployeesStore'])->name('users.import-employees-store');
+        Route::get('users/import', [UserController::class, 'importEmployees'])->name('users.import-employees');
         Route::post('users/inject-holidays/store', [UserController::class, 'injectHolidays'])->name('users.inject-holidays-balance');
         Route::get('users/inject-holidays', [UserController::class, 'holidaysInjectionPage'])->name('users.inject-holidays');
         Route::get('users/deleted', [userController::class, 'deleted'])->name('users.deleted');

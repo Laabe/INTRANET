@@ -82,6 +82,10 @@
                             <a href="{{ route('users.inject-holidays') }}"
                                 class="slide-item {{ Request::routeIs('users.inject-holidays') ? 'active' : '' }}">{{ __('Holidays Injection') }}</a>
                         </li>
+                        <li>
+                            <a href="{{ route('users.import-employees') }}"
+                                class="slide-item {{ Request::routeIs('users.import-employees') ? 'active' : '' }}">{{ __('Import Employees') }}</a>
+                        </li>
                     </ul
                 @endif
 

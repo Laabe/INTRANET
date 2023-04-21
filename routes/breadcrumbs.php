@@ -158,6 +158,12 @@ Breadcrumbs::for('users.inject-holidays', function ($trail) {
     $trail->push('Inject Holiday Balance', route('users.inject-holidays'));
 });
 
+// Home > Users > Inject Balance
+Breadcrumbs::for('users.import-employees', function ($trail) {
+    $trail->parent('users.index');
+    $trail->push('Import Employees', route('users.import-employees'));
+});
+
 // Home > Leave types
 Breadcrumbs::for('leave-types.index', function ($trail) {
     $trail->parent('home');
