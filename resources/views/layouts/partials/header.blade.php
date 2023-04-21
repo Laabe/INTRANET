@@ -1,14 +1,17 @@
-<div class="app-header header sticky" style="margin-bottom: -74px;">
+<div class="app-header header sticky res-scroll fixed-header visible-title" style="margin-bottom: -74px;">
     <div class="container-fluid main-container">
         <div class="d-flex">
             <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="#"></a>
             <!-- sidebar-toggle-->
             <a class="logo-horizontal " href="{{ route('home') }}">
-                <img src="{{ asset('assets/logo/logo.svg') }}" class="header-brand-img desktop-logo" alt="logo">
-                <img src="{{ asset('assets/logo/logo.svg') }}" class="header-brand-img light-logo1" alt="logo">
+                <img src="{{ asset('assets/logo/logo.svg') }}"
+                    class="header-brand-img desktop-logo" alt="logo">
+                <img src="{{ asset('assets/logo/logo-dark.svg') }}"
+                    class="header-brand-img light-logo1" alt="logo">
             </a>
             <!-- LOGO -->
             <div class="d-flex order-lg-2 ms-auto header-right-icons">
+                <!-- SEARCH -->
                 <button class="navbar-toggler navresponsive-toggler d-md-none ms-auto" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent-4"
                     aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +28,7 @@
                                         src="https://laravel8.spruko.com/noa/assets/images/flags/us_flag.jpg">
                                 </a>
                             </div>
-                            <!-- SEARCH -->
+                            <!-- Theme-Layout -->
                             <div class="dropdown  d-flex">
                                 <a class="nav-link icon theme-layout nav-link-bg layout-setting">
                                     <span class="dark-layout">
@@ -46,7 +49,8 @@
                                     </span>
                                 </a>
                             </div>
-                            <!-- Theme-Layout -->
+                            
+                            <!-- FULL-SCREEN -->
                             <div class="dropdown d-md-flex">
                                 <a class="nav-link icon full-screen-link nav-link-bg">
                                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
@@ -57,13 +61,13 @@
                                     </svg>
                                 </a>
                             </div>
-                            <!-- FULL-SCREEN -->
+
                             <div class="dropdown d-md-flex profile-1">
                                 <a href="#" data-bs-toggle="dropdown"
                                     class="nav-link pe-2 leading-none d-flex animate">
                                     <span>
-                                        <img src="{{ asset(auth()->user()->image()) }}" alt="profile-user"
-                                            class="avatar  profile-user cover-image">
+                                        <img src="{{ auth()->user()->image() }}"
+                                            alt="profile-user" class="avatar  profile-user brround cover-image">
                                     </span>
                                     <div class="text-center p-1 d-flex d-lg-none-max">
                                         <h6 class="mb-0" id="profile-heading">{{ auth()->user()->fullname() }}<i
@@ -101,6 +105,35 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="country-selector" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content country-select-modal">
+            <div class="modal-header">
+                <h6 class="modal-title">Choose Country</h6><button aria-label="Close" class="btn-close"
+                    data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <ul class="row row-sm p-3">
+                    <li class="col-lg-4 mb-2">
+                        <a class="btn btn-country btn-lg btn-block active">
+                            <span class="country-selector"><img alt="unitedstates"
+                                    src="https://laravel8.spruko.com/noa/assets/images/flags/us_flag.jpg"
+                                    class="me-2 language"></span>United States
+                        </a>
+                    </li>
+                    <li class="col-lg-4 mb-2">
+                        <a class="btn btn-country btn-lg btn-block">
+                            <span class="country-selector"><img alt="italy"
+                                    src="https://laravel8.spruko.com/noa/assets/images/flags/italy_flag.jpg"
+                                    class="me-2 language"></span>Italy
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

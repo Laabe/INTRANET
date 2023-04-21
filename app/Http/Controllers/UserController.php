@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Mail\HolidayInjectionMail;
+use App\Mail\WelcomeMail;
 use App\Models\BalanceRecord;
 use App\Models\Department;
 use App\Models\Gender;
@@ -63,16 +64,17 @@ class UserController extends Controller
             $image = ImageManagerStatic::make(public_path("employees_image/{$imageName}"))->fit(1200, 1200);
             $image->save();
 
-            User::create(array_merge(
+            $user = User::create(array_merge(
                 $request->validated(),
                 [
                     'image' => $imageName
                 ]
             ));
         } else {
-            User::create($request->validated());
+            $user = User::create($request->validated());
         }
 
+        Mail::to($user->email)->send(new WelcomeMail($user));
         return to_route('users.index')->with('success', __('Employee added successfully'));
     }
 

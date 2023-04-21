@@ -52,7 +52,7 @@
                                         <td>
                                             <a class="btn btn-info"
                                                 data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}"
-                                                data-bs-toggle="modal" href="javascript:void(0)">Details</a>
+                                                data-bs-toggle="modal" href="javascript:void(0)">{{ __('Details') }}</a>
                                             @include('leave-requests.details')
                                         </td>
                                     </tr>

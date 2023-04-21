@@ -6,6 +6,12 @@
                     <h3 class="card-title">{{ __('Add scenario') }}</h3>
                 </div>
                 <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <span class="alert-inner--icon me-2"><i class="fe fe-info"></i></span>
+                        <span class="alert-inner--text">
+                            <strong>{{ __('Warning!') }}</strong> {{ __('4 workflows per scenario are allowed') }}
+                        </span>
+                    </div>
                     @csrf
                     @include('scenarios.form')
                 </div>

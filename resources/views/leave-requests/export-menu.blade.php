@@ -10,17 +10,27 @@
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-info" role="alert">
+                        <span class="alert-inner--icon me-2"><i class="fe fe-info"></i></span>
+                        <span class="alert-inner--text">
+                            <strong>{{ _('Warning!') }}</strong>
+                            {{ __('Please select the dates for better results') }}
+                        </span>
+                    </div>
+
                     <div class="row">
                         <div class="mb-3 col-lg-6 col-xl-6 col-md-12 col-sm-12">
-                            <label for="from_date" class="form-label">{{ __('From Date') }}</label>
+                            <label for="from_date" class="form-label">{{ __('From Date') }}(<span
+                                    class="text-danger">*</span>)</label>
                             <input type="date" name="from_date" id="from_date" class="form-control">
                         </div>
                         <div class="mb-3 col-lg-6 col-xl-6 col-md-12 col-sm-12">
-                            <label for="to_date" class="form-label">{{ __('To Date') }}</label>
+                            <label for="to_date" class="form-label">{{ __('To Date') }}(<span
+                                    class="text-danger">*</span>)</label>
                             <input type="date" name="to_date" id="to_date" class="form-control">
                         </div>
                     </div>
-    
+
                     <div class="row">
                         <div class="mb-3 col-lg-6 col-xl-6 col-md-12 col-sm-12">
                             <label for="leave_type" class="form-label">{{ __('Leave Type') }}</label>
