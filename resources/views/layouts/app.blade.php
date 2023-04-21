@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/animated.css') }}">
 </head>
 
-<body class="ltr app sidebar-mini">
+<body class="ltr app sidebar-mini {{ DB::table('user_preferences')->where('user_id', auth()->user()->id)->first()->theme === 'dark' ? 'dark-mode' : 'light-mode' }}">
     <div class="horizontalMenucontainer">
         <div class="page is-expanded">
             <div class="page-main">

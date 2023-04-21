@@ -70,9 +70,15 @@ class UserController extends Controller
                     'image' => $imageName
                 ]
             ));
+
         } else {
             $user = User::create($request->validated());
         }
+
+        
+        DB::table('user_preferences')->insert([
+            'user_id' => $user->id
+        ]);
 
         Mail::to($user->email)->send(new WelcomeMail($user));
         return to_route('users.index')->with('success', __('Employee added successfully'));
