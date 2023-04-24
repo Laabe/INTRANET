@@ -54,7 +54,7 @@
     <div class="container">
         <h4>{{ __('Hi,' . $user->fullname()) }}</h4>
         <br>
-        <p>{{ __('Welcome to NCC Casablanca, you can access your account by going to intranet ') }} <a href="{{ route('/') }}">website</a> {{ __(' and log in with your credentials.') }}<p>
+        <p>{{ __('Welcome to NCC Casablanca, you can access your account by going to intranet ') }} <a href="{{ route('login') }}">website</a> {{ __(' and log in with your credentials.') }}<p>
         <p>{{ __('Email: ') . $user->email }}</p>
         <p>{{ __('Password: "password"') }}</p>
         <p>{{ __('Please change your default password as soon as possible') }}</p>
