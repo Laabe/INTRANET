@@ -70,12 +70,11 @@ class UserController extends Controller
                     'image' => $imageName
                 ]
             ));
-
         } else {
             $user = User::create($request->validated());
         }
 
-        
+
         DB::table('user_preferences')->insert([
             'user_id' => $user->id
         ]);
@@ -171,7 +170,8 @@ class UserController extends Controller
      */
     public function forceDelete($id)
     {
-        $user = User::where('user_id', $id)->onlyTrashed();
+        DB::table('user_preferences')->where('user_id', $id)->delete();
+        $user = User::where('id', $id)->onlyTrashed();
         $user->forceDelete();
         return to_route('users.index')->with('success', __('Employee deleted permanently'));
     }
@@ -296,21 +296,72 @@ class UserController extends Controller
 
     public function importEmployeesStore(Request $request)
     {
-      // Get the uploaded file
-      $file = $request->file('excel-file');
+        // Get the uploaded file
+        $file = $request->file('excel-file');
 
-      // Use PHPSpreadsheet to read the file and convert it into a PHP array
-      $spreadsheet = IOFactory::load($file);
-      $worksheet = $spreadsheet->getActiveSheet();
-      $rows = $worksheet->toArray();
-      dd(array_shift($rows));
+        // Use PHPSpreadsheet to read the file and convert it into a PHP array
+        $spreadsheet = IOFactory::load($file);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $rows = $worksheet->toArray();
 
-      // Loop through the array and update the database
-      foreach ($rows as $row) {
-          User::create($row);
-      }
+        // Get the header row and remove it from the array
+        $header = array_shift($rows);
 
-      // Redirect to a success page
-      return to_route('home')->with('success', __('The import of employees was successfull'));  
+        // Loop through the array and update the database
+        foreach ($rows as $row) {
+            $data = array_combine($header, $row);
+            if (array_key_exists('gender', $data) && !empty($data['gender'])) {
+                $gender = Gender::where('name_en', $data['gender'])->orWhere('name_fr', $data['gender'])->first()->id;
+            }
+            if (array_key_exists('marital_status', $data) && !empty($data['marital_status'])) {
+                $maritalStatuse = MaritalStatus::where('name_en', $data['marital_status'])->orWhere('name_fr', $data['marital_status'])->first()->id;
+            }
+
+            if (array_key_exists('language', $data) && !empty($data['language'])) {
+                $language = Language::where('name_en', $data['language'])->orWhere('name_fr', $data['language'])->first()->id;
+            }
+
+            if (array_key_exists('language_level', $data) && !empty($data['language_level'])) {
+                $languageLevel = LanguageLevel::where('name', $data['language_level'])->first()->id;
+            }
+            
+            if (array_key_exists('identity_document', $data) && !empty($data['identity_document'])) {
+                $identityDocument = IdentityDocument::where('name_en', $data['identity_document'])->orwhere('name_en', $data['identity_document'])->first()->id;
+            }
+
+            if (array_key_exists('sourcing_type', $data) && !empty($data['sourcing_type'])) {
+                $sourcingType = SourcingType::where('name_en', $data['sourcing_type'])->orwhere('name_en', $data['sourcing_type'])->first()->id;
+            }
+
+            if (array_key_exists('platforme', $data) && !empty($data['platforme'])) {
+                $network = RecrutmentPlatforme::where('name', $data['platforme'])->first()->id;
+            }
+
+            $user = User::create([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'date_of_birth' => array_key_exists('date_of_birth', $data) ? date("Y-m-d", strtotime($data['date_of_birth'])) : null,
+                'phone' => array_key_exists('phone', $data) ? $data['phone'] : null,
+                'email' => $data['email'],
+                'address' => array_key_exists('address', $data) ? $data['address'] : null,
+                'number_of_kids' => array_key_exists('number_of_kids', $data) ? $data['number_of_kids'] : null,
+                'integration_date' => array_key_exists('integration_date', $data) ? date("Y-m-d", strtotime($data['integration_date'])) : null,
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'recrutment_platforme_id' => $network ?? null,
+                'sourcing_type_id' => $sourcingType ?? null,
+                'gender_id' => $gender ?? null,
+                'identity_document_id' => $identityDocument ?? null,
+                'identity_document_number' => array_key_exists('document_number', $data) ? $data['document_number'] : null,
+                'social_security_number' => array_key_exists('social_security_number', $data) ? $data['social_security_number'] : null,
+                'language_id' => $language ?? null,
+                'language_level_id' => $languageLevel ?? null,
+                'marital_status_id' => $maritalStatuse ?? null
+            ]);
+
+            DB::table('user_preferences')->insert(['user_id' => $user->id, 'theme' => 'light']);
+        }
+
+        // Redirect to a success page
+        return to_route('home')->with('success', __('The import of employees was successfull'));
     }
 }
