@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $sourcing = $this->call(SourcingTypeSeeder::class);
         $platforms = $this->call(RecrutmentPlatformeSeeder::class);
         $user = $this->call(UserSeeder::class);
+        $leaveTypes = $this->call(LeaveTypeSeeder::class);
     }
 }

@@ -14,9 +14,9 @@ class IdentityDocumentSeeder extends Seeder
     public function run(): void
     {
         $identityDocuments = [
-            'first' => ["Carte d'identité nationale", "National Identity Card", "Nationale Identiteitskaart"],
-            'second' => ["Passport", "Passport", "paspoort"],
-            'second' => ["Carte de séjour", "Residence permit", "verblijfsvergunning"],
+            ["Carte d'identité nationale", "National Identity Card", "Nationale Identiteitskaart"],
+            ["Passport", "Passport", "paspoort"],
+            ["Carte de séjour", "Residence permit", "verblijfsvergunning"],
         ];
 
         foreach ($identityDocuments as $document) {

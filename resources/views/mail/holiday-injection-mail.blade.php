@@ -53,7 +53,13 @@
 <body>
     <div class="container">
         <h4>{{ __('Hi,') }}</h4>
-        <p>{{ __('We inform you that the day of holiday you worked in was added to your holidays balance.') }}</p>
+        <p>
+            {{ __('We inform you that the holiday ') }}
+            <strong>{{ $holidayName }}</strong>
+            {{ __(' you worked on the ') }}
+            <strong>{{ date('d/m/Y', strtotime($holidayDate)) }}</strong>
+            {{ __('was added to your holidays balance.') }}
+        </p>
         <p>{{ __('Thank you for your services.') }}</p>
 
         <div class="signature">

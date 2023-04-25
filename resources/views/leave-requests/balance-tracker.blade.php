@@ -19,51 +19,63 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('ACTION DATE') }}</th>
-                                        <th>{{ __('CREATOR') }}</th>
+                                        <th>{{ __('MADE BY') }}</th>
                                         <th>{{ __('COMMENT') }}</th>
                                         <th>{{ __('PAID LEAVES BALANCE') }}</th>
                                         <th>{{ __('HOLIDAYS BALANCE') }}</th>
                                         <th>{{ __('TOTAL BALANCE') }}</th>
+                                        <th>{{ __('DETAILS') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($records as $records)
+                                    @foreach ($records as $record)
                                         <tr>
-                                            <td>{{ $records->created_at }}</td>
-                                            <td>{{ $records->user->fullname() }}</td>
-                                            <td>{{ $records->comment }}</td>
+                                            <td>{{ $record->created_at }}</td>
+                                            <td>{{ $record->actionBy->fullname() }}</td>
+                                            <td>{{ $record->comment }}</td>
                                             <td>
-                                                {{ $records->paid_leaves_balance }}
-                                                @if ($records->deducted_paid_leaves != 0)
+                                                {{ $record->paid_leaves_balance }}
+                                                @if ($record->deducted_paid_leaves != 0)
                                                     <span
-                                                        class="icn-box {{ $records->deducted_paid_leaves > 0 ? 'text-danger' : 'text-success' }} fw-semibold fs-13 me-1">
+                                                        class="icn-box {{ $record->deducted_paid_leaves > 0 ? 'text-danger' : 'text-success' }} fw-semibold fs-13 me-1">
                                                         <i
-                                                            class="fa {{ $records->deducted_paid_leaves > 0 ? 'fa-long-arrow-down' : 'fa-long-arrow-up' }}"></i>
-                                                        {{ $records->deducted_paid_leaves }}
+                                                            class="fa {{ $record->deducted_paid_leaves > 0 ? 'fa-long-arrow-down' : 'fa-long-arrow-up' }}"></i>
+                                                        {{ $record->deducted_paid_leaves }}
                                                     </span>
                                                 @endif
                                             </td>
                                             <td>
-                                                {{ $records->holidays_balance }}
-                                                @if ($records->deducted_holidays != 0)
+                                                {{ $record->holidays_balance }}
+                                                @if ($record->deducted_holidays != 0)
                                                     <span
-                                                        class="icn-box {{ $records->deducted_holidays > 0 ? 'text-danger' : 'text-success' }} fw-semibold fs-13 me-1">
+                                                        class="icn-box {{ $record->deducted_holidays > 0 ? 'text-danger' : 'text-success' }} fw-semibold fs-13 me-1">
                                                         <i
-                                                            class="fa {{ $records->deducted_holidays > 0 ? 'fa-long-arrow-down' : 'fa-long-arrow-up' }}"></i>
-                                                        {{ $records->deducted_holidays }}
+                                                            class="fa {{ $record->deducted_holidays > 0 ? 'fa-long-arrow-down' : 'fa-long-arrow-up' }}"></i>
+                                                        {{ $record->deducted_holidays }}
                                                     </span>
                                                 @endif
-                                                @if ($records->added_holidays > 0)
+                                                @if ($record->added_holidays > 0)
                                                     <span class="icn-box text-success fw-semibold fs-13 me-1">
                                                         <i class="fa fa-long-arrow-up"></i>
-                                                        {{ $records->added_holidays }}
+                                                        {{ $record->added_holidays }}
                                                     </span>
                                                 @endif
                                             </td>
                                             <td>
-                                                {{ $records->paid_leaves_balance + $records->holidays_balance }}
+                                                {{ $record->paid_leaves_balance + $record->holidays_balance }}
+                                            </td>
+                                            <td>
+                                                @if (strpos(strtolower($record->comment), strtolower('leave')) !== false)
+                                                    <a class="btn btn-info"
+                                                        data-bs-target="#actionDetail{{ $record->leaveRequest->id }}"
+                                                        data-bs-toggle="modal"
+                                                        href="javascript:void(0)">{{ __('Details') }}</a>
+                                                @endif
                                             </td>
                                         </tr>
+                                        @if (strpos(strtolower($record->comment), strtolower('leave')) !== false)
+                                            @include('leave-requests.action-details')
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>

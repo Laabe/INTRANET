@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
@@ -23,5 +24,19 @@ class UserSeeder extends Seeder
             'user_id' => $user->id,
             'theme' => 'light'
         ]);
+
+        $permissions = [
+            'Employee Management',
+            'Leave Request Management',
+            'Team Management',
+            'Settings Management',
+            'User Management',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::create([
+                'name' => $permission
+            ]);
+        }
     }
 }

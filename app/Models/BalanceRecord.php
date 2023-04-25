@@ -18,4 +18,21 @@ class BalanceRecord extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the actionBy that owns the BalanceRecord
+     *
+     */
+    public function actionBy()
+    {
+        return $this->belongsTo(User::class, 'action_by');
+    }
+
+    /**
+     * Get the leaveRequest that owns the BalanceRecord
+     */
+    public function leaveRequest()
+    {
+        return $this->belongsTo(LeaveRequest::class);
+    }
 }

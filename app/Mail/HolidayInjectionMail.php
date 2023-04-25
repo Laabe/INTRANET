@@ -16,7 +16,7 @@ class HolidayInjectionMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public $holidayName, public $holidayDate)
     {
         //
     }
@@ -39,6 +39,10 @@ class HolidayInjectionMail extends Mailable
     {
         return new Content(
             view: 'mail.holiday-injection-mail',
+            with:[
+                'holiday_date' => $this->holidayDate,
+                'holiday_name' => $this->holidayName,
+            ]
         );
     }
 

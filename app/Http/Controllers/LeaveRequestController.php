@@ -140,6 +140,8 @@ class LeaveRequestController extends Controller
 
             BalanceRecord::create([
                 'user_id' => $authenticatedUser->id,
+                'action_by' => $authenticatedUser->id,
+                'leave_request_id' => $leaveRequest->id,
                 'comment' => 'Leave request consumtion',
                 'deducted_paid_leaves' => $leaveRequest->deducted_paid_leaves_amount,
                 'paid_leaves_balance' => $authenticatedUser->paid_leaves_balance,
@@ -154,7 +156,7 @@ class LeaveRequestController extends Controller
 
         $nextApprover = $this->getNextApprover($leaveRequest, $nextWorkflowStageApproval->workflowStage);
 
-        Mail::to($nextApprover->email)->send(new LeaveRequestMail($leaveRequest));
+        Mail::to($nextApprover->first()->email)->send(new LeaveRequestMail($leaveRequest));
 
         return to_route('leave-requests.my-leave-requests')->with('success', __('Your leave request was submitted successfully'));
     }
@@ -235,7 +237,9 @@ class LeaveRequestController extends Controller
         }
 
         BalanceRecord::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => $leaveRequest->user->id,
+            'action_by' => auth()->user()->id,
+            'leave_request_id' => $leaveRequest->id,
             'comment' => 'Leave request rejection',
             'added_paid_leaves' => $leaveRequest->deducted_paid_leaves_amount,
             'paid_leaves_balance' => $leaveRequest->user->paid_leaves_balance,
@@ -481,6 +485,8 @@ class LeaveRequestController extends Controller
 
         BalanceRecord::create([
             'user_id' => auth()->user()->id,
+            'action_by' => auth()->user()->id,
+            'leave_request_id' => $leaveRequest->id,
             'comment' => 'Leave request cancelation',
             'added_paid_leaves' => $leaveRequest->deducted_paid_leaves_amount,
             'paid_leaves_balance' => $leaveRequest->user->paid_leaves_balance,
@@ -508,7 +514,7 @@ class LeaveRequestController extends Controller
 
     public function balanceTracker()
     {
-        $records = BalanceRecord::with('user')->get();
+        $records = BalanceRecord::with('user', 'leaveRequest')->where('user_id', auth()->user()->id)->get();
         return view('leave-requests.balance-tracker', compact('records'));
     }
 }

@@ -59,3 +59,19 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+    <script src="{{ asset('assets/plugins/sweet-alert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/sweet-alert/jquery.sweet-alert.js') }}"></script>
+
+    <script>
+        @if (session('success'))
+            swal({
+                title: "Congratulations!!!",
+                text: "{{ session('success') }}",
+                type: "success",
+                icon: "success"
+            })
+        @endif
+    </script>
+@endsection

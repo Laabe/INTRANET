@@ -261,29 +261,27 @@ class UserController extends Controller
         $spreadsheet = IOFactory::load($file);
         $worksheet = $spreadsheet->getActiveSheet();
         $rows = $worksheet->toArray();
-
         $users = [];
         // Loop through the array and update the database
         foreach ($rows as $row) {
-            try {
-                $user = User::where('id', $row[0])->first();
-                $user->update([
-                    'holidays_balance' => $user->holidays_balance + 1
-                ]);
-                BalanceRecord::create([
-                    'user_id' => auth()->user()->id,
-                    'comment' => 'Holiday injection',
-                    'paid_leaves_balance' => $user->paid_leaves_balance,
-                    'holidays_balance' => $user->holidays_balance,
-                    'added_holidays' => 1
-                ]);
-                array_push($users, $user->email);
-            } catch (\Throwable $th) {
-                echo $th;
-            }
+            $user = User::where('id', $row[0])->first();
+            $user->update([
+                'holidays_balance' => $user->holidays_balance + 1
+            ]);
+
+            BalanceRecord::create([
+                'user_id' => $user->id,
+                'action_by' => auth()->user()->id,
+                'leave_request_id' => null,
+                'comment' => $request->holiday_name . ' (' . date('d/m/Y', strtotime($request->holiday_date)) . ')',
+                'paid_leaves_balance' => $user->paid_leaves_balance,
+                'holidays_balance' => $user->holidays_balance,
+                'added_holidays' => 1
+            ]);
+            array_push($users, $user->email);
         }
 
-        Mail::to($users)->send(new HolidayInjectionMail());
+        Mail::to($users)->send(new HolidayInjectionMail($request->holiday_name, $request->holiday_date));
 
         // Redirect to a success page
         return to_route('home')->with('success', __('The injection is successfull'));
@@ -324,7 +322,7 @@ class UserController extends Controller
             if (array_key_exists('language_level', $data) && !empty($data['language_level'])) {
                 $languageLevel = LanguageLevel::where('name', $data['language_level'])->first()->id;
             }
-            
+
             if (array_key_exists('identity_document', $data) && !empty($data['identity_document'])) {
                 $identityDocument = IdentityDocument::where('name_en', $data['identity_document'])->orwhere('name_en', $data['identity_document'])->first()->id;
             }

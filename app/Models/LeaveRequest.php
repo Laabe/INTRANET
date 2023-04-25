@@ -61,4 +61,12 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    /**
+     * Get the record associated with the LeaveRequest
+     */
+    public function record()
+    {
+        return $this->hasOne(BalanceRecord::class);
+    }
 }
