@@ -95,23 +95,37 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content country-select-modal">
             <div class="modal-header">
-                <h6 class="modal-title">Choose Country</h6><button aria-label="Close" class="btn-close"
+                <h6 class="modal-title">{{ __('Choose a language') }}</h6><button aria-label="Close" class="btn-close"
                     data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
                 <ul class="row row-sm p-3">
                     <li class="col-lg-4 mb-2">
                         <a class="btn btn-country btn-lg btn-block active">
-                            <span class="country-selector"><img alt="unitedstates"
-                                    src="https://laravel8.spruko.com/noa/assets/images/flags/us_flag.jpg"
-                                    class="me-2 language"></span>United States
+                            <span class="country-selector"><img alt="english"
+                                    src="https://laravel8.spruko.com/noa/assets/images/flags/gb.svg"
+                                    class="me-2 language"></span>English
                         </a>
                     </li>
                     <li class="col-lg-4 mb-2">
                         <a class="btn btn-country btn-lg btn-block">
-                            <span class="country-selector"><img alt="italy"
-                                    src="https://laravel8.spruko.com/noa/assets/images/flags/italy_flag.jpg"
-                                    class="me-2 language"></span>Italy
+                            <span class="country-selector"><img alt="french"
+                                    src="https://laravel8.spruko.com/noa/assets/images/flags/fr.svg"
+                                    class="me-2 language"></span>French
+                        </a>
+                    </li>
+                    <li class="col-lg-4 mb-2">
+                        <a class="btn btn-country btn-lg btn-block">
+                            <span class="country-selector"><img alt="german"
+                                    src="https://laravel8.spruko.com/noa/assets/images/flags/de.svg"
+                                    class="me-2 language"></span>German
+                        </a>
+                    </li>
+                    <li class="col-lg-4 mb-2">
+                        <a class="btn btn-country btn-lg btn-block">
+                            <span class="country-selector"><img alt="dutch"
+                                    src="https://laravel8.spruko.com/noa/assets/images/flags/nl.svg"
+                                    class="me-2 language"></span>Dutch
                         </a>
                     </li>
                 </ul>

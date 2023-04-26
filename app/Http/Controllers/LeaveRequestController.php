@@ -257,7 +257,7 @@ class LeaveRequestController extends Controller
      */
     public function myLeaveRequests()
     {
-        $leaveRequests = LeaveRequest::where('user_id', auth()->user()->id)->get();
+        $leaveRequests = LeaveRequest::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
         return view('leave-requests.my-leave-requests', compact('leaveRequests'));
     }
 

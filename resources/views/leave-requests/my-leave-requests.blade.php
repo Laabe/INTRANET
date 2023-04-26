@@ -43,10 +43,11 @@
                                         </td>
                                         <td>
                                             @if ($leaveRequest->status == 'pending' || ($leaveRequest->status == 'Approved' && $leaveRequest->start_date <= now()))
-                                                <form action="{{ route('leave-requests.destroy', $leaveRequest) }}"
+                                                <form action="{{ route('leave-requests.destroy', $leaveRequest) }}" id="delete-form-{{ $leaveRequest->id }}"
                                                     method="post" class="d-inline-block">
                                                     @csrf @method('delete')
-                                                    <button class="btn btn-danger">{{ __('Cancel') }}</button>
+                                                    <a class="btn btn-danger" href="javascript:void(0)" onclick="deleteItem({{ $leaveRequest->id }})">{{ __('Cancel') }}</a>
+                                                    <input type="hidden" name="id" value="{{ $leaveRequest->id }}">
                                                 </form>
                                             @endif
                                             <a class="btn btn-info" data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}" data-bs-toggle="modal" href="javascript:void(0)">Details</a>
@@ -94,4 +95,26 @@
             })
         @endif
     </script>
+
+<script>
+    function deleteItem(id) {
+        swal({
+		  title: "Are you sure?",
+		  text: "You will not be able to revert it",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonClass: "btn-danger",
+		  confirmButtonText: "Yes, cancel it!",
+		  cancelButtonText: "cancel !",
+		  closeOnConfirm: false,
+		  closeOnCancel: false
+		},
+		function(isConfirm) {
+		  if (isConfirm) {
+            document.getElementById('delete-form-' + id).submit();
+		  }
+		});
+    }
+</script>
+
 @endsection
