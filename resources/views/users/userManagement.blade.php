@@ -39,7 +39,7 @@
                                                 </div>
                                             </td>
                                             <td>{{ $user->id }}</td>
-                                            <td>{{ $user->profile->name_en ?? 'N/A' }}</td>
+                                            <td>{{ $user->profile->{'name_' . app()->getLocale()} ?? 'N/A' }}</td>
                                             <td>{{ $user->getRoleNames()->first() ?? 'N/A' }}</td>
                                             <td><a href="#" class="btn btn-dark" data-bs-toggle="modal"
                                                     data-bs-target="#assignRole{{ $user->id }}">{{ __('Assign Role') }}</a>

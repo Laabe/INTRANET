@@ -59,7 +59,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $user->profile->name_en ?? 'N/A' }}</td>
+                                            <td>{{ $user->profile->{'name_' . app()->getLocale()} ?? 'N/A' }}</td>
                                             <td>{{ $user->paid_leaves_balance }}</td>
                                             <td>{{ $user->holidays_balance }}</td>
                                             <td>

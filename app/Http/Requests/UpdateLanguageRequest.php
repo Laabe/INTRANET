@@ -21,10 +21,14 @@ class UpdateLanguageRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name_fr' => 'required|string|max:20|unique:languages,name_fr,' . $this->language->id,
-            'name_en' => 'required|string|max:20|unique:languages,name_en,' . $this->language->id,
-            'name_de' => 'required|string|max:20|unique:languages,name_de,' . $this->language->id,
+        $rules = [
+            'name_en' => 'required|string|max:20|unique:languages,name_en',
         ];
+
+        foreach (config('app.available_locale') as $locale) {
+            $rules['name_' . $locale] = 'required|string|max:20|unique:languages,name_' . $locale . ',' . $this->language->id;
+        }
+
+        return $rules;
     }
 }

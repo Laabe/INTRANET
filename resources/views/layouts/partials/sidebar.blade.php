@@ -24,7 +24,7 @@
                     <a class="side-menu__item has-link {{ Request::routeIs('home') ? 'active' : '' }}"
                         data-bs-toggle="slide" href="{{ route('home') }}">
                         <i class="side-menu__icon icon icon-home"></i>
-                        <span class="side-menu__label">{{ __('Dashboard') }}</span>
+                        <span class="side-menu__label">{{ __('navigation.Dashboard') }}</span>
                     </a>
                 </li>
 
@@ -36,24 +36,24 @@
                         <a class="side-menu__item {{ request()->routeIs('roles.*', 'permissions.*') ? ' is-expanded active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="side-menu__icon icon icon-grid"></i>
-                            <span class="side-menu__label">{{ __('User Management') }}</span><i
+                            <span class="side-menu__label">{{ __('navigation.User Management') }}</span><i
                                 class="angle fa fa-angle-right"></i>
                         </a>
                         <ul class="slide-menu">
                             <li class="side-menu-label1">
-                                <a href="javascript:void(0)">{{ __('>User Management') }}</a>
+                                <a href="javascript:void(0)">{{ __('navigation.User Management') }}</a>
                             </li>
                             <li>
                                 <a href="{{ route('user-management.users') }}"
-                                    class="slide-item {{ Request::routeIs('user-management.users') ? 'active' : '' }}">{{ __('Users') }}</a>
+                                    class="slide-item {{ Request::routeIs('user-management.users') ? 'active' : '' }}">{{ __('navigation.Users') }}</a>
                             </li>
                             <li>
                                 <a href="{{ route('roles.index') }}"
-                                    class="slide-item {{ Request::routeIs('roles.*') ? 'active' : '' }}">{{ __('Roles') }}</a>
+                                    class="slide-item {{ Request::routeIs('roles.*') ? 'active' : '' }}">{{ __('navigation.Roles') }}</a>
                             </li>
                             <li>
                                 <a href="{{ route('permissions.index') }}"
-                                    class="slide-item {{ Request::routeIs('permissions.*') ? 'active' : '' }}">{{ __('Permissions') }}</a>
+                                    class="slide-item {{ Request::routeIs('permissions.*') ? 'active' : '' }}">{{ __('navigation.Permissions') }}</a>
                             </li>
                         </ul>
                     </li>
@@ -96,7 +96,7 @@
                         <a class="side-menu__item has-link {{ Request::routeIs('teams.*') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="{{ route('teams.index') }}">
                             <i class="side-menu__icon icon icon-organization"></i>
-                            <span class="side-menu__label">{{ __('Teams') }}</span>
+                            <span class="side-menu__label">{{ __('navigation.Teams') }}</span>
                         </a>
                     </li>
                 @endif
@@ -118,36 +118,36 @@
                     <a class="side-menu__item {{ request()->routeIs('leave-requests.*') ? ' is-expanded active' : '' }}"
                         data-bs-toggle="slide" href="#">
                         <i class="side-menu__icon icon icon-paper-plane"></i>
-                        <span class="side-menu__label">{{ __('Leave requests') }}</span><i
+                        <span class="side-menu__label">{{ __('navigation.Leave_requests') }}</span><i
                             class="angle fa fa-angle-right"></i>
                     </a>
                     <ul class="slide-menu">
                         <li>
                             <a class="slide-item {{ Request::routeIs('leave-requests.my-leave-requests') ? 'active' : '' }}"
-                                href="{{ route('leave-requests.my-leave-requests') }}">{{ __('My leave requests') }}
+                                href="{{ route('leave-requests.my-leave-requests') }}">{{ __('navigation.My leave requests') }}
                             </a>
                         </li>
                         <li>
                             <a class="slide-item {{ Request::routeIs('leave-requests.balance-tracker') ? 'active' : '' }}"
-                                href="{{ route('leave-requests.balance-tracker') }}">{{ __('Balance tracker') }}
+                                href="{{ route('leave-requests.balance-tracker') }}">{{ __('navigation.Balance tracker') }}
                             </a>
                         </li>
                         @if (auth()->user()->can('Leave Request Management'))
                             <li>
                                 <a class="slide-item {{ Request::routeIs('leave-requests.index') ? 'active' : '' }}"
-                                    href="{{ route('leave-requests.index') }}">{{ __('Leave requests') }}
+                                    href="{{ route('leave-requests.index') }}">{{ __('navigation.All leave requests') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="slide-item {{ Request::routeIs('leave-requests.history') ? 'active' : '' }}"
-                                    href="{{ route('leave-requests.history') }}">{{ __('Leave requests History') }}
+                                    href="{{ route('leave-requests.history') }}">{{ __('navigation.Leave requests history') }}
                                 </a>
                             </li>
                         @endif
                         @role('WFM')
                             <li>
                                 <a class="slide-item {{ Request::routeIs('leave-requests.consulte') ? 'active' : '' }}"
-                                    href="{{ route('leave-requests.consulte') }}">{{ __('Leave requests WFM') }}
+                                    href="{{ route('leave-requests.consulte') }}">{{ __('navigation.Leave requests WFM') }}
                                 </a>
                             </li>
                         @endrole

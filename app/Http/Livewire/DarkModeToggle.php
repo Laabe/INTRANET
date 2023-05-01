@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\UserPreference;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -22,7 +23,7 @@ class DarkModeToggle extends Component
     }
 
     private function updateUserPreferences() {
-        DB::table('user_preferences')->where('user_id', auth()->user()->id)->update(['theme' => $this->isDarkMode ? 'dark' : 'light']);
+        UserPreference::where('user_id', auth()->user()->id)->update(['theme' => $this->isDarkMode ? 'dark' : 'light']);        
     }
 
     public function render()

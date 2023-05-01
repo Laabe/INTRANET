@@ -21,10 +21,14 @@ class UpdateProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name_fr' => 'required|string|max:30|unique:profiles,name_fr,' . $this->profile->id,
+        $rules = [
             'name_en' => 'required|string|max:30|unique:profiles,name_en,' . $this->profile->id,
-            'name_de' => 'required|string|max:30|unique:profiles,name_de,' . $this->profile->id,
         ];
+
+        foreach (config('app.available_locale') as $locale) {
+            $rules['name_' . $locale] = 'required|string|max:30|unique:profiles,name_' . $locale . ',' . $this->profile->id;
+        }
+
+        return $rules;
     }
 }

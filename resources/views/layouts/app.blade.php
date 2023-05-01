@@ -11,14 +11,14 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    @livewireStyles()
-
     <!-- Theme -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/animated.css') }}">
+
+    <!-- Scripts -->
+    @livewireStyles()
 </head>
 
 <body class="ltr app sidebar-mini {{ DB::table('user_preferences')->where('user_id', auth()->user()->id)->first()->theme === 'dark' ? 'dark-mode' : 'light-mode' }}">

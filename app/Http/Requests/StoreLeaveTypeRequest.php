@@ -21,11 +21,17 @@ class StoreLeaveTypeRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name_fr' => 'required|string|max:30|unique:leave_types,name_fr',
+        $locales = config('app.available_locale');
+
+        $rules = [
             'name_en' => 'required|string|max:30|unique:leave_types,name_en',
-            'name_de' => 'required|string|max:30|unique:leave_types,name_de',
             'deductable' => 'required|boolean',
         ];
+
+        foreach ($locales as $locale) {
+            $rules['name_' . $locale] = 'required|string|max:30|unique:leave_types,name_en';
+        }
+
+        return $rules;
     }
 }

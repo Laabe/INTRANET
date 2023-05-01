@@ -4,10 +4,8 @@
             <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="#"></a>
             <!-- sidebar-toggle-->
             <a class="logo-horizontal " href="{{ route('home') }}">
-                <img src="{{ asset('assets/logo/logo.svg') }}"
-                    class="header-brand-img desktop-logo" alt="logo">
-                <img src="{{ asset('assets/logo/logo-dark.svg') }}"
-                    class="header-brand-img light-logo1" alt="logo">
+                <img src="{{ asset('assets/logo/logo.svg') }}" class="header-brand-img desktop-logo" alt="logo">
+                <img src="{{ asset('assets/logo/logo-dark.svg') }}" class="header-brand-img light-logo1" alt="logo">
             </a>
             <!-- LOGO -->
             <div class="d-flex order-lg-2 ms-auto header-right-icons">
@@ -25,12 +23,13 @@
                                 <a class="nav-link icon text-center country-nav-link" data-bs-target="#country-selector"
                                     data-bs-toggle="modal">
                                     <img class="header-icons language" alt=""
-                                        src="https://laravel8.spruko.com/noa/assets/images/flags/us_flag.jpg">
+                                        src="{{ asset('assets/images/flags/' . config('app.locale') . '.svg') }}">
                                 </a>
                             </div>
+                            
                             <!-- Theme-Layout -->
                             <livewire:dark-mode-toggle />
-                            
+
                             <!-- FULL-SCREEN -->
                             <div class="dropdown d-md-flex">
                                 <a class="nav-link icon full-screen-link nav-link-bg">
@@ -47,8 +46,8 @@
                                 <a href="#" data-bs-toggle="dropdown"
                                     class="nav-link pe-2 leading-none d-flex animate">
                                     <span>
-                                        <img src="{{ asset(auth()->user()->image()) }}"
-                                            alt="profile-user" class="avatar  profile-user brround cover-image">
+                                        <img src="{{ asset(auth()->user()->image()) }}" alt="profile-user"
+                                            class="avatar  profile-user brround cover-image">
                                     </span>
                                     <div class="text-center p-1 d-flex d-lg-none-max">
                                         <h6 class="mb-0" id="profile-heading">{{ auth()->user()->fullname() }}<i
@@ -77,7 +76,8 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                     </form>
                                 </div>
@@ -91,45 +91,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="country-selector" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content country-select-modal">
-            <div class="modal-header">
-                <h6 class="modal-title">{{ __('Choose a language') }}</h6><button aria-label="Close" class="btn-close"
-                    data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
-            </div>
-            <div class="modal-body">
-                <ul class="row row-sm p-3">
-                    <li class="col-lg-4 mb-2">
-                        <a class="btn btn-country btn-lg btn-block active">
-                            <span class="country-selector"><img alt="english"
-                                    src="https://laravel8.spruko.com/noa/assets/images/flags/gb.svg"
-                                    class="me-2 language"></span>English
-                        </a>
-                    </li>
-                    <li class="col-lg-4 mb-2">
-                        <a class="btn btn-country btn-lg btn-block">
-                            <span class="country-selector"><img alt="french"
-                                    src="https://laravel8.spruko.com/noa/assets/images/flags/fr.svg"
-                                    class="me-2 language"></span>French
-                        </a>
-                    </li>
-                    <li class="col-lg-4 mb-2">
-                        <a class="btn btn-country btn-lg btn-block">
-                            <span class="country-selector"><img alt="german"
-                                    src="https://laravel8.spruko.com/noa/assets/images/flags/de.svg"
-                                    class="me-2 language"></span>German
-                        </a>
-                    </li>
-                    <li class="col-lg-4 mb-2">
-                        <a class="btn btn-country btn-lg btn-block">
-                            <span class="country-selector"><img alt="dutch"
-                                    src="https://laravel8.spruko.com/noa/assets/images/flags/nl.svg"
-                                    class="me-2 language"></span>Dutch
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+<livewire:language-modal />
+
+
+

@@ -5,7 +5,7 @@
         <option value="">{{ __('Select a profile') }}</option>
         @foreach ($profiles as $profile)
             <option value="{{ $profile->id }}" {{ old('profile_id') == $profile->id ? 'selected' : '' }}>
-                {{ $profile->name_en }}</option>
+                {{ $profile->{'name_' . app()->getLocale()} }}</option>
         @endforeach
     </select>
 
@@ -27,7 +27,7 @@
                 class="form-control @error("approvers[{{ $index }}][id]") is-invalid @enderror">
                 <option value="">{{ __('Select a approver') }}</option>
                 @foreach ($profiles as $profile)
-                    <option value="{{ $profile->id }}">{{ $profile->name_en }}</option>
+                    <option value="{{ $profile->id }}">{{ $profile->{'name_' . app()->getLocale()} }}</option>
                 @endforeach
             </select>
 

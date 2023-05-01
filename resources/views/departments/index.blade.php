@@ -18,16 +18,16 @@
                                 <tr>
                                     <th>{{ __('DEPARTMENT NAME') }}</th>
                                     <th>{{ __('DEPARTMENT MANAGER') }}</th>
-                                    <th>{{ __('TOTAL EMPLOYEES') }}</th>
+                                    {{-- <th>{{ __('TOTAL EMPLOYEES') }}</th> --}}
                                     <th>{{ __('ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($departments as $department)
                                     <tr>
-                                        <td>{{ $department->name_en }}</td>
+                                        <td>{{ $department->{'name_' .app()->getLocale()} }}</td>
                                         <td>{{ $department->manager->name ?? 'N/A' }}</td>
-                                        <td>0</td>
+                                        {{-- <td>0</td> --}}
                                         <td>
                                             <a href="javascript:void(0)"
                                                 data-bs-target="#assignManagerModal{{ $department->id }}"

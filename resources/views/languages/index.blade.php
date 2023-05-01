@@ -24,7 +24,7 @@
                             <tbody>
                                 @foreach ($languages as $language)
                                     <tr>
-                                        <td>{{ $language->name_en }}</td>
+                                        <td>{{ $language->{'name_' . app()->getLocale()} }}</td>
                                         <td>{{ $language->employees->count() }}</td>
                                         <td>
                                             <a href="{{ route('languages.edit', $language) }}"

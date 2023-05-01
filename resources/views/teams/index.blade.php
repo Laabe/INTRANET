@@ -15,8 +15,9 @@
                             <thead>
                                 <tr>
                                     <th>{{ __('TEAM NAME') }}</th>
-                                    <th>{{ __('TEAM LEADER') }}</th>
+                                    <th>{{ __('DEPARTMENT') }}</th>
                                     <th>{{ __('PROJECT') }}</th>
+                                    <th>{{ __('TEAM LEADER') }}</th>
                                     <th>{{ __('TOTAL OF EMPLOYES') }}</th>
                                     <th>{{ __('ACTION') }}</th>
                                 </tr>
@@ -25,8 +26,9 @@
                                 @foreach ($teams as $team)
                                     <tr>
                                         <td>{{ $team->name }}</td>
+                                        <td>{{ $team->department->{'name_' . app()->getlocale()} }}</td>
+                                        <td>{{ $team->project ? $team->project->name : 'N/A' }}</td>
                                         <td>{{ $team->teamLeader->fullname() }}</td>
-                                        <td>{{ $team->department->name_en }}</td>
                                         <td>{{ $team->users->count() }}</td>
                                         <td>
                                             <a href="{{ route('teams.edit', $team) }}"

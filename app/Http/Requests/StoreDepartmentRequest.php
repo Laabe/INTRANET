@@ -21,10 +21,14 @@ class StoreDepartmentRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name_fr' => 'required|string|max:20|unique:departments,name_fr',
+        $rules = [
             'name_en' => 'required|string|max:20|unique:departments,name_en',
-            'name_de' => 'required|string|max:20|unique:departments,name_de',
         ];
+
+        foreach (config('app.available_locale') as $locale) {
+            $rules['name_' . $locale] = 'required|string|max:20|unique:departments,name_' . $locale;
+        }
+
+        return $rules;
     }
 }

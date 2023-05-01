@@ -149,4 +149,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(WorkflowStageApproval::class);
     }
+
+    /**
+     * Get the userPreference associated with the User
+     */
+    public function userPreference()
+    {
+        return $this->hasOne(UserPreference::class);
+    }
 }

@@ -22,7 +22,7 @@
                             <tbody>
                                 @foreach ($profiles as $profile)
                                     <tr>
-                                        <td>{{ $profile->name_en }}</td>
+                                        <td>{{ $profile->{ 'name_' . app()->getLocale() } }}</td>
                                         <td>{{ $profile->scenarios->count() }}</td>
                                         <td>
                                             <a href="{{ route('scenarios.show', $profile) }}"

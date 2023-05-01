@@ -57,12 +57,16 @@ class LeaveTypeController extends Controller
      */
     public function update(Request $request, LeaveType $leaveType)
     {
-        $leaveType->update($request->validate([
-            'name_fr' => 'required|string|max:30|unique:leave_types,name_fr,' . $leaveType->id,
+        $rules = [
             'name_en' => 'required|string|max:30|unique:leave_types,name_en,' . $leaveType->id,
-            'name_de' => 'required|string|max:30|unique:leave_types,name_de,' . $leaveType->id,
             'deductable' => 'required|boolean',
-        ]));
+        ];
+
+        foreach (config('app.available_locale') as $locale) {
+            $rules['name_' . $locale] = 'required|string|max:30|unique:leave_types,name_' . $locale . ',' . $leaveType->id;
+        }
+
+        $leaveType->update($request->validate($rules));
         return to_route('leave-types.index')->with('success', 'Leave type updated successfully');
     }
 

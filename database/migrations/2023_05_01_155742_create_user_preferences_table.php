@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->string('theme')->default('light');
+            $table->string('language')->default('en');
             $table->timestamps();
         });
     }

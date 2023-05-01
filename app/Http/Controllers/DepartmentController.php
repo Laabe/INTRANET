@@ -17,10 +17,7 @@ class DepartmentController extends Controller
     public function index()
     {
         $departments = Department::all();
-        $managerProfileId = Profile::where('name_en', 'like', '%Department manager%')
-            ->orWhere('name_fr', 'like', '%Responsable de département%')
-            ->orWhere('name_de', 'like', '%Afdelingsmanager%')
-            ->first()->id;
+        $managerProfileId = Profile::where('name_en', 'like', '%Department manager%')->first()->id;
         $managers = User::where('profile_id', $managerProfileId)->get();
         return view('departments.index', compact('departments', 'managers'));
     }

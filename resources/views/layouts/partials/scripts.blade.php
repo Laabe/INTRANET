@@ -16,4 +16,15 @@
 
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
+<!-- Listen for the 'languageChanged' event -->
+<script>
+    document.addEventListener('livewire:load', function() {
+        Livewire.on('languageChanged', function(languageCode) {
+            console.log('Selected language:', languageCode);
+            // Refresh the page to apply the language changes
+            window.location.reload();
+        });
+    });
+</script>
+
 @yield('scripts')

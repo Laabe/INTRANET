@@ -1,38 +1,18 @@
-<div class="form-group mb-3">
-    <label for="name_fr" class="form-label">{{ __('Leave type in french') }}</label>
-    <input type="text" class="form-control @error('name_fr') is-invalid @enderror" id="name_fr" name="name_fr"
-        value="{{ old('name_fr') ?? $leaveType->name_fr }}" placeholder="{{ __('Enter leave type name...') }}">
+@foreach (config('app.available_locale') as $locale)
+    <div class="form-group mb-3">
+        <label for="name_{{ $locale }}" class="form-label">{{ __('Leave type ') . strtoupper($locale) }}</label>
+        <input type="text" class="form-control @error('name_' . $locale) is-invalid @enderror"
+            id="name_{{ $locale }}" name="name_{{ $locale }}"
+            value="{{ $leaveType->{'name_' . $locale} ?? old('name_' . $locale) }}"
+            placeholder="{{ __('Enter leave type name...') }}">
 
-    @error('name_fr')
-        <span>
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-    @enderror
-</div>
-
-<div class="form-group mb-3">
-    <label for="name_en" class="form-label">{{ __('Leave type in english') }}</label>
-    <input type="text" class="form-control @error('name_en') is-invalid @enderror" id="name_en" name="name_en"
-        value="{{ old('name_en') ?? $leaveType->name_en }}" placeholder="{{ __('Enter leave type name...') }}">
-
-    @error('name_en')
-        <span>
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-    @enderror
-</div>
-
-<div class="form-group mb-3">
-    <label for="name_de" class="form-label">{{ __('Leave type in dutch') }}</label>
-    <input type="text" class="form-control @error('name_de') is-invalid @enderror" id="name_de" name="name_de"
-        value="{{ old('name_de') ?? $leaveType->name_de }}" placeholder="{{ __('Enter leave type name...') }}">
-
-    @error('name_de')
-        <span>
-            <strong class="text-danger">{{ $message }}</strong>
-        </span>
-    @enderror
-</div>
+        @error('name_' . $locale)
+            <span>
+                <strong class="text-danger">{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+@endforeach
 
 <div class="form-group mb-3">
     <label for="deductable" class="form-label">{{ __('Deductable') }}</label>

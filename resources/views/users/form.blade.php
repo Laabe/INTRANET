@@ -32,7 +32,7 @@
             @foreach ($genders as $gender)
                 <option value="{{ $gender->id }}"
                     {{ old('gender_id') == $gender->id || $user->gender_id == $gender->id ? 'selected' : '' }}>
-                    {{ $gender->name_en }}</option>
+                    {{ $gender->{'name_' . app()->getLocale()} }}</option>
             @endforeach
         </select>
 
@@ -68,7 +68,7 @@
             @foreach ($maritalStatuses as $status)
                 <option value="{{ $status->id }}"
                     {{ old('marital_status_id') == $status->id || $user->marital_status_id == $status->id ? 'selected' : '' }}>
-                    {{ $status->name_en }}</option>
+                    {{ $status->{'name_' . app()->getLocale()} }}</option>
             @endforeach
         </select>
 
@@ -97,7 +97,7 @@
             @foreach ($languages as $language)
                 <option value="{{ $language->id }}"
                     {{ old('language_id') == $language->id || $user->language_id == $language->id ? 'selected' : '' }}>
-                    {{ $language->name_en }}</option>
+                    {{ $language->{'name_' . app()->getLocale()} }}</option>
             @endforeach
         </select>
 
@@ -134,7 +134,7 @@
             @foreach ($identityDocuments as $document)
                 <option value="{{ $document->id }}"
                     {{ old('identity_document_id') == $document->id || $user->identity_document_id == $document->id ? 'selected' : '' }}>
-                    {{ $document->name_en }}
+                    {{ $document->{'name_' . app()->getLocale()} }}
                 </option>
             @endforeach
         </select>
@@ -251,7 +251,7 @@
             @foreach ($sourcings as $sourcing)
                 <option value="{{ $sourcing->id }}"
                     {{ old('sourcing_type_id') == $sourcing->id || $user->sourcing_type_id == $sourcing->id ? 'selected' : '' }}>
-                    {{ $sourcing->name_en }}</option>
+                    {{ $sourcing->{'name_' . app()->getLocale()} }}</option>
             @endforeach
         </select>
 

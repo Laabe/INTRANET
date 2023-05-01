@@ -24,7 +24,7 @@
                             <tbody>
                                 @foreach ($leaveTypes as $leaveType)
                                     <tr>
-                                        <td>{{ $leaveType->name_en }}</td>
+                                        <td>{{ $leaveType->{'name_' . app()->getLocale()} }}</td>
                                         <td>{{ $leaveType->deductable ? __('YES') : __('NO') }}
                                         </td>
                                         <td>

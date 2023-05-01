@@ -18,6 +18,7 @@ use App\Models\Project;
 use App\Models\RecrutmentPlatforme;
 use App\Models\SourcingType;
 use App\Models\User;
+use App\Models\UserPreference;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -74,8 +75,7 @@ class UserController extends Controller
             $user = User::create($request->validated());
         }
 
-
-        DB::table('user_preferences')->insert([
+        UserPreference::create([
             'user_id' => $user->id
         ]);
 
