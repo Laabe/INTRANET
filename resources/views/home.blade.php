@@ -9,7 +9,7 @@
                     <div class="row d-flex align-items-center">
                         <div class="col">
                             <h3 class="mb-2 fw-semibold">{{ auth()->user()->paid_leaves_balance }}</h3>
-                            <p class="text-muted fs-13 mb-0">{{ __('My Annual Leaves') }}</p>
+                            <p class="text-muted fs-13 mb-0">{{ __('dashboard.My Annual Leaves') }}</p>
                         </div>
                         <div class="col col-auto top-icn">
                             <div class="counter-icon ms-auto bg-success box-shadow-success">
@@ -27,7 +27,7 @@
                     <div class="row d-flex align-items-center">
                         <div class="col">
                             <h3 class="mb-2 fw-semibold">{{ auth()->user()->holidays_balance }}</h3>
-                            <p class="text-muted fs-13 mb-0">{{ __('My Holidays') }}</p>
+                            <p class="text-muted fs-13 mb-0">{{ __('dashboard.My Holidays') }}</p>
                         </div>
                         <div class="col col-auto top-icn">
                             <div class="counter-icon ms-auto bg-secondary box-shadow-secondary">
@@ -46,7 +46,7 @@
                         <div class="col">
                             <h3 class="mb-2 fw-semibold">
                                 {{ auth()->user()->leaveRequests->where('status', 'pending')->count() }}</h3>
-                            <p class=" fs-13 mb-0">{{ __('My Pending Requests') }}</p>
+                            <p class="text-muted fs-13 mb-0">{{ __('dashboard.My Pending Requests') }}</p>
                         </div>
                         <div class="col col-auto top-icn">
                             <div class="counter-icon ms-auto bg-warning box-shadow-warning">

@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-header border-bottom d-flex justify-content-between">
                         <h3 class="card-title">
-                            {{ __('List of employees') }}
+                            {{ __('userManagement.List of employees') }}
                         </h3>
                     </div>
                     <div class="card-body">
@@ -18,11 +18,11 @@
                                 id="basic-datatable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('NAME') }}</th>
-                                        <th>{{ __('EMPLOYEE ID') }}</th>
-                                        <th>{{ __('PROFILE') }}</th>
-                                        <th>{{ __('ROLE') }}</th>
-                                        <th>{{ __('ACTION') }}</th>
+                                        <th>{{ __('userManagement.EMPLOYEE') }}</th>
+                                        <th>{{ __('userManagement.EMPLOYEE ID') }}</th>
+                                        <th>{{ __('userManagement.PROFILE') }}</th>
+                                        <th>{{ __('userManagement.ROLE') }}</th>
+                                        <th>{{ __('userMAnagement.ACTION') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,7 +42,7 @@
                                             <td>{{ $user->profile->{'name_' . app()->getLocale()} ?? 'N/A' }}</td>
                                             <td>{{ $user->getRoleNames()->first() ?? 'N/A' }}</td>
                                             <td><a href="#" class="btn btn-dark" data-bs-toggle="modal"
-                                                    data-bs-target="#assignRole{{ $user->id }}">{{ __('Assign Role') }}</a>
+                                                    data-bs-target="#assignRole{{ $user->id }}">{{ __('userManagement.Assign role') }}</a>
                                             </td>
                                         </tr>
                                         @include('users.assignRoleModal')

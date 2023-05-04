@@ -1,8 +1,8 @@
-<p class="mb-4 text-17">{{ __('Personal Info') }}</p>
+<p class="mb-4 text-17">{{ __('employeeManagement.Personal Info') }}</p>
 
 <div class="row mb-4">
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="first_name" class="form-label">{{ __('First name') }}(<span class="text-danger">*</span>)</label>
+        <label for="first_name" class="form-label">{{ __('employeeManagement.First name') }}(<span class="text-danger">*</span>)</label>
         <input type="text" class="form-control @error('first_name') is-invalid @enderror" id="first_name"
             name="first_name" value="{{ old('first_name') ?? $user->first_name }}"
             placeholder="{{ __('Enter user first name') }}">
@@ -13,7 +13,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="last_name" class="form-label">{{ __('Last name') }}(<span class="text-danger">*</span>)</label>
+        <label for="last_name" class="form-label">{{ __('employeeManagement.Last name') }}(<span class="text-danger">*</span>)</label>
         <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name"
             name="last_name" value="{{ old('last_name') ?? $user->last_name }}"
             placeholder="{{ __('Enter user last name') }}">
@@ -24,7 +24,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="gender_id" class="form-label">{{ __('Gender') }}(<span class="text-danger">*</span>)</label>
+        <label for="gender_id" class="form-label">{{ __('employeeManagement.Gender') }}(<span class="text-danger">*</span>)</label>
         <select name="gender_id" id="gender_id"
             class="form-control select2 form-select select2-hidden-accessible @error('gender_id') is-invalid @enderror"
             data-placeholder="Select a gender">
@@ -42,7 +42,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="date_of_birth" class="form-label">{{ __('Date of birth') }}</label>
+        <label for="date_of_birth" class="form-label">{{ __('employeeManagement.Date of birth') }}</label>
         <div class="input-group">
             <div id="datePickerStyle1" class="input-group date" data-date-format="yyyy-mm-dd">
                 <span class="input-group-addon input-group-text bg-primary-transparent">
@@ -60,7 +60,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="marital_status_id" class="form-label">{{ __('Marital Status') }}</label>
+        <label for="marital_status_id" class="form-label">{{ __('employeeManagement.Marital Status') }}</label>
         <select name="marital_status_id" id="marital_status_id"
             class="form-control select2 form-select select2-hidden-accessible @error('marital_status_id') is-invalid @enderror"
             data-placeholder="{{ __('Choose one') }}">
@@ -78,7 +78,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="number_of_kids" class="form-label">{{ __('Number of kids') }}</label>
+        <label for="number_of_kids" class="form-label">{{ __('employeeManagement.Number of kids') }}</label>
         <input type="test" class="form-control @error('number_of_kids') is-invalid @enderror" name="number_of_kids"
             value="{{ old('number_of_kids') ?? $user->number_of_kids }}" id="number_of_kids"
             placeholder="{{ __('Enter number of  kids') }}">
@@ -89,7 +89,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="language_id" class="form-label">{{ __('Language') }}</label>
+        <label for="language_id" class="form-label">{{ __('employeeManagement.Language') }}</label>
         <select name="language_id" id="language_id"
             class="form-control select2 form-select select2-hidden-accessible @error('language_id') is-invalid @enderror"
             data-placeholder="Select a language">
@@ -107,7 +107,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="language_level_id" class="form-label">{{ __('Language level') }}</label>
+        <label for="language_level_id" class="form-label">{{ __('employeeManagement.Language level') }}</label>
         <select name="language_level_id" id="language_level_id"
             class="form-control select2 form-select select2-hidden-accessible @error('language_level_id') is-invalid @enderror"
             data-placeholder="{{ __('Select a level') }}">
@@ -125,7 +125,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="identity_document" class="form-label">{{ __('Identity Document') }}(<span
+        <label for="identity_document" class="form-label">{{ __('employeeManagement.Identity Document') }}(<span
             class="text-danger">*</span>)</label>
         <select name="identity_document_id" id="identity_document_id"
             class="form-control select2 form-select select2-hidden-accessible @error('identity_document_id') is-invalid @enderror"
@@ -145,7 +145,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="integration_date" class="form-label">{{ __('Integration Date') }}(<span
+        <label for="integration_date" class="form-label">{{ __('employeeManagement.Integration Date') }}(<span
             class="text-danger">*</span>)</label>
         <div class="input-group">
             <div id="datePickerStyle1" class="input-group date" data-date-format="yyyy-mm-dd">
@@ -164,7 +164,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="identity_document_number" class="form-label">{{ __('Document Number') }}(<span
+        <label for="identity_document_number" class="form-label">{{ __('employeeManagement.Document Number') }}(<span
             class="text-danger">*</span>)</label>
         <input type="text" name="identity_document_number"
             value="{{ old('identity_document_number') ?? $user->identity_document_number }}"
@@ -178,7 +178,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="social_security_number" class="form-label">{{ __('Social Security Number') }}(<span
+        <label for="social_security_number" class="form-label">{{ __('employeeManagement.Social Security Number') }}(<span
             class="text-danger">*</span>)</label>
         <input type="text" name="social_security_number"
             value="{{ old('social_security_number') ?? $user->social_security_number }}" id="social_security_number"
@@ -193,7 +193,7 @@
     </div>
 
     <div class="col-12 mb-3">
-        <label for="image" class="form-label">{{ __('Employee Image') }}</label>
+        <label for="image" class="form-label">{{ __('employeeManagement.Employee Image') }}</label>
         <input type="file" name="image" id="image" class="dropify @error('image') is-invalid @enderror">
 
         @error('image')
@@ -203,7 +203,7 @@
 
 </div>
 
-<p class="mb-4 text-17">{{ __('Contact Info') }}</p>
+<p class="mb-4 text-17">{{ __('employeeManagement.Contact Info') }}</p>
 
 <div class="row mb-4">
 
@@ -239,11 +239,11 @@
     </div>
 </div>
 
-<p class="mb-4 text-17">{{ __('Other Info') }}</p>
+<p class="mb-4 text-17">{{ __('employeeManagement.Other Info') }}</p>
 
 <div class="form-row">
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="sourcing_type_id" class="form-label">{{ __('Sourcing type') }}</label>
+        <label for="sourcing_type_id" class="form-label">{{ __('employeeManagement.Sourcing type') }}</label>
         <select name="sourcing_type_id" id="sourcing_type_id"
             class="form-control select2 form-select select2-hidden-accessible @error('sourcing_type_id') is-invalid @enderror"
             data-placeholder="Select a sourcing">
@@ -261,7 +261,7 @@
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-        <label for="recrutment_platforme_id" class="form-label">{{ __('Professional Networks') }}</label>
+        <label for="recrutment_platforme_id" class="form-label">{{ __('employeeManagement.Professional Networks') }}</label>
         <select name="recrutment_platforme_id" id="recrutment_platforme_id"
             class="form-control select2 form-select select2-hidden-accessible @error('recrutment_platforme_id') is-invalid @enderror"
             data-placeholder="{{ __('Select a platforme') }}">

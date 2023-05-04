@@ -1,5 +1,5 @@
 <div class="form-group mb-3">
-    <label for="name" class="form-label">Permission Name</label>
+    <label for="name" class="form-label">{{ __('userManagement.Permission name') }}</label>
     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
         value="{{ old('name') }}" placeholder="Enter permission name...">
 

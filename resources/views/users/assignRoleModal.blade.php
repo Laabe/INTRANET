@@ -8,14 +8,14 @@
                     <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
                         <span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title mb-2">{{ __('Assign a role') }}</h4>
-                    <p class="text-muted">{{ __('Select a role to assign') }}</p>
+                    <h4 class="modal-title mb-2">{{ __('userManagement.Assign a role') }}</h4>
+                    <p class="text-muted">{{ __('userManagement.Select a role to assign') }}</p>
                     <input type="hidden" name="user_id" value="{{ $user->id }}">
                     <div class="form-group">
                         <select name="name" id="name"
                             class="form-control select2 form-select select2-hidden-accessible @error('name') is-invalid @enderror"
-                            data-placeholder="{{ __('Select a Role') }}">
-                            <option value="">{{ __('Select a role') }}</option>
+                            data-placeholder="{{ __('userManagement.Select a role') }}">
+                            <option value="">{{ __('userManagement.Select a role') }}</option>
                             @foreach ($roles as $role)
                                 <option value="{{ $role->name }}"
                                     {{ old('name') == $role->name || $user->roles->first() == $role->name ? 'selected' : '' }}>

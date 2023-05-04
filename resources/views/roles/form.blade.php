@@ -1,7 +1,7 @@
 <div class="form-group mb-3">
-    <label for="name" class="form-label">{{ __('Role Name') }}</label>
+    <label for="name" class="form-label">{{ __('userManagement.Role name') }}</label>
     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-        placeholder="Enter role name..." value="{{ old('name') ?? $role->name }}">
+        placeholder="{{ __('userManagement.Enter role name...') }}" value="{{ old('name') ?? $role->name }}">
 
     @error('name')
         <span>
@@ -10,7 +10,7 @@
     @enderror
 </div>
 <hr>
-<h5 class="mb-5">{{ __('Role Permission') }}</h5>
+<h5 class="mb-5">{{ __('userManagement.Role permissions') }}</h5>
 <div class="row">
     @forelse ($permissions as $key => $permission)
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">

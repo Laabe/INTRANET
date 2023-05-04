@@ -6,20 +6,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('List of teams') }}</h3>
-                    <a href="{{ route('teams.create') }}" class="btn btn-primary">{{ __('Create Team') }}</a>
+                    <h3 class="card-title">{{ __('team.List of teams') }}</h3>
+                    <a href="{{ route('teams.create') }}" class="btn btn-primary">{{ __('team.Create Team') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered text-nowrap border-bottom w-100 dataTable no-footer dtr-inline" id="responsive-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('TEAM NAME') }}</th>
-                                    <th>{{ __('DEPARTMENT') }}</th>
-                                    <th>{{ __('PROJECT') }}</th>
-                                    <th>{{ __('TEAM LEADER') }}</th>
-                                    <th>{{ __('TOTAL OF EMPLOYES') }}</th>
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ __('team.TEAM NAME') }}</th>
+                                    <th>{{ __('team.DEPARTMENT') }}</th>
+                                    <th>{{ __('team.PROJECT') }}</th>
+                                    <th>{{ __('team.TEAM LEADER') }}</th>
+                                    <th>{{ __('team.TOTAL EMPLOYEES') }}</th>
+                                    <th>{{ __('team.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,15 +32,14 @@
                                         <td>{{ $team->users->count() }}</td>
                                         <td>
                                             <a href="{{ route('teams.edit', $team) }}"
-                                                class="btn btn-cyan">{{ __('Edit') }}</a>
+                                                class="btn btn-cyan">{{ __('team.Edit') }}</a>
                                             <form action="{{ route('teams.destroy', $team) }}" method="post"
                                                 class="d-inline-block">
                                                 @csrf @method('delete')
-                                                <button class="btn btn-danger">{{ __('Delete') }}</button>
+                                                <button class="btn btn-danger">{{ __('team.Delete') }}</button>
                                             </form>
                                             <a href="#" class="btn btn-dark" data-bs-toggle="modal"
-                                                data-bs-target="#assignUsers{{ $team->id }}">{{ __('Associate
-                                                                                                employees') }}</a>
+                                                data-bs-target="#assignUsers{{ $team->id }}">{{ __('team.Associate employees') }}</a>
                                         </td>
                                     </tr>
                                     @include('teams.assignUsersModal')

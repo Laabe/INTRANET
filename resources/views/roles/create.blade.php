@@ -7,7 +7,7 @@
             <div class="card">
                 <form action="{{ route('roles.store') }}" method="post" class="form-horizontal" autocomplete="off">
                     <div class="card-header border-bottom">
-                        <h3 class="card-title">{{ __('Add Role') }}</h3>
+                        <h3 class="card-title">{{ __('userManagement.Add role') }}</h3>
                     </div>
                     <div class="card-body">
                         @csrf

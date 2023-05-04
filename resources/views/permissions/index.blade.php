@@ -6,16 +6,16 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">List of Permissions</h3>
-                    <a href="{{ route('permissions.create') }}" class="btn btn-primary">Add Permission</a>
+                    <h3 class="card-title">{{ __('userManagement.List of permissions') }}</h3>
+                    <a href="{{ route('permissions.create') }}" class="btn btn-primary">{{ __('userManagement.Add permission') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered text-nowrap border-bottom" id="basic-datatable">
                             <thead>
                                 <tr>
-                                    <th>NAME</th>
-                                    <th>ASSIGNED TO</th>
+                                    <th>{{ __('userManagement.PERMISSION NAME') }}</th>
+                                    <th>{{ __('userManagement.ASSIGNED TO') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -14,9 +14,9 @@
                         <table class="table table-bordered text-nowrap border-bottom" id="basic-datatable">
                             <thead>
                                 <tr>
-                                    <th>ROLE</th>
-                                    <th>ASSIGNED PERMISSION</th>
-                                    <th>ACTION</th>
+                                    <th>{{ __('userManagement.ROLE') }}</th>
+                                    <th>{{ __('userManagement.ASSIGNED PERMISSIONS') }}</th>
+                                    <th>{{ __('userManagement.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

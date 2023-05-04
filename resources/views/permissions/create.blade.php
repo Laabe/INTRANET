@@ -7,7 +7,7 @@
             <div class="card">
                 <form action="{{ route('permissions.store') }}" method="post" class="form-horizontal" autocomplete="off">
                     <div class="card-header border-bottom">
-                        <h3 class="card-title">Add Permission</h3>
+                        <h3 class="card-title">{{ __('userManagement.Add permission') }}</h3>
                     </div>
                     <div class="card-body">
                         @csrf

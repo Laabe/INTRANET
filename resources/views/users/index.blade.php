@@ -8,22 +8,22 @@
                 <div class="card">
                     <div class="card-header border-bottom d-flex justify-content-between">
                         <h3 class="card-title">
-                            {{ request()->routeIs('users.index') ? __('List of employees') : __('List of deleted employees') }}
+                            {{ request()->routeIs('users.index') ? __('employeeManagement.List of employees') : __('employeeManagement.List of deleted employees') }}
                         </h3>
                         <div>
                             @if (request()->routeIs('users.deleted'))
                                 <a class="btn btn-primary" href="{{ route('users.create') }}">
-                                    {{ __('Add Employee') }}
+                                    {{ __('employeeManagement.Add employee') }}
                                 </a>
                                 <a class="btn btn-dark" href="{{ route('users.index') }}">
-                                    {{ __('Return') }}
+                                    {{ __('employeeManagement.Return') }}
                                 </a>
                             @else
                                 <a class="btn btn-primary" href="{{ route('users.create') }}">
-                                    {{ __('Add Employee') }}
+                                    {{ __('employeeManagement.Add employee') }}
                                 </a>
                                 <a class="btn btn-dark" href="{{ route('users.deleted') }}">
-                                    {{ __('Deleted Employee') }}
+                                    {{ __('employeeManagement.Deleted employees') }}
                                 </a>
                             @endif
                         </div>
@@ -35,12 +35,12 @@
                                 id="responsive-datatable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('EMPLOYEE ID') }}</th>
-                                        <th>{{ __('NAME') }}</th>
-                                        <th>{{ __('PROFILE') }}</th>
-                                        <th>{{ __('PAID LEAVES BALANCE') }}</th>
-                                        <th>{{ __('HOLIDAYS BALANCE') }}</th>
-                                        <th>{{ request()->routeIs('users.index') ? __('INTEGRATION DATE') : __('TERMINATION DATE') }}
+                                        <th>{{ __('employeeManagement.EMPLOYEE ID') }}</th>
+                                        <th>{{ __('employeeManagement.NAME') }}</th>
+                                        <th>{{ __('employeeManagement.PROFILE') }}</th>
+                                        <th>{{ __('employeeManagement.PAID LEAVES BALANCE') }}</th>
+                                        <th>{{ __('employeeManagement.HOLIDAYS BALANCE') }}</th>
+                                        <th>{{ request()->routeIs('users.index') ? __('employeeManagement.INTEGRATION DATE') : __('employeeManagement.TERMINATION DATE') }}
                                         </th>
                                         <th>{{ __('ACTION') }}</th>
                                     </tr>
@@ -70,7 +70,7 @@
                                                     <div class="d-flex align-items-stretch">
                                                         <a class="btn btn-outline-info border me-2" data-bs-toggle="tooltip"
                                                             href="{{ route('users.show', $user) }}"
-                                                            data-bs-original-title="{{ __('Show Details') }}">
+                                                            data-bs-original-title="{{ __('employeeManagement.Show details') }}">
                                                             <i class="fa fa-info"></i>
                                                         </a>
                                                         <a class="btn btn-outline-danger border me-2"href="javascript:void(0)"

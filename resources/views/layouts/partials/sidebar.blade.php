@@ -67,24 +67,24 @@
                     <a class="side-menu__item {{ request()->routeIs('users.*') ? ' is-expanded active' : '' }}"
                         data-bs-toggle="slide" href="#">
                         <i class="side-menu__icon icon icon-people"></i>
-                        <span class="side-menu__label">{{ __('Employee Management') }}</span><i
+                        <span class="side-menu__label">{{ __('navigation.Employee Management') }}</span><i
                             class="angle fa fa-angle-right"></i>
                     </a>
                     <ul class="slide-menu">
                         <li class="side-menu-label1">
-                            <a href="javascript:void(0)">{{ __('>Employee Management') }}</a>
+                            <a href="javascript:void(0)">{{ __('navigation.Employee Management') }}</a>
                         </li>
                         <li>
                             <a href="{{ route('users.index') }}"
-                                class="slide-item {{ Request::routeIs('users.index') ? 'active' : '' }}">{{ __('Employees') }}</a>
+                                class="slide-item {{ Request::routeIs('users.index') ? 'active' : '' }}">{{ __('navigation.Employees') }}</a>
                         </li>
                         <li>
                             <a href="{{ route('users.inject-holidays') }}"
-                                class="slide-item {{ Request::routeIs('users.inject-holidays') ? 'active' : '' }}">{{ __('Holidays Injection') }}</a>
+                                class="slide-item {{ Request::routeIs('users.inject-holidays') ? 'active' : '' }}">{{ __('navigation.Holidays Injection') }}</a>
                         </li>
                         <li>
                             <a href="{{ route('users.import-employees') }}"
-                                class="slide-item {{ Request::routeIs('users.import-employees') ? 'active' : '' }}">{{ __('Import Employees') }}</a>
+                                class="slide-item {{ Request::routeIs('users.import-employees') ? 'active' : '' }}">{{ __('navigation.Import Employees') }}</a>
                         </li>
                     </ul
                 @endif
@@ -162,38 +162,38 @@
                         <a class="side-menu__item {{ request()->routeIs('languages.*') ? ' is-expanded active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="side-menu__icon icon icon-settings"></i>
-                            <span class="side-menu__label">{{ __('Settings') }}</span><i
+                            <span class="side-menu__label">{{ __('navigation.Settings') }}</span><i
                                 class="angle fa fa-angle-right"></i>
                         </a>
                         <ul class="slide-menu">
                             <li>
                                 <a class="slide-item {{ Request::routeIs('profiles.*') ? 'active' : '' }}"
-                                    href="{{ route('profiles.index') }}">{{ __('Profiles') }}
+                                    href="{{ route('profiles.index') }}">{{ __('navigation.Profiles') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="slide-item {{ Request::routeIs('languages.*') ? 'active' : '' }}"
-                                    href="{{ route('languages.index') }}">{{ __('Languages') }}
+                                    href="{{ route('languages.index') }}">{{ __('navigation.Languages') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="slide-item {{ Request::routeIs('departments.*') ? 'active' : '' }}"
-                                    href="{{ route('departments.index') }}">{{ __('Departments') }}
+                                    href="{{ route('departments.index') }}">{{ __('navigation.Departments') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="slide-item {{ Request::routeIs('projects.*') ? 'active' : '' }}"
-                                    href="{{ route('projects.index') }}">{{ __('Projects') }}
+                                    href="{{ route('projects.index') }}">{{ __('navigation.Projects') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="slide-item {{ Request::routeIs('recrutment-platformes.*') ? 'active' : '' }}"
-                                    href="{{ route('recrutment-platformes.index') }}">{{ __('Recrutment platformes') }}
+                                    href="{{ route('recrutment-platformes.index') }}">{{ __('navigation.Recrutment platformes') }}
                                 </a>
                             </li>
                             <li>
                                 <a class="slide-item {{ Request::routeIs('leave-types.*') ? 'active' : '' }}"
-                                    href="{{ route('leave-types.index') }}">{{ __('Leave types') }}
+                                    href="{{ route('leave-types.index') }}">{{ __('navigation.Leave types') }}
                                 </a>
                             </li>
                             <li>
