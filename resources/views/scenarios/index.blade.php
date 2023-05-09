@@ -6,17 +6,17 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('List of scenarios') }}</h3>
-                    <a href="{{ route('scenarios.create') }}" class="btn btn-primary">{{ __('Create scenario') }}</a>
+                    <h3 class="card-title">{{ __('scenario.List of scenarios') }}</h3>
+                    <a href="{{ route('scenarios.create') }}" class="btn btn-primary">{{ __('scenario.Create scenario') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered text-nowrap border-bottom" id="basic-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('PROFILE') }}</th>
-                                    <th>{{ __('TOTAL SCENARIOS') }}</th>
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ __('scenario.PROFILE') }}</th>
+                                    <th>{{ __('scenario.TOTAL SCENARIOS') }}</th>
+                                    <th>{{ __('scenario.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -26,7 +26,7 @@
                                         <td>{{ $profile->scenarios->count() }}</td>
                                         <td>
                                             <a href="{{ route('scenarios.show', $profile) }}"
-                                                class="btn btn-info">{{ __('Show details') }}</a>
+                                                class="btn btn-info">{{ __('scenario.Show details') }}</a>
                                         </td>
                                     </tr>
                                 @endforeach

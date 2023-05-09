@@ -6,9 +6,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('List of recrutment platformes') }}</h3>
+                    <h3 class="card-title">{{ __('platforme.List of platformes') }}</h3>
                     <a href="{{ route('recrutment-platformes.create') }}"
-                        class="btn btn-primary">{{ __('Add recrutment platforme') }}</a>
+                        class="btn btn-primary">{{ __('platforme.Add platforme') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -17,9 +17,9 @@
                             id="file-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('PLATFORME NAME') }}</th>
-                                    <th>{{ __('TOTAL EMPLOYEES') }}</th>
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ __('platforme.PLATFORME NAME') }}</th>
+                                    <th>{{ __('platforme.TOTAL EMPLOYEES') }}</th>
+                                    <th>{{ __('platforme.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,12 +29,12 @@
                                         <td>{{ $platforme->users->count() }}</td>
                                         <td>
                                             <a href="{{ route('recrutment-platformes.edit', $platforme) }}"
-                                                class="btn btn-cyan">{{ __('Edit') }}</a>
+                                                class="btn btn-cyan">{{ __('platforme.Edit') }}</a>
                                             <form class="d-inline-block"
                                                 action="{{ route('recrutment-platformes.destroy', $platforme) }}"
                                                 method="post">
                                                 @csrf @method('delete')
-                                                <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
+                                                <button class="btn btn-danger" type="submit">{{ __('platforme.Delete') }}</button>
                                             </form>
                                         </td>
                                     </tr>

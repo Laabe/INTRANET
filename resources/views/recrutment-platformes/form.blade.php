@@ -1,7 +1,7 @@
 <div class="form-group mb-3">
-    <label for="name" class="form-label">{{ __('Platforme name') }}</label>
+    <label for="name" class="form-label">{{ __('platforme.Platforme name ') }}</label>
     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-        value="{{ old('name') ?? $recrutmentPlatforme->name }}" placeholder="{{ __('Enter Platforme name...') }}">
+        value="{{ old('name') ?? $recrutmentPlatforme->name }}" placeholder="{{ __('platforme.Enter platforme name...') }}">
 
     @error('name')
         <span>

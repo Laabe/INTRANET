@@ -8,16 +8,16 @@
                 <form action="{{ route('recrutment-platformes.update', $recrutmentPlatforme) }}" method="post"
                     class="form-horizontal" autocomplete="off">
                     <div class="card-header border-bottom">
-                        <h3 class="card-title">{{ __('Modify recrutment platforme') }}</h3>
+                        <h3 class="card-title">{{ __('platforme.Modify platforme') }}</h3>
                     </div>
                     <div class="card-body">
                         @csrf @method('put')
                         @include('recrutment-platformes.form')
                     </div>
                     <div class="card-footer d-flex align-items-baseline btn-group mb-1">
-                        <button class="btn btn-warning btn-block" type="submit">{{ _('Save') }}</button>
+                        <button class="btn btn-warning btn-block" type="submit">{{ __('platforme.Save') }}</button>
                         <a href="{{ route('recrutment-platformes.index') }}"
-                            class="btn btn-dark btn-block">{{ __('Cancel') }}</a>
+                            class="btn btn-dark btn-block">{{ __('platforme.Cancel') }}</a>
                     </div>
                 </form>
             </div>

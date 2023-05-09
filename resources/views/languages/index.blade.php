@@ -6,8 +6,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('List of languages') }}</h3>
-                    <a href="{{ route('languages.create') }}" class="btn btn-primary">{{ __('Add language') }}</a>
+                    <h3 class="card-title">{{ __('language.List of languages') }}</h3>
+                    <a href="{{ route('languages.create') }}" class="btn btn-primary">{{ __('language.Add language') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -16,9 +16,9 @@
                             id="file-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('LANGUAGE NAME') }}</th>
-                                    <th>{{ __('TOTAL EMPLOYEES') }}</th>
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ __('language.LANGUAGE') }}</th>
+                                    <th>{{ __('language.TOTAL EMPLOYEES') }}</th>
+                                    <th>{{ __('language.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,11 +28,11 @@
                                         <td>{{ $language->employees->count() }}</td>
                                         <td>
                                             <a href="{{ route('languages.edit', $language) }}"
-                                                class="btn btn-cyan">{{ __('Edit') }}</a>
+                                                class="btn btn-cyan">{{ __('language.Edit') }}</a>
                                             <form class="d-inline-block"
                                                 action="{{ route('languages.destroy', $language) }}" method="post">
                                                 @csrf @method('delete')
-                                                <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
+                                                <button class="btn btn-danger" type="submit">{{ __('language.Delete') }}</button>
                                             </form>
                                         </td>
                                     </tr>

@@ -6,8 +6,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('List of leave types') }}</h3>
-                    <a href="{{ route('leave-types.create') }}" class="btn btn-primary">{{ __('Add leave type') }}</a>
+                    <h3 class="card-title">{{ __('leaveType.List of leave types') }}</h3>
+                    <a href="{{ route('leave-types.create') }}" class="btn btn-primary">{{ __('leaveType.Add leave type') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -16,24 +16,24 @@
                             id="file-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('LEAVE TYPE NAME') }}</th>
-                                    <th>{{ __('DEDUCTABLE') }}</th>
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ __('leaveType.LEAVE TYPE NAME') }}</th>
+                                    <th>{{ __('leaveType.DEDUCTIBLE') }}</th>
+                                    <th>{{ __('leaveType.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($leaveTypes as $leaveType)
                                     <tr>
                                         <td>{{ $leaveType->{'name_' . app()->getLocale()} }}</td>
-                                        <td>{{ $leaveType->deductable ? __('YES') : __('NO') }}
+                                        <td>{{ $leaveType->deductable ? __('leaveType.YES') : __('leaveType.NO') }}
                                         </td>
                                         <td>
                                             <a href="{{ route('leave-types.edit', $leaveType) }}"
-                                                class="btn btn-cyan">{{ __('Edit') }}</a>
+                                                class="btn btn-cyan">{{ __('leaveType.Edit') }}</a>
                                             <form class="d-inline-block"
                                                 action="{{ route('leave-types.destroy', $leaveType) }}" method="post">
                                                 @csrf @method('delete')
-                                                <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
+                                                <button class="btn btn-danger" type="submit">{{ __('leaveType.Delete') }}</button>
                                             </form>
                                         </td>
                                     </tr>

@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-header border-bottom d-flex justify-content-between">
                         <h3 class="card-title">
-                            {{ __('List of paid leaves and holidays records') }}
+                            {{ __('leaveRequest.List of paid leaves and holidays records') }}
                         </h3>
                     </div>
                     <div class="card-body">
@@ -18,13 +18,13 @@
                                 id="responsive-datatable">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('ACTION DATE') }}</th>
-                                        <th>{{ __('MADE BY') }}</th>
-                                        <th>{{ __('COMMENT') }}</th>
-                                        <th>{{ __('PAID LEAVES BALANCE') }}</th>
-                                        <th>{{ __('HOLIDAYS BALANCE') }}</th>
-                                        <th>{{ __('TOTAL BALANCE') }}</th>
-                                        <th>{{ __('DETAILS') }}</th>
+                                        <th>{{ __('leaveRequest.ACTION DATE') }}</th>
+                                        <th>{{ __('leaveRequest.MADE BY') }}</th>
+                                        <th>{{ __('leaveRequest.COMMENT') }}</th>
+                                        <th>{{ __('leaveRequest.PAID LEAVES BALANCE') }}</th>
+                                        <th>{{ __('leaveRequest.HOLIDAYS BALANCE') }}</th>
+                                        <th>{{ __('leaveRequest.TOTAL BALANCE') }}</th>
+                                        <th>{{ __('leaveRequest.DETAILS') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,7 +69,7 @@
                                                     <a class="btn btn-info"
                                                         data-bs-target="#actionDetail{{ $record->leaveRequest->id }}"
                                                         data-bs-toggle="modal"
-                                                        href="javascript:void(0)">{{ __('Details') }}</a>
+                                                        href="javascript:void(0)">{{ __('leaveRequest.Details') }}</a>
                                                 @endif
                                             </td>
                                         </tr>

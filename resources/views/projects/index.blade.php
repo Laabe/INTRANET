@@ -6,8 +6,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('List of projects') }}</h3>
-                    <a href="{{ route('projects.create') }}" class="btn btn-primary">{{ __('Add Project') }}</a>
+                    <h3 class="card-title">{{ __('project.List of projects') }}</h3>
+                    <a href="{{ route('projects.create') }}" class="btn btn-primary">{{ __('project.Add project') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -16,9 +16,9 @@
                             id="file-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('PROJECT NAME') }}</th>
-                                    <th>{{ __('PROJECT MANAGER') }}</th>
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ __('project.PROJECT') }}</th>
+                                    <th>{{ __('project.PROJECT MANAGER') }}</th>
+                                    <th>{{ __('project.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,13 +30,13 @@
                                         <td>
                                             <a href="javascript:void(0)"
                                                 data-bs-target="#assignManagerModal{{ $project->id }}"
-                                                data-bs-toggle="modal" class="btn btn-dark">{{ __('Assign Manager') }}</a>
+                                                data-bs-toggle="modal" class="btn btn-dark">{{ __('project.Assign Manager') }}</a>
                                             <a href="{{ route('projects.edit', $project) }}"
-                                                class="btn btn-cyan">{{ __('Edit') }}</a>
+                                                class="btn btn-cyan">{{ __('project.Edit') }}</a>
                                             <form class="d-inline-block" action="{{ route('projects.destroy', $project) }}"
                                                 method="post">
                                                 @csrf @method('delete')
-                                                <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
+                                                <button class="btn btn-danger" type="submit">{{ __('project.Delete') }}</button>
                                             </form>
                                         </td>
                                     </tr>

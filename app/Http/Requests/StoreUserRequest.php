@@ -32,7 +32,7 @@ class StoreUserRequest extends FormRequest
             'sourcing_type_id' => 'nullable',
             'recrutment_platforme_id' => 'nullable',
             'language_id' => 'required',
-            'language_level_id' => 'nullabe',
+            'language_level_id' => 'nullable',
             'identity_document_id' => 'required',
             'identity_document_number' => 'required|max:15',
             'social_security_number' => 'nullable|max:15',

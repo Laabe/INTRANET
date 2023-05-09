@@ -4,19 +4,19 @@
             <form action="{{ route('departments.assign-manager', $department) }}" method="post">
                 @csrf @method('put')
                 <div class="modal-header">
-                    <h3 class="modal-title">{{ __('Assign a Manager') }}</h3>
-                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal">
+                    <h3 class="modal-title">{{ __('department.Assign a Manager') }}</h3>
+                    <button aria-label="Close" class="btn-close" type="button" data-bs-dismiss="modal">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h5 class="mb-4">{{ __('Select a manager for the ') . $department->name_en }}</h5>
+                    <h5 class="mb-4">{{ __('department.Select a manager for the ') . $department->{'name_' . app()->getLocale()} }}</h5>
                     <div class="form-group mb-3">
-                        <label for="manager_id" class="form-label">Department Manager</label>
+                        <label for="manager_id" class="form-label">{{ __('department.Department Manager') }}</label>
                         <select name="manager_id" id="manager_id"
                             class="form-control select2-show-search form-select select2-hidden-accessible @error('manager_id') is-invalid @enderror"
-                            data-placeholder="Select a manager">
-                            <option value="">{{ __('Select a manager') }}</option>
+                            data-placeholder="{{ __('department.Select a manager') }}">
+                            <option value="">{{ __('department.Select a manager') }}</option>
                             @foreach ($managers as $manager)
                                 <option value="{{ $manager->id }}"
                                     {{ old('manager_id') == $manager->id || $department->manager_id == $manager->id ? 'selected' : '' }}>
@@ -32,8 +32,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary">{{ __('Save') }}</button>
-                    <button class="btn btn-light" type="button" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button class="btn btn-primary">{{ __('department.Save') }}</button>
+                    <button class="btn btn-light" type="button" data-bs-dismiss="modal">{{ __('department.Cancel') }}</button>
                 </div>
             </form>
         </div>

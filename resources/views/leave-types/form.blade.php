@@ -1,6 +1,6 @@
 @foreach (config('app.available_locale') as $locale)
     <div class="form-group mb-3">
-        <label for="name_{{ $locale }}" class="form-label">{{ __('Leave type ') . strtoupper($locale) }}</label>
+        <label for="name_{{ $locale }}" class="form-label">{{ __('leaveType.Leave type ') . strtoupper($locale) }}</label>
         <input type="text" class="form-control @error('name_' . $locale) is-invalid @enderror"
             id="name_{{ $locale }}" name="name_{{ $locale }}"
             value="{{ $leaveType->{'name_' . $locale} ?? old('name_' . $locale) }}"
@@ -15,16 +15,16 @@
 @endforeach
 
 <div class="form-group mb-3">
-    <label for="deductable" class="form-label">{{ __('Deductable') }}</label>
+    <label for="deductable" class="form-label">{{ __('leaveType.Deductible') }}</label>
     <select name="deductable" id="deductable"
         class="form-control select2 form-select select2-hidden-accessible @error('deductable') is-invalid @enderror">
         <option value="">{{ __('Select a value') }}</option>
         <option value="{{ true }}"
             {{ $leaveType->deductable || old('deductable') == true ? 'selected' : '' }}>
-            {{ __('YES') }}
+            {{ __('leaveType.YES') }}
         </option>
         <option value="{{ 0 }}"
-            {{ $leaveType->deductable || old('deductable') == true ? '' : 'selected' }}>{{ __('NO') }}
+            {{ $leaveType->deductable || old('deductable') == true ? '' : 'selected' }}>{{ __('leaveType.NO') }}
         </option>
     </select>
 

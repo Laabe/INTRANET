@@ -17,6 +17,7 @@ return [
     'List of deleted employees' => 'List des employés suprimmés',
     'NAME' => 'NOM',
     'EMPLOYEE ID' => 'MATRICULE',
+    'Employee ID' => 'Matricule',
     'PROFILE' => 'PROFILE',
     'PAID LEAVES BALANCE' => 'SOLDE DES CONGÉS',
     'HOLIDAYS BALANCE' => 'SOLDE DES JOURS FERIÉS',
@@ -49,6 +50,18 @@ return [
     'Personal Info' => 'Informations personnelles',
     'Contact Info' => 'Informations du contact',
     'Other Info' => 'Autres informations',
+    'Enter first name' => 'Entrer le prènom',
+    'Enter last name' => 'Entrer le nom',
+    'Select a gender' => 'Selectionner un sexe',
+    'Choose one' => 'Selectionner un choix',
+    'Enter number of kids' => 'Entrer numero des enfants',
+    'Enter document number' => 'Entrer numero du document',
+    'Enter social security number' => 'Entrer numero du cnss',
+    'Enter phone number' => 'Entrer numero du téléphone',
+    'Enter email address' => 'Entrer adresse email',
+    'Write here...' => 'Ecriveez ici...',
+    'Select a language' => 'Selectionner une langue',
+    'Select a level' => 'Selectionner un niveau',
 
     // Delete employee modal
 
@@ -70,4 +83,30 @@ return [
     'Inject' => 'Injecter',
     'Cancel' => 'Annuler',
     'Import Employees' => 'Importer des employés',
+
+    // show employee
+
+    'Edit' => 'Modifier',
+    'Annual Leaves' => 'Congés Payés',
+    'Holidays' => 'Jours feriés',
+    'Pending Requests' => 'Demande en cours',
+    'Professional Information' => 'Information personnelle',
+    'Department' => 'Departement',
+    'Title' => 'Titre',
+    'Project' => 'Projet',
+    'Assign' => 'Assigner',
+    'Change' => 'Changer',
+
+    // Modals
+
+    'Assign a Department' => 'Assigner un departement',
+    'Select a department' => 'Selectionner un departement',
+    'Department name' => 'Departement',
+    'Assign a profile' => 'Assigner un profile',
+    'Select a profile' => 'Selectionner un profile',
+    'profile name' => 'profile',
+    'Assign a project' => 'Assigner un projet',
+    'Select a project' => 'Selectionner un projet',
+    'project name' => 'projet',
+    'Save' => 'Sauvegarder',
 ];

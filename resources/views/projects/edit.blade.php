@@ -8,15 +8,15 @@
                 <form action="{{ route('projects.update', $project) }}" method="post" class="form-horizontal"
                     enctype="multipart/form-data" autocomplete="off">
                     <div class="card-header border-bottom">
-                        <h3 class="card-title">{{ __('Modify Project') }}</h3>
+                        <h3 class="card-title">{{ __('project.Modify project') }}</h3>
                     </div>
                     <div class="card-body">
                         @csrf @method('put')
                         @include('projects.form')
                     </div>
                     <div class="card-footer d-flex align-items-baseline btn-group mb-1">
-                        <button class="btn btn-warning btn-block" type="submit">{{ __('Save') }}</button>
-                        <a href="{{ route('projects.index') }}" class="btn btn-dark btn-block">{{ __('Cancel') }}</a>
+                        <button class="btn btn-warning btn-block" type="submit">{{ __('project.Save') }}</button>
+                        <a href="{{ route('projects.index') }}" class="btn btn-dark btn-block">{{ __('project.Cancel') }}</a>
                     </div>
                 </form>
             </div>

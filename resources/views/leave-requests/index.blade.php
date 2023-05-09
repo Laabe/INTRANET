@@ -6,22 +6,22 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('List of leave requests') }}</h3>
+                    <h3 class="card-title">{{ __('leaveRequest.List of leave requests') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered text-nowrap border-bottom w-100 dataTable no-footer dtr-inline" id="responsive-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ 'ID' }}</th>
-                                    <th>{{ 'EMPLOYEE' }}</th>
-                                    <th>{{ 'LEAVE TYPE' }}</th>
-                                    <th>{{ 'REQUESTED DAYS' }}</th>
-                                    <th>{{ 'START DATE' }}</th>
-                                    <th>{{ 'END DATE' }}</th>
-                                    <th>{{ 'TEAM' }}</th>
-                                    <th>{{ 'STATUS' }}</th>
-                                    <th>{{ 'ACTION' }}</th>
+                                    <th>{{ __('leaveRequest.ID') }}</th>
+                                    <th>{{ __('leaveRequest.EMPLOYEE' )}}</th>
+                                    <th>{{ __('leaveRequest.LEAVE TYPE') }}</th>
+                                    <th>{{ __('leaveRequest.REQUESTED DAYS') }}</th>
+                                    <th>{{ __('leaveRequest.START DATE') }}</th>
+                                    <th>{{ __('leaveRequest.END DATE') }}</th>
+                                    <th>{{ __('leaveRequest.TEAM') }}</th>
+                                    <th>{{ __('leaveRequest.STATUS') }}</th>
+                                    <th>{{ __('leaveRequest.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,7 +61,7 @@
                                             @endif
                                             <a class="btn btn-info"
                                                 data-bs-target="#leaveRequestDetail{{ $leaveRequest->id }}"
-                                                data-bs-toggle="modal" href="javascript:void(0)">Details</a>
+                                                data-bs-toggle="modal" href="javascript:void(0)">{{ __('leaveRequest.Details') }}</a>
                                             @include('leave-requests.details')
                                         </td>
                                     </tr>

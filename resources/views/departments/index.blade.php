@@ -6,8 +6,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('List of departments') }}</h3>
-                    <a href="{{ route('departments.create') }}" class="btn btn-primary">{{ __('Add department') }}</a>
+                    <h3 class="card-title">{{ __('department.List of departments') }}</h3>
+                    <a href="{{ route('departments.create') }}" class="btn btn-primary">{{ __('department.Add department') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -16,10 +16,10 @@
                             id="file-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('DEPARTMENT NAME') }}</th>
-                                    <th>{{ __('DEPARTMENT MANAGER') }}</th>
+                                    <th>{{ __('department.DEPARTMENT') }}</th>
+                                    <th>{{ __('department.DEPARTMENT MANAGER') }}</th>
                                     {{-- <th>{{ __('TOTAL EMPLOYEES') }}</th> --}}
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ __('department.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,13 +31,13 @@
                                         <td>
                                             <a href="javascript:void(0)"
                                                 data-bs-target="#assignManagerModal{{ $department->id }}"
-                                                data-bs-toggle="modal" class="btn btn-dark">{{ __('Assign Manager') }}</a>
+                                                data-bs-toggle="modal" class="btn btn-dark">{{ __('department.Assign Manager') }}</a>
                                             <a href="{{ route('departments.edit', $department) }}"
-                                                class="btn btn-warning">{{ __('Edit') }}</a>
+                                                class="btn btn-warning">{{ __('department.Edit') }}</a>
                                             <form class="d-inline-block"
                                                 action="{{ route('departments.destroy', $department) }}" method="post">
                                                 @csrf @method('delete')
-                                                <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
+                                                <button class="btn btn-danger" type="submit">{{ __('department.Delete') }}</button>
                                             </form>
 
                                         </td>

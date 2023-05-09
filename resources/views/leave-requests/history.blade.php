@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('History of leave requests') }}</h3>
+                    <h3 class="card-title">{{ __('leaveRequest.History of leave requests') }}</h3>
                     <a class="btn btn-primary" data-bs-target="#export" data-bs-toggle="modal" href="javascript:void(0)">{{ __('Export') }}</a>
                 </div>
                 <div class="card-body">
@@ -14,15 +14,15 @@
                         <table class="table table-bordered text-nowrap border-bottom w-100 dataTable no-footer dtr-inline" id="responsive-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ 'ID' }}</th>
-                                    <th>{{ 'EMPLOYEE' }}</th>
-                                    <th>{{ 'LEAVE TYPE' }}</th>
-                                    <th>{{ 'REQUESTED DAYS' }}</th>
-                                    <th>{{ 'START DATE' }}</th>
-                                    <th>{{ 'END DATE' }}</th>
-                                    <th>{{ 'TEAM' }}</th>
-                                    <th>{{ 'STATUS' }}</th>
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ __('leaveRequest.ID') }}</th>
+                                    <th>{{ __('leaveRequest.EMPLOYEE') }}</th>
+                                    <th>{{ __('leaveRequest.LEAVE TYPE') }}</th>
+                                    <th>{{ __('leaveRequest.REQUESTED DAYS') }}</th>
+                                    <th>{{ __('leaveRequest.START DATE') }}</th>
+                                    <th>{{ __('leaveRequest.END DATE') }}</th>
+                                    <th>{{ __('leaveRequest.TEAM') }}</th>
+                                    <th>{{ __('leaveRequest.STATUS') }}</th>
+                                    <th>{{ __('leaveRequest.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

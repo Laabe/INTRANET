@@ -8,19 +8,19 @@
                 <div
                     class="card-header border-bottom {{ $scenario->primary ? 'bg-primary' : '' }} d-flex justify-content-between">
                     <h4 class="card-title fw-semibold">{{ $scenario->name }}</h4>
-                    @if (!$scenario->primary)
+                    {{-- @if (!$scenario->primary)
                         <form action="" method="post">
                             @csrf @method('put')
                             <button class="btn btn-primary">{{ __('Set as default') }}</button>
                         </form>
-                    @endif
+                    @endif --}}
                 </div>
                 <div class="card-body pb-0">
                     <ul class="task-list">
                         @foreach ($scenario->workflowStages as $workflowStage)
                             <li>
                                 <i class="task-icon bg-primary"></i>
-                                <p class="fw-semibold fs-13">{{ $workflowStage->approvedBy->name_en }}</p>
+                                <p class="fw-semibold fs-13">{{ $workflowStage->approvedBy->{'name_' . app()->getLocale()} }}</p>
                             </li>
                         @endforeach
                     </ul>

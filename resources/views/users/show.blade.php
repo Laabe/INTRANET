@@ -19,7 +19,7 @@
                                         <p class="text-muted mb-2">{{ $user->email }}</p>
                                         <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm"><i
                                                 class="fa fa-edit"></i>
-                                            {{ __('Edit') }}</a>
+                                            {{ __('employeeManagement.Edit') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -30,7 +30,7 @@
                                             <i class="icon icon-calendar fs-20 text-white"></i>
                                         </div>
                                         <div class="media-body">
-                                            <span class="text-muted">{{ __('Annual Leaves') }}</span>
+                                            <span class="text-muted">{{ __('employeeManagement.Annual Leaves') }}</span>
                                             <div class="fw-semibold fs-25">
                                                 {{ $user->paid_leaves_balance }}
                                             </div>
@@ -41,7 +41,7 @@
                                             <i class="icon icon-event  fs-20 text-white"></i>
                                         </div>
                                         <div class="media-body">
-                                            <span class="text-muted">{{ __('Holidays') }}</span>
+                                            <span class="text-muted">{{ __('employeeManagement.Holidays') }}</span>
                                             <div class="fw-semibold fs-25">
                                                 {{ $user->holidays_balance }}
                                             </div>
@@ -52,10 +52,9 @@
                                             <i class="icon icon-hourglass fs-20 text-white"></i>
                                         </div>
                                         <div class="media-body">
-                                            <span class="text-muted">{{ __('Pending Requests') }}</span>
+                                            <span class="text-muted">{{ __('employeeManagement.Pending Requests') }}</span>
                                             <div class="fw-semibold fs-25">
-                                                {{-- {{ $user->leaveRequests->where('status', 'pending')->count() }} --}}
-                                                0
+                                                {{ $user->leaveRequests->where('status', 'pending')->count() }}
                                             </div>
                                         </div>
                                     </div>
@@ -70,7 +69,7 @@
             <div class="col-xl-6 col-md-12 col-sm-12 col-lg-6">
                 <div class="card ">
                     <div class="card-header border-bottom">
-                        <div class="card-title">{{ __('Personnel Info') }}</div>
+                        <div class="card-title">{{ __('employeeManagement.Personal Info') }}</div>
                         <div class="card-options">
                             <a href="#" class="card-options-collapse" data-bs-toggle="card-collapse">
                                 <i class="fe fe-chevron-up"></i>
@@ -80,20 +79,20 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="col-3">
-                                <p class="fw-bold">{{ __('Date of Birth: ') }}</p>
-                                <p class="fw-bold">{{ __('Gender:') }} </p>
-                                <p class="fw-bold">{{ __('Phone:') }} </p>
-                                <p class="fw-bold">{{ __('Address:') }} </p>
-                                <p class="fw-bold">{{ __('Marital Status:') }} </p>
-                                <p class="fw-bold">{{ __('Kids:') }} </p>
+                                <p class="fw-bold">{{ __('employeeManagement.Date of birth') }}</p>
+                                <p class="fw-bold">{{ __('employeeManagement.Gender') }} </p>
+                                <p class="fw-bold">{{ __('employeeManagement.Phone') }} </p>
+                                <p class="fw-bold">{{ __('employeeManagement.Address') }} </p>
+                                <p class="fw-bold">{{ __('employeeManagement.Marital Status') }} </p>
+                                {{-- <p class="fw-bold">{{ __('employeeManagement.Number of kids') }} </p> --}}
                             </div>
                             <div class="col-9">
                                 <p>{{ date('d/m/Y', strtotime($user->date_of_birth)) }}</p>
-                                <p>{{ $user->gender->name_en }}</p>
+                                <p>{{ $user->gender->{'name_' . app()->getLocale()} }}</p>
                                 <p>{{ $user->phone }}</p>
                                 <p>{{ $user->address }}</p>
-                                <p>{{ $user->maritalStatus->name_en }}</p>
-                                <p>{{ $user->number_of_kids }}</p>
+                                <p>{{ $user->maritalStatus->{'name_' . app()->getLocale()} }}</p>
+                                {{-- <p>{{ $user->number_of_kids }}</p> --}}
                             </div>
                         </div>
                     </div>
@@ -102,7 +101,7 @@
             <div class="col-xl-6 col-md-12 col-sm-12 col-lg-6">
                 <div class="card ">
                     <div class="card-header border-bottom">
-                        <div class="card-title">{{ __('Professional Information') }}</div>
+                        <div class="card-title">{{ __('employeeManagement.Professional Information') }}</div>
                         <div class="card-options">
                             <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse">
                                 <i class="fe fe-chevron-up"></i>
@@ -112,12 +111,12 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="col-4">
-                                <p class="fw-bold">{{ __('Integration Date:') }} </p>
-                                <p class="fw-bold">{{ __('Employee ID:') }} </p>
-                                <p class="fw-bold">{{ __('Department:') }} </p>
-                                <p class="fw-bold">{{ __('Title:') }} </p>
-                                <p class="fw-bold">{{ __('Project:') }} </p>
-                                <p class="fw-bold">{{ __('Reports to:') }} </p>
+                                <p class="fw-bold">{{ __('employeeManagement.Integration Date') }} </p>
+                                <p class="fw-bold">{{ __('employeeManagement.Employee ID') }} </p>
+                                <p class="fw-bold">{{ __('employeeManagement.Department') }} </p>
+                                <p class="fw-bold">{{ __('employeeManagement.Title') }} </p>
+                                <p class="fw-bold">{{ __('employeeManagement.Project') }} </p>
+                                {{-- <p class="fw-bold">{{ __('employeeManagement.Reports to') }} </p> --}}
                             </div>
                             <div class="col-8">
                                 <p>{{ date('d/m/Y', strtotime($user->integration_date)) }}</p>
@@ -126,13 +125,13 @@
                                     <p>{{ $user->department->name_en }}
                                         <a class="mx-5" href="javascript:void(0)"
                                             data-bs-target="#assignDepartmentModal{{ $user->id }}"
-                                            data-bs-toggle="modal">{{ __('Change') }}</a>
+                                            data-bs-toggle="modal">{{ __('employeeManagement.Change') }}</a>
                                     </p>
                                 @else
                                     <p>{{ 'N/A' }}
                                         <a class="mx-5" href="javascript:void(0)"
                                             data-bs-target="#assignDepartmentModal{{ $user->id }}"
-                                            data-bs-toggle="modal">{{ __('Assign') }}
+                                            data-bs-toggle="modal">{{ __('employeeManagement.Assign') }}
                                         </a>
                                     </p>
                                 @endif
@@ -140,14 +139,14 @@
                                     <p>{{ $user->profile->name_en }}
                                         <a class="mx-5" href="javascript:void(0)"
                                             data-bs-target="#assignProfileModal{{ $user->id }}"
-                                            data-bs-toggle="modal">{{ __('Change') }}
+                                            data-bs-toggle="modal">{{ __('employeeManagement.Change') }}
                                         </a>
                                     </p>
                                 @else
                                     <p>{{ 'N/A' }}
                                         <a class="mx-5" href="javascript:void(0)"
                                             data-bs-target="#assignProfileModal{{ $user->id }}"
-                                            data-bs-toggle="modal">{{ __('Assign') }}
+                                            data-bs-toggle="modal">{{ __('employeeManagement.Assign') }}
                                         </a>
                                     </p>
                                 @endif
@@ -155,26 +154,26 @@
                                     <p>{{ $user->project->name }}
                                         <a class="mx-5" href="javascript:void(0)"
                                             data-bs-target="#assignProjectModal{{ $user->id }}"
-                                            data-bs-toggle="modal">{{ __('Change') }}
+                                            data-bs-toggle="modal">{{ __('employeeManagement.Change') }}
                                         </a>
                                     </p>
                                 @else
                                     <p>{{ 'N/A' }}
                                         <a class="mx-5" href="javascript:void(0)"
                                             data-bs-target="#assignProjectModal{{ $user->id }}"
-                                            data-bs-toggle="modal">{{ __('Assign') }}
+                                            data-bs-toggle="modal">{{ __('employeeManagement.Assign') }}
                                         </a>
                                     </p>
                                 @endif
-                                @if ($user->manager)
+                                {{-- @if ($user->manager)
                                     <p>{{ $user->manager->fullname() }} <a class="mx-5" href="javascript:void(0)"
                                             data-bs-target="#assignManagerModal{{ $user->id }}"
-                                            data-bs-toggle="modal">{{ __('Change') }}</a></p>
+                                            data-bs-toggle="modal">{{ __('employeeManagement.Change') }}</a></p>
                                 @else
                                     <p>{{ 'N/A' }} <a class="mx-5" href="javascript:void(0)"
                                             data-bs-target="#assignManagerModal{{ $user->id }}"
-                                            data-bs-toggle="modal">{{ __('Assign') }}</a></p>
-                                @endif
+                                            data-bs-toggle="modal">{{ __('employeeManagement.Assign') }}</a></p>
+                                @endif --}}
                             </div>
                         </div>
                     </div>

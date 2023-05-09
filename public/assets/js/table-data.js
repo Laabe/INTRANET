@@ -4,7 +4,7 @@ $(function (e) {
     // Basic Data Table
     $("#basic-datatable").DataTable({
         language: {
-            searchPlaceholder: "Search...",
+            searchPlaceholder: "",
             sSearch: "",
             sUrl: "",
             order: [[0, "desc"]],
@@ -35,7 +35,7 @@ $(function (e) {
     $("#responsive-datatable").DataTable({
         responsive: true,
         language: {
-            searchPlaceholder: "Search...",
+            searchPlaceholder: "",
             sSearch: "",
         },
         order: [[0, "desc"]],

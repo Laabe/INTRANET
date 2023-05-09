@@ -8,15 +8,15 @@
                 <form action="{{ route('leave-types.update', $leaveType) }}" method="post" class="form-horizontal"
                     enctype="multipart/form-data" autocomplete="off">
                     <div class="card-header border-bottom">
-                        <h3 class="card-title">{{ __('Edit leave type') }}</h3>
+                        <h3 class="card-title">{{ __('leaveType.Edit leave type') }}</h3>
                     </div>
                     <div class="card-body">
                         @csrf @method('put')
                         @include('leave-types.form')
                     </div>
                     <div class="card-footer d-flex align-items-baseline btn-group mb-1">
-                        <button class="btn btn-warning btn-block" type="submit">{{ __('Save') }}</button>
-                        <a href="{{ route('leave-types.index') }}" class="btn btn-dark btn-block">{{ __('Cancel') }}</a>
+                        <button class="btn btn-warning btn-block" type="submit">{{ __('leaveType.Save') }}</button>
+                        <a href="{{ route('leave-types.index') }}" class="btn btn-dark btn-block">{{ __('leaveType.Cancel') }}</a>
                     </div>
                 </form>
             </div>

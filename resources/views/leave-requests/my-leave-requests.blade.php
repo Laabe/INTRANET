@@ -6,20 +6,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header border-bottom justify-content-between">
-                    <h3 class="card-title">{{ __('My leave requests') }}</h3>
-                    <a href="{{ route('leave-requests.create') }}" class="btn btn-primary">{{ __('Request a leave') }}</a>
+                    <h3 class="card-title">{{ __('leaveRequest.My leave requests') }}</h3>
+                    <a href="{{ route('leave-requests.create') }}" class="btn btn-primary">{{ __('leaveRequest.Request a leave') }}</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered text-nowrap border-bottom w-100 dataTable no-footer dtr-inline" id="responsive-datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('LEAVE TYPE') }}</th>
-                                    <th>{{ __('REQUESTED DAYS') }}</th>
-                                    <th>{{ __('START DATE') }}</th>
-                                    <th>{{ __('END DATE') }}</th>
-                                    <th>{{ __('STATUS') }}</th>
-                                    <th>{{ __('ACTION') }}</th>
+                                    <th>{{ __('leaveRequest.LEAVE TYPE') }}</th>
+                                    <th>{{ __('leaveRequest.REQUESTED DAYS') }}</th>
+                                    <th>{{ __('leaveRequest.START DATE') }}</th>
+                                    <th>{{ __('leaveRequest.END DATE') }}</th>
+                                    <th>{{ __('leaveRequest.STATUS') }}</th>
+                                    <th>{{ __('leaveRequest.ACTION') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
