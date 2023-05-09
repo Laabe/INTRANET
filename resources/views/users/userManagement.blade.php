@@ -22,7 +22,7 @@
                                         <th>{{ __('userManagement.EMPLOYEE ID') }}</th>
                                         <th>{{ __('userManagement.PROFILE') }}</th>
                                         <th>{{ __('userManagement.ROLE') }}</th>
-                                        <th>{{ __('userMAnagement.ACTION') }}</th>
+                                        <th>{{ __('userManagement.ACTION') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
