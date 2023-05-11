@@ -12,6 +12,7 @@ use App\Models\Scenario;
 use App\Models\User;
 use App\Models\WorkflowStage;
 use App\Models\WorkflowStageApproval;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -30,6 +31,7 @@ class LeaveRequestController extends Controller
         // Get the authenticated user and their team ID(s)
         $user = User::with('teams', 'profile')->where('id', auth()->user()->id)->first();
         $teamIds = $user->teams->pluck('id');
+        $leaveRequests = new Collection();
         // dd($user);
         // Return the pending leave requests that the given user has not yet approved
         if ($user->profile) {
