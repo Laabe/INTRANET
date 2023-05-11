@@ -34,18 +34,18 @@ class LeaveRequestController extends Controller
         $leaveRequests = new Collection();
         // dd($user);
         // Return the pending leave requests that the given user has not yet approved
-        if ($user->profile) {
-            if ($user->profile->name_en === 'Human Resources Officer' || $user->profile->name_en == 'Human Resources Manager') {
-                $leaveRequests = LeaveRequest::where('status', 'pending')
-                ->whereHas('workflowStageapprovals.workflowStage', function ($query) use ($user) {
-                    $query->where('approver_profile_id', $user->profile_id)
-                        ->whereHas('workflowStageApproval', function ($q) {
-                            $q->where('status', 'pending')
-                                ->whereColumn('leave_request_id', 'leave_requests.id');
-                        });
-                })->get();
-            }
-        } else {
+        // if ($user->profile) {
+        //     if ($user->profile->name_en === 'Human Resources Officer' || $user->profile->name_en == 'Human Resources Manager') {
+        //         $leaveRequests = LeaveRequest::where('status', 'pending')
+        //             ->whereHas('workflowStageapprovals.workflowStage', function ($query) use ($user) {
+        //                 $query->where('approver_profile_id', $user->profile_id)
+        //                     ->whereHas('workflowStageApproval', function ($q) {
+        //                         $q->where('status', 'pending')
+        //                             ->whereColumn('leave_request_id', 'leave_requests.id');
+        //                     });
+        //             })->get();
+        //     }
+        // } else {
             $leaveRequests = LeaveRequest::where('status', 'pending')
                 ->whereHas('workflowStageapprovals.workflowStage', function ($query) use ($user) {
                     $query->where('approver_profile_id', $user->profile_id)
@@ -58,9 +58,7 @@ class LeaveRequestController extends Controller
                     $q->whereIn('team_id', $teamIds);
                 })
                 ->get();
-
-                dd($leaveRequests);
-        }
+        // }
 
         return view('leave-requests.index', compact('leaveRequests'));
     }
