@@ -58,6 +58,7 @@ class LeaveRequestController extends Controller
                 ->get();
         }
 
+        dd($leaveRequests);
 
         return view('leave-requests.index', compact('leaveRequests'));
     }
