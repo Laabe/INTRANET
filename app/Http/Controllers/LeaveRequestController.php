@@ -58,9 +58,9 @@ class LeaveRequestController extends Controller
                     $q->whereIn('team_id', $teamIds);
                 })
                 ->get();
-        }
 
-        dd($leaveRequests);
+                dd($leaveRequests);
+        }
 
         return view('leave-requests.index', compact('leaveRequests'));
     }
